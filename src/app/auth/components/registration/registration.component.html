@@ -83,7 +83,16 @@
         </mat-error>
       </mat-form-field>
     </ng-container >
-    <button [disabled]="form.disabled" class="auth__submit-button" mat-raised-button>Register</button>
+    <button [disabled]="form.disabled" class="auth__submit-button" mat-raised-button>
+      <ng-container *ngIf="form.disabled; else text">
+        <mat-icon>
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-icon>
+      </ng-container>
+      <ng-template #text>
+        Register
+      </ng-template>
+    </button>
   </form>
   <mat-card class="auth__footer">
     Already a user?

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -14,10 +15,13 @@ export class AuthService {
   constructor(
     private afauth: AngularFireAuth,
     private afs: AngularFirestore,
+    private router: Router,
     private notificationService: NotificationService
   ) {
     this.afauth.authState.subscribe((userInfo: any) => {
-      console.log(userInfo)
+      if (userInfo.emailVerified) {
+        this.router.navigate(['/app']);
+      }
     });
   }
 
