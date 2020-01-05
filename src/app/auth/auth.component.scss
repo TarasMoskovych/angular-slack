@@ -1,0 +1,73 @@
+@import './../scss/variables';
+
+.row {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.column {
+  max-width: 450px;
+  width: 100%;
+}
+
+::ng-deep {
+  .auth {
+    &__header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 0;
+      text-align: center;
+
+      &--icon {
+        font-size: 3em;
+        height: 100px;
+      }
+
+      &--title {
+        font-weight: 500;
+      }
+    }
+
+    &__form-wrapper {
+      background: $white;
+      border-radius: .285rem;
+      border: 1px solid $grey;
+      box-shadow: 0 1px 2px 0 $grey;
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0;
+      padding: 1em;
+    }
+
+    &__input-icon {
+      color: $grey1;
+      margin-right: 10px;
+      transition: .4s;
+    }
+
+    .mat-focused .auth__input-icon {
+      color: $black;
+    }
+
+    &__submit-button {
+      color: $white;
+    }
+
+    &__footer {
+      text-align: center;
+
+      a {
+        color: $blue;
+        text-decoration: none;
+        transition: .4s;
+
+        &:hover {
+          color: darken($blue, 30);
+        }
+      }
+    }
+  }
+}

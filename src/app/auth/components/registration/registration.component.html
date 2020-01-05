@@ -1,1 +1,54 @@
-<p>registration works!</p>
+<div class="auth">
+  <h1 class="auth__header">
+    <span class="auth__header--icon">
+      <fa name="puzzle-piece"></fa>
+    </span>
+    <span class="auth__header--title">
+      Register for DevChat
+    </span>
+  </h1>
+  <form class="auth__form-wrapper">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Username">
+      <span matPrefix class="auth__input-icon">
+        <fa name="user"></fa>
+      </span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email">
+      <span matPrefix class="auth__input-icon">
+        <fa name="envelope"></fa>
+      </span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Password">
+      <span matPrefix class="auth__input-icon">
+        <fa name="unlock-alt"></fa>
+      </span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Confirm Password</mat-label>
+      <input matInput type="password" placeholder="Confirm Password">
+      <span matPrefix class="auth__input-icon">
+        <fa name="repeat"></fa>
+      </span>
+    </mat-form-field>
+
+    <button class="auth__submit-button" mat-raised-button>
+      Register
+    </button>
+
+  </form>
+
+  <mat-card class="auth__footer">
+    Already a user?
+    <a routerLink="/login">Login</a>
+  </mat-card>
+</div>
+

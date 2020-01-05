@@ -1,0 +1,11 @@
+@import './../../../scss/variables';
+
+.auth {
+  &__header {
+    color: $orange;
+  }
+
+  &__submit-button {
+    background: $orange;
+  }
+}

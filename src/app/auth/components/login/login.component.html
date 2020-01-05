@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="auth">
+  <h1 class="auth__header">
+    <span class="auth__header--icon">
+      <fa name="code-fork"></fa>
+    </span>
+    <span class="auth__header--title">
+      Login to DevChat
+    </span>
+  </h1>
+  <form class="auth__form-wrapper">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email">
+      <span matPrefix class="auth__input-icon">
+        <fa name="envelope"></fa>
+      </span>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Password">
+      <span matPrefix class="auth__input-icon">
+        <fa name="unlock-alt"></fa>
+      </span>
+    </mat-form-field>
+
+    <button class="auth__submit-button" mat-raised-button>
+      Login
+    </button>
+
+  </form>
+
+  <mat-card class="auth__footer">
+    Don't have an account?
+    <a routerLink="/register">Create an account</a>
+  </mat-card>
+</div>
