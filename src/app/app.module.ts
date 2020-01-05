@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
 
@@ -21,6 +22,7 @@ import { firebaseConfigs } from './configs';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CoreModule,
     AngularFireModule.initializeApp(firebaseConfigs),
     AngularFirestoreModule,
     AngularFireStorageModule,

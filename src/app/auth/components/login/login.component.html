@@ -7,29 +7,48 @@
       Login to DevChat
     </span>
   </h1>
-  <form class="auth__form-wrapper">
-    <mat-form-field>
+  <form appFocusInvalidField class="auth__form-wrapper" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field *ngIf="form.get('email') as email">
       <mat-label>Email</mat-label>
-      <input matInput placeholder="Email">
-      <span matPrefix class="auth__input-icon">
+      <input
+        [errorStateMatcher]="matcher"
+        matInput
+        placeholder="Email"
+        formControlName="email"
+      ><span matPrefix class="auth__input-icon">
         <fa name="envelope"></fa>
       </span>
+      <mat-error *ngIf="email.invalid">
+        <ng-container *ngIf="email.errors['required']">
+          {{ errorMessages.email }}
+        </ng-container>
+        <ng-container *ngIf="email.errors['email']">
+          {{ errorMessages.emailPattern }}
+        </ng-container>
+      </mat-error>
     </mat-form-field>
-
-    <mat-form-field>
+    <mat-form-field *ngIf="form.get('password') as password">
       <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Password">
-      <span matPrefix class="auth__input-icon">
+      <input
+        [errorStateMatcher]="matcher"
+        matInput
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+      ><span matPrefix class="auth__input-icon">
         <fa name="unlock-alt"></fa>
       </span>
+      <mat-error *ngIf="password.invalid">
+        <ng-container *ngIf="password.errors['required']">
+          {{ errorMessages.password }}
+        </ng-container>
+        <ng-container *ngIf="password.errors['minlength'] && password.errors['minlength']['requiredLength']">
+          {{ errorMessages.passwordLength }}
+        </ng-container>
+      </mat-error>
     </mat-form-field>
-
-    <button class="auth__submit-button" mat-raised-button>
-      Login
-    </button>
-
+    <button class="auth__submit-button" mat-raised-button>Login</button>
   </form>
-
   <mat-card class="auth__footer">
     Don't have an account?
     <a routerLink="/register">Create an account</a>
