@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { of, throwError, Observable, from } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
-import { Collections, generateAvatar } from 'src/app/shared';
+import { Collections, generateAvatar, User } from 'src/app/shared';
 
 @Injectable({
   providedIn: CoreModule
@@ -15,40 +17,43 @@ export class AuthService {
   constructor(
     private afauth: AngularFireAuth,
     private afs: AngularFirestore,
-    private router: Router,
     private notificationService: NotificationService
-  ) {
-    this.afauth.authState.subscribe((userInfo: any) => {
-      if (userInfo.emailVerified) {
-        this.router.navigate(['/app']);
-      }
-    });
+  ) { }
+
+  onAuthStateChange() {
+    return this.afauth.authState;
   }
 
-  login(email: string, password: string) {
-    return this.afauth.auth.signInWithEmailAndPassword(email, password)
-      .catch(e => this.notificationService.show(e.message));
+  login({ email, password }: User): Observable<firebase.auth.UserCredential> {
+    return from(this.afauth.auth.signInWithEmailAndPassword(email, password))
+      .pipe(catchError((err: firebase.auth.Error) => this.handleError(err)));
   }
 
-  register(displayName: string, email: string, password: string) {
-    return this.afauth.auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential: firebase.auth.UserCredential) => {
-        const { user } = userCredential;
+  register({ displayName, email, password }: User): Observable<firebase.UserInfo> {
+    let userData: firebase.UserInfo;
 
-        user.sendEmailVerification();
-        user.updateProfile({
-          displayName,
-          photoURL: generateAvatar(user.uid)
-        }).then(() => this.save(user));
-      })
-      .catch(e => this.notificationService.show(e.message));
+    return from(this.afauth.auth.createUserWithEmailAndPassword(email, password))
+      .pipe(
+        switchMap((userCredential: firebase.auth.UserCredential) => {
+          const { user } = userCredential;
+          userData = user;
+          user.sendEmailVerification();
+          return from(user.updateProfile({ displayName, photoURL: generateAvatar(user.uid) }))
+        }),
+        switchMap(() => this.update(userData)),
+        catchError((err: firebase.auth.Error) => this.handleError(err))
+      )
   }
 
-  private save(user: firebase.UserInfo) {
+  update(user: firebase.UserInfo): Observable<firebase.UserInfo> {
     const { displayName, email, photoURL, uid } = user;
 
-    return this.afs
-      .doc(`${Collections.Users}/${uid}`)
-      .set({ displayName, email, photoURL });
+    return from(this.afs.doc(`${Collections.Users}/${uid}`).set({ displayName, email, photoURL }))
+      .pipe(switchMap(() => of(user)));
+  }
+
+  private handleError(err: firebase.auth.Error) {
+    this.notificationService.show(err.message);
+    return throwError(err);
   }
 }

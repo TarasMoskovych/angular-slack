@@ -1,23 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { Store } from '@ngrx/store';
+import { AuthState, Register, authSubmitSelector } from 'src/app/+store/auth';
+
+import { Observable } from 'rxjs';
+
 import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages } from 'src/app/shared/helpers';
-import { AuthService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegistrationComponent implements OnInit {
+  loading$: Observable<boolean>;
+
   form: FormGroup;
   matcher = new GlobalErrorStateMatcher();
   parentMatcher = new ParentErrorStateMatcher();
   errorMessages = errorMessages;
 
-  constructor(private authService: AuthService) { }
+  constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
+    this.loading$ = this.store.select(authSubmitSelector);
     this.buildForm();
   }
 
@@ -27,9 +35,7 @@ export class RegistrationComponent implements OnInit {
     const { userName, email } = this.form.value;
     const { password } = this.form.value.passwordGroup;
 
-    this.form.disable();
-    this.authService.register(userName, email, password)
-      .finally(() => this.form.enable());
+    this.store.dispatch(new Register({ displayName: userName, email, password }));
   }
 
   private buildForm() {

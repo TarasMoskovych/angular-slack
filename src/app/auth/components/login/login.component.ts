@@ -1,33 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { Store } from '@ngrx/store';
+import { AuthState, Login, authSubmitSelector } from 'src/app/+store/auth';
+
+import { Observable } from 'rxjs';
+
 import { GlobalErrorStateMatcher, errorMessages } from 'src/app/shared';
-import { AuthService } from 'src/app/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
+  loading$: Observable<boolean>;
+
   form: FormGroup;
   matcher = new GlobalErrorStateMatcher();
   errorMessages = errorMessages;
 
-  constructor(private authService: AuthService) { }
+  constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
+    this.loading$ = this.store.select(authSubmitSelector);
     this.buildForm();
   }
 
   onSubmit() {
     if (this.form.invalid) { return; }
 
-    const { email, password } = this.form.value;
-
-    this.form.disable();
-    this.authService.login(email, password)
-      .finally(() => this.form.enable());
+    this.store.dispatch(new Login(this.form.value));
   }
 
   private buildForm() {

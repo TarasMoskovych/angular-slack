@@ -82,9 +82,9 @@
           </ng-container>
         </mat-error>
       </mat-form-field>
-    </ng-container >
-    <button [disabled]="form.disabled" class="auth__submit-button" mat-raised-button>
-      <ng-container *ngIf="form.disabled; else text">
+    </ng-container>
+    <button [disabled]="loading$ | async" class="auth__submit-button" mat-raised-button>
+      <ng-container *ngIf="loading$ | async; else text">
         <mat-icon>
           <mat-spinner diameter="20"></mat-spinner>
         </mat-icon>
