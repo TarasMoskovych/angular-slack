@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { of, throwError, Observable, from } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { auth } from 'firebase/app';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
@@ -27,6 +28,14 @@ export class AuthService {
   login({ email, password }: User): Observable<firebase.auth.UserCredential> {
     return from(this.afauth.auth.signInWithEmailAndPassword(email, password))
       .pipe(catchError((err: firebase.auth.Error) => this.handleError(err)));
+  }
+
+  loginWithGoole(): Observable<firebase.UserInfo> {
+    return from(this.afauth.auth.signInWithPopup(new auth.GoogleAuthProvider()))
+      .pipe(
+        switchMap(({ user }: firebase.auth.UserCredential) => this.update(user)),
+        catchError((err: firebase.auth.Error) => this.handleError(err))
+      );
   }
 
   register({ displayName, email, password }: User): Observable<firebase.UserInfo> {

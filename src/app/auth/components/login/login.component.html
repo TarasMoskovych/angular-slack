@@ -57,6 +57,10 @@
         Login
       </ng-template>
     </button>
+    <div class="auth__divider"></div>
+    <button (click)="onLoginWithGoole()" [disabled]="loading$ | async" type="button" mat-raised-button>
+      Login with <fa name="google"></fa>oogle
+    </button>
   </form>
   <mat-card class="auth__footer">
     Don't have an account?

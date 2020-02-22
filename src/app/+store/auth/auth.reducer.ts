@@ -3,12 +3,6 @@ import { AuthActions, AuthActionTypes } from './auth.actions';
 
 export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
   switch (action.type) {
-    case AuthActionTypes.STATE_CHANGE: {
-      return {
-        ...state,
-      };
-    }
-
     case AuthActionTypes.STATE_CHANGE_SUCCESS: {
       return {
         ...state,
@@ -23,37 +17,21 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
       };
     }
 
-    case AuthActionTypes.STATE_CHANGE_SUCCESS: {
-      return {
-        ...state,
-      };
-    }
-
-    case AuthActionTypes.REGISTER: {
+    case AuthActionTypes.REGISTER:
+    case AuthActionTypes.LOGIN:
+    case AuthActionTypes.LOGIN_GOOGLE: {
       return {
         ...state,
         loading: true
       };
     }
 
-    case AuthActionTypes.REGISTER_SUCCESS: {
+    case AuthActionTypes.REGISTER_SUCCESS:
+    case AuthActionTypes.REGISTER_ERROR:
+    case AuthActionTypes.LOGIN_ERROR: {
       return {
         ...state,
         loading: false
-      };
-    }
-
-    case AuthActionTypes.REGISTER_ERROR: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-
-    case AuthActionTypes.LOGIN: {
-      return {
-        ...state,
-        loading: true
       };
     }
 
@@ -61,13 +39,6 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
       return {
         ...state,
         user: action.payload,
-        loading: false
-      };
-    }
-
-    case AuthActionTypes.LOGIN_ERROR: {
-      return {
-        ...state,
         loading: false
       };
     }

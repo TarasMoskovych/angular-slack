@@ -11,6 +11,7 @@ export enum AuthActionTypes {
   REGISTER_ERROR       = '[Auth] Register Error',
 
   LOGIN                = '[Auth] Login',
+  LOGIN_GOOGLE         = '[Auth] Login Google',
   LOGIN_SUCCESS        = '[Auth] Login Success',
   LOGIN_ERROR          = '[Auth] Login Error',
 }
@@ -48,6 +49,10 @@ export class Login implements Action {
   constructor(public payload: User) { }
 }
 
+export class LoginGoogle implements Action {
+  readonly type = AuthActionTypes.LOGIN_GOOGLE;
+}
+
 export class LoginSuccess implements Action {
   readonly type = AuthActionTypes.LOGIN_SUCCESS;
   constructor(public payload: firebase.User) { }
@@ -68,5 +73,6 @@ export type AuthActions
   | RegisterError
 
   | Login
+  | LoginGoogle
   | LoginSuccess
   | LoginError;

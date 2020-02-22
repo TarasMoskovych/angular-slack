@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { AuthState, Login, authSubmitSelector } from 'src/app/+store/auth';
+import { AuthState, Login, authSubmitSelector, LoginGoogle } from 'src/app/+store/auth';
 
 import { Observable } from 'rxjs';
 
@@ -26,6 +26,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loading$ = this.store.select(authSubmitSelector);
     this.buildForm();
+  }
+
+  onLoginWithGoole() {
+    this.store.dispatch(new LoginGoogle());
   }
 
   onSubmit() {

@@ -9,4 +9,10 @@
     background: $violet;
     margin-top: 10px;
   }
+
+  &__divider {
+    border-top: 1px solid rgba(34, 36, 38, .15);
+    border-bottom: 1px solid hsla(0, 0%, 100%, .1);
+    margin: 1rem 0 .5rem;
+  }
 }

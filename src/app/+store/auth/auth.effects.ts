@@ -33,6 +33,19 @@ export class AuthEffects {
   );
 
   @Effect()
+  loginGoogle$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.LoginGoogle>(AuthActionTypes.LOGIN_GOOGLE),
+    switchMap(() => {
+      return this.authService
+        .loginWithGoole()
+        .pipe(
+          map((user: firebase.User) => new authActions.LoginSuccess(user)),
+          catchError((err: firebase.auth.Error) => of(new authActions.LoginError(err)))
+        )
+      })
+  );
+
+  @Effect()
   register$: Observable<Action> = this.actions$.pipe(
     ofType<authActions.Register>(AuthActionTypes.REGISTER),
     pluck('payload'),
