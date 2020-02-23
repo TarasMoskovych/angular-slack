@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { AuthState, Login, authSubmitSelector, LoginGoogle } from 'src/app/+store/auth';
+import { AuthState, Login, authSubmitSelector, LoginGoogle, authAuthorizeDataSelector } from 'src/app/+store';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
-import { GlobalErrorStateMatcher, errorMessages } from 'src/app/shared';
+import { GlobalErrorStateMatcher, errorMessages, User } from 'src/app/shared';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +14,9 @@ import { GlobalErrorStateMatcher, errorMessages } from 'src/app/shared';
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
+  sub$: Subscription;
 
   form: FormGroup;
   matcher = new GlobalErrorStateMatcher();
@@ -26,6 +27,20 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loading$ = this.store.select(authSubmitSelector);
     this.buildForm();
+    this.onAuthorizeDataUpdate();
+  }
+
+  ngOnDestroy() {
+    this.sub$.unsubscribe();
+  }
+
+  onAuthorizeDataUpdate() {
+    this.sub$ = this.store.select(authAuthorizeDataSelector)
+      .subscribe((user: User) => {
+        if (!user) { return; }
+
+        this.form.patchValue({ email: user.email, password: user.password });
+      });
   }
 
   onLoginWithGoole() {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AuthState, getAuthState } from '../+store/auth';
+import { AuthState, authUserSelector } from '../+store/auth';
+import { User } from '../shared';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,7 @@ export class MainComponent implements OnInit {
   constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
-    this.store.select(getAuthState).subscribe(data => console.log(data.user));
+    this.store.select(authUserSelector).subscribe((user: User) => console.log(user));
   }
 
 }

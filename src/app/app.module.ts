@@ -10,6 +10,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterStateSerializerProvider, routerReducers, RouterEffects } from './+store/router';
 import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,13 +34,19 @@ import { firebaseConfigs } from './configs';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(routerReducers, {
+      runtimeChecks: {
+        strictActionImmutability: true,
+        strictStateImmutability: true
+      }
+    }),
+    EffectsModule.forRoot([RouterEffects]),
+    StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     AuthModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [RouterStateSerializerProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

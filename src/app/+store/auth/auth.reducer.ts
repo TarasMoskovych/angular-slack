@@ -17,7 +17,6 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
       };
     }
 
-    case AuthActionTypes.REGISTER:
     case AuthActionTypes.LOGIN:
     case AuthActionTypes.LOGIN_GOOGLE: {
       return {
@@ -26,12 +25,27 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
       };
     }
 
-    case AuthActionTypes.REGISTER_SUCCESS:
+    case AuthActionTypes.REGISTER: {
+      return {
+        ...state,
+        loading: true,
+        authorizeData: action.payload
+      };
+    }
+
+    case AuthActionTypes.REGISTER_SUCCESS: {
+      return {
+        ...state,
+        loading: false
+      };
+    }
+
     case AuthActionTypes.REGISTER_ERROR:
     case AuthActionTypes.LOGIN_ERROR: {
       return {
         ...state,
-        loading: false
+        loading: false,
+        authorizeData: null
       };
     }
 
@@ -39,7 +53,8 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
       return {
         ...state,
         user: action.payload,
-        loading: false
+        loading: false,
+        authorizeData: null
       };
     }
 

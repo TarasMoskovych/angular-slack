@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { authReducer, AuthEffects } from '../+store/auth';
+import { AuthEffects, authReducer } from '../+store';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { SharedModule } from '../shared/shared.module';

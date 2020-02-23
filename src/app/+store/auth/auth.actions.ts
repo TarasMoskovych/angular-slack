@@ -22,7 +22,7 @@ export class StateChange implements Action {
 
 export class StateChangeSuccess implements Action {
   readonly type = AuthActionTypes.STATE_CHANGE_SUCCESS;
-  constructor(public payload: firebase.User) { }
+  constructor(public payload: User) { }
 }
 
 export class StateChangeError implements Action {
@@ -36,7 +36,6 @@ export class Register implements Action {
 
 export class RegisterSuccess implements Action {
   readonly type = AuthActionTypes.REGISTER_SUCCESS;
-  constructor(public payload: firebase.UserInfo) { }
 }
 
 export class RegisterError implements Action {
@@ -55,7 +54,7 @@ export class LoginGoogle implements Action {
 
 export class LoginSuccess implements Action {
   readonly type = AuthActionTypes.LOGIN_SUCCESS;
-  constructor(public payload: firebase.User) { }
+  constructor(public payload: User) { }
 }
 
 export class LoginError implements Action {
