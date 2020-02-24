@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { FirebaseError } from '@firebase/util';
 
 import { of, throwError, Observable, from } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -25,9 +26,19 @@ export class AuthService {
     return this.afauth.authState;
   }
 
-  login({ email, password }: User): Observable<firebase.auth.UserCredential> {
+  login({ email, password }: User): Observable<firebase.User> {
     return from(this.afauth.auth.signInWithEmailAndPassword(email, password))
-      .pipe(catchError((err: firebase.auth.Error) => this.handleError(err)));
+      .pipe(
+        switchMap((userCredential: firebase.auth.UserCredential) => {
+          const { user } = userCredential;
+
+          if (user.emailVerified) {
+            return of(user);
+          }
+          throw new FirebaseError('INACTIVE', 'Your Account is inactive.');
+        }),
+        catchError((err: firebase.auth.Error) => this.handleError(err))
+      );
   }
 
   loginWithGoole(): Observable<firebase.UserInfo> {

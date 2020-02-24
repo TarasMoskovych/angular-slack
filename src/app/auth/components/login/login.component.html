@@ -1,7 +1,7 @@
 <div class="auth">
   <h1 class="auth__header">
     <span class="auth__header--icon">
-      <fa name="code-fork"></fa>
+      <fa-icon [icon]="icons.faCodeBranch"></fa-icon>
     </span>
     <span class="auth__header--title">
       Login to DevChat
@@ -16,7 +16,7 @@
         placeholder="Email"
         formControlName="email"
       ><span matPrefix class="auth__input-icon">
-        <fa name="envelope"></fa>
+        <fa-icon [icon]="icons.faEnvelope"></fa-icon>
       </span>
       <mat-error *ngIf="email.invalid">
         <ng-container *ngIf="email.errors['required']">
@@ -36,7 +36,7 @@
         placeholder="Password"
         formControlName="password"
       ><span matPrefix class="auth__input-icon">
-        <fa name="unlock-alt"></fa>
+        <fa-icon [icon]="icons.faUnlockAlt"></fa-icon>
       </span>
       <mat-error *ngIf="password.invalid">
         <ng-container *ngIf="password.errors['required']">
@@ -59,7 +59,7 @@
     </button>
     <div class="auth__divider"></div>
     <button (click)="onLoginWithGoole()" [disabled]="loading$ | async" type="button" mat-raised-button>
-      Login with <fa name="google"></fa>oogle
+      Login with <fa-icon [icon]="icons.faGoogle"></fa-icon>oogle
     </button>
   </form>
   <mat-card class="auth__footer">

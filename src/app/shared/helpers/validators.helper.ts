@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 export class CustomValidators {
   static passwordMatcher(c: AbstractControl): { [key: string]: boolean } | null {

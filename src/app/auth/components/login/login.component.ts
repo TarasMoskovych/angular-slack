@@ -6,7 +6,7 @@ import { AuthState, Login, authSubmitSelector, LoginGoogle, authAuthorizeDataSel
 
 import { Observable, Subscription } from 'rxjs';
 
-import { GlobalErrorStateMatcher, errorMessages, User } from 'src/app/shared';
+import { GlobalErrorStateMatcher, errorMessages, User, fontIcons } from 'src/app/shared';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   sub$: Subscription;
 
+  icons = fontIcons;
   form: FormGroup;
   matcher = new GlobalErrorStateMatcher();
   errorMessages = errorMessages;

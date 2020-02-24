@@ -32,7 +32,7 @@ export class AuthEffects {
       return this.authService
         .login(user)
         .pipe(
-          map(({ user }: firebase.auth.UserCredential) => new authActions.LoginSuccess(this.getUserData(user))),
+          map((user: firebase.User) => new authActions.LoginSuccess(this.getUserData(user))),
           catchError((err: firebase.auth.Error) => of(new authActions.LoginError(err)))
         )
       })
@@ -89,8 +89,11 @@ export class AuthEffects {
   );
 
   @Effect()
-  stateChangeSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType<authActions.StateChangeSuccess>(AuthActionTypes.STATE_CHANGE_SUCCESS),
+  stateChangeLoginSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.StateChangeSuccess | authActions.StateChangeSuccess>(
+      AuthActionTypes.STATE_CHANGE_SUCCESS,
+      AuthActionTypes.LOGIN_SUCCESS
+    ),
     map(() => new RouterActions.Go({ path: ['/app'] }))
   );
 }

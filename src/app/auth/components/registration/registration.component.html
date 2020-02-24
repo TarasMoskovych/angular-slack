@@ -1,7 +1,7 @@
 <div class="auth">
   <h1 class="auth__header">
     <span class="auth__header--icon">
-      <fa name="puzzle-piece"></fa>
+      <fa-icon [icon]="icons.faPuzzlePiece"></fa-icon>
     </span>
     <span class="auth__header--title">
       Register for DevChat
@@ -16,7 +16,7 @@
         placeholder="Username"
         formControlName="userName"
       ><span matPrefix class="auth__input-icon">
-        <fa name="user"></fa>
+        <fa-icon [icon]="icons.faUser"></fa-icon>
       </span>
       <mat-error>
         {{ errorMessages.username }}
@@ -30,7 +30,7 @@
         placeholder="Email"
         formControlName="email"
       ><span matPrefix class="auth__input-icon">
-        <fa name="envelope"></fa>
+        <fa-icon [icon]="icons.faEnvelope"></fa-icon>
       </span>
       <mat-error *ngIf="email.invalid">
         <ng-container *ngIf="email.errors['required']">
@@ -51,7 +51,7 @@
           placeholder="Password"
           formControlName="password"
         ><span matPrefix class="auth__input-icon">
-          <fa name="unlock-alt"></fa>
+          <fa-icon [icon]="icons.faUnlockAlt"></fa-icon>
         </span>
         <mat-error *ngIf="password.invalid">
           <ng-container *ngIf="password.errors['required']">
@@ -71,7 +71,7 @@
           placeholder="Confirm Password"
           formControlName="confirmPassword"
         ><span matPrefix class="auth__input-icon">
-          <fa name="repeat"></fa>
+          <fa-icon [icon]="icons.faReply"></fa-icon>
         </span>
         <mat-error>
           <ng-container *ngIf="confirmPassword.errors">

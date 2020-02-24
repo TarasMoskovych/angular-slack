@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModule } from '../material/material.module';
 
 import { FocusInvalidFieldDirective } from './directives';
@@ -15,14 +14,14 @@ import { FocusInvalidFieldDirective } from './directives';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFontAwesomeModule,
+    FontAwesomeModule,
     MaterialModule
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFontAwesomeModule,
+    FontAwesomeModule,
     MaterialModule,
     FocusInvalidFieldDirective
   ]

@@ -6,7 +6,7 @@ import { AuthState, Register, authSubmitSelector } from 'src/app/+store/auth';
 
 import { Observable } from 'rxjs';
 
-import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages } from 'src/app/shared/helpers';
+import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages, fontIcons } from 'src/app/shared';
 
 @Component({
   selector: 'app-registration',
@@ -17,6 +17,7 @@ import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, err
 export class RegistrationComponent implements OnInit {
   loading$: Observable<boolean>;
 
+  icons = fontIcons;
   form: FormGroup;
   matcher = new GlobalErrorStateMatcher();
   parentMatcher = new ParentErrorStateMatcher();
