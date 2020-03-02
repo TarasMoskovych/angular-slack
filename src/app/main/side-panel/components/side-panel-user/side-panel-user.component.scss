@@ -1,0 +1,10 @@
+.side-panel {
+
+  &__user-photo {
+    border-radius: 50%;
+    height: 35px;
+    margin-right: 5px;
+    object-fit: cover;
+    width: 35px;
+  }
+}

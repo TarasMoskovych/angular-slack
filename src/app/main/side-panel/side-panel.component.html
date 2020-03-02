@@ -1,0 +1,8 @@
+<div class="side-panel">
+  <app-side-panel-header></app-side-panel-header>
+  <app-side-panel-user
+    [user]="user$ | async"
+    (changeAvatar)="onChangeAvatar($event)"
+    (logout)="onLogout()"
+  ></app-side-panel-user>
+</div>

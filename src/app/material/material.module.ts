@@ -8,9 +8,9 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatCardModule} from '@angular/material/card';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -20,6 +20,7 @@ import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCardModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatMenuModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -29,6 +30,7 @@ import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCardModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatMenuModule,
   ]
 })
 export class MaterialModule { }

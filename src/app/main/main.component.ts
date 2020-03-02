@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { AuthState, authUserSelector } from '../+store/auth';
-import { User } from '../shared';
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -11,10 +7,9 @@ import { User } from '../shared';
 })
 export class MainComponent implements OnInit {
 
-  constructor(private store: Store<AuthState>) { }
+  constructor() { }
 
   ngOnInit() {
-    this.store.select(authUserSelector).subscribe((user: User) => console.log(user));
   }
 
 }

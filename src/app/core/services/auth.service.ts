@@ -49,6 +49,11 @@ export class AuthService {
       );
   }
 
+  logout(): Observable<void> {
+    return from(this.afauth.auth.signOut())
+      .pipe(catchError((err: firebase.auth.Error) => this.handleError(err)));
+  }
+
   register({ displayName, email, password }: User): Observable<firebase.UserInfo> {
     let userData: firebase.UserInfo;
 
@@ -70,6 +75,17 @@ export class AuthService {
 
     return from(this.afs.doc(`${Collections.Users}/${uid}`).set({ displayName, email, photoURL }))
       .pipe(switchMap(() => of(user)));
+  }
+
+  updateProfilePhoto(user: User, photoURL: string): Observable<User> {
+    const { currentUser } = this.afauth.auth;
+
+    return from(currentUser.updateProfile({ photoURL }))
+      .pipe(
+        switchMap(() => from(this.afs.doc(`${Collections.Users}/${currentUser.uid}`).update({ photoURL }))),
+        switchMap(() => of({ ...user, photoURL })),
+        catchError((err: firebase.auth.Error) => this.handleError(err))
+      );
   }
 
   private handleError(err: firebase.auth.Error) {

@@ -1,0 +1,18 @@
+<ng-container *ngIf="user">
+  <div class="side-panel__user">
+    <mat-menu #userActions="matMenu" (menuOpened)="onToggleMenu()">
+      <button (click)="onChangeAvatar()" mat-menu-item>Change Avatar</button>
+      <button (click)="onLogout()" mat-menu-item>Logout</button>
+    </mat-menu>
+
+    <button
+      mat-button
+      [matMenuTriggerFor]="userActions"
+      (menuOpened)="onToggleMenu(true)"
+      (menuClosed)="onToggleMenu(false)"
+    > <img [src]="user.photoURL" alt="" class="side-panel__user-photo">
+      {{ user.displayName }}
+      <mat-icon>{{ menuOpened ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+    </button>
+  </div>
+</ng-container>

@@ -6,23 +6,22 @@ import { SharedModule } from '../shared/shared.module';
 
 import { MainComponent } from './main.component';
 import {
-  SidePanelComponent,
   MessagesComponent,
   MetaPanelComponent,
-  UserPanelComponent,
 } from './components';
+
+import { SidePanelModule } from './side-panel/side-panel.module';
 
 @NgModule({
   declarations: [
     MainComponent,
-    SidePanelComponent,
     MessagesComponent,
     MetaPanelComponent,
-    UserPanelComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
+    SidePanelModule,
     MainRoutingModule
   ]
 })
