@@ -1,7 +1,7 @@
 <ng-container *ngIf="user">
   <div class="side-panel__user">
     <mat-menu #userActions="matMenu" (menuOpened)="onToggleMenu()">
-      <button (click)="onChangeAvatar()" mat-menu-item>Change Avatar</button>
+      <button (click)="onUpdateProfile()" mat-menu-item>Update Profile</button>
       <button (click)="onLogout()" mat-menu-item>Logout</button>
     </mat-menu>
 

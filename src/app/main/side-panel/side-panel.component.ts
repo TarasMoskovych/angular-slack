@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AppState, authUserSelector, Logout, UpdateProfilePhoto } from 'src/app/+store';
+import { AppState, authUserSelector, Logout } from 'src/app/+store';
 
 import { Observable } from 'rxjs';
 
@@ -19,10 +19,6 @@ export class SidePanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.store.select(authUserSelector);
-  }
-
-  onChangeAvatar(data: { user: User, photoURL: string }) {
-    this.store.dispatch(new UpdateProfilePhoto(data));
   }
 
   onLogout() {

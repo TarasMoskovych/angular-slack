@@ -7,13 +7,18 @@ import { sideReducer, SideEffects } from 'src/app/+store';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { SidePanelComponent } from './side-panel.component';
-import { SidePanelHeaderComponent, SidePanelUserComponent } from './components';
+import {
+  SidePanelHeaderComponent,
+  SidePanelUserComponent,
+  SidePanelUserUpdateComponent
+} from './components';
 
 @NgModule({
   declarations: [
     SidePanelComponent,
     SidePanelHeaderComponent,
     SidePanelUserComponent,
+    SidePanelUserUpdateComponent,
   ],
   imports: [
     SharedModule,

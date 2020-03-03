@@ -1,0 +1,38 @@
+@import './../../../../scss/variables';
+
+.side-panel-user-update {
+
+  &__file-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__file-label {
+    color: $primary;
+    font-size: .9em;
+    display: block;
+  }
+
+  &__image-wrapper {
+    margin: 5px 0;
+  }
+
+  &__image {
+    max-height: 350px;
+  }
+
+  &__divider {
+    border-top: 1px solid rgba(34, 36, 38, .15);
+    border-bottom: 1px solid hsla(0, 0%, 100%, .1);
+    margin: 1rem 0 .5rem;
+  }
+
+  &__actions {
+    text-align: right;
+
+    &--remove,
+    &--cancel {
+      margin-right: 10px;
+    }
+  }
+}

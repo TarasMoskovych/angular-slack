@@ -1,0 +1,61 @@
+<div class="side-panel-user-update">
+  <form
+    appFocusInvalidField
+    class="side-panel-user-update__form"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field *ngIf="form.get('displayName') as displayName">
+      <mat-label>Username</mat-label>
+      <input
+        [errorStateMatcher]="matcher"
+        matInput
+        placeholder="Username"
+        formControlName="displayName"
+      >
+      <mat-error *ngIf="displayName.invalid">
+        {{ errorMessages.username }}
+      </mat-error>
+    </mat-form-field>
+    <div class="side-panel-user-update__file-wrapper">
+      <label class="side-panel-user-update__file-label" for="file">Photo</label>
+      <div class="side-panel-user-update__image-wrapper">
+        <img
+          class="side-panel-user-update__image"
+          [src]="(photoPreview$ | async) || user.photoURL"
+          alt=""
+        />
+      </div>
+      <div>
+        <input id="file" type="file" (change)="onFileUpload($event)">
+      </div>
+    </div>
+    <div class="side-panel-user-update__divider"></div>
+    <div class="side-panel-user-update__actions">
+      <button
+        *ngIf="photoPreview$ | async"
+        type="button"
+        class="side-panel-user-update__actions--remove"
+        mat-raised-button (click)="onRemovePhoto()"
+        color="warn"
+      >Remove
+      </button>
+      <button
+        type="button"
+        class="side-panel-user-update__actions--cancel"
+        mat-raised-button (click)="onCancel()"
+      >Cancel
+      </button>
+      <button class="" mat-raised-button color="primary">
+        <ng-container *ngIf="loading$ | async; else text">
+          <mat-icon>
+            <mat-spinner diameter="20"></mat-spinner>
+          </mat-icon>
+        </ng-container>
+        <ng-template #text>
+          Update
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
-import { User, generateAvatar } from 'src/app/shared';
+import { User } from 'src/app/shared';
+import { SidePanelUserUpdateComponent } from '../side-panel-user-update/side-panel-user-update.component';
 
 @Component({
   selector: 'app-side-panel-user',
@@ -10,20 +12,19 @@ import { User, generateAvatar } from 'src/app/shared';
 })
 export class SidePanelUserComponent {
   @Input() user: User;
-  @Output() changeAvatar = new EventEmitter<{ user: User, photoURL: string }>();
   @Output() logout = new EventEmitter<void>();
 
   menuOpened = false;
+
+  constructor(private dialog: MatDialog) { }
 
   onToggleMenu(menuOpened: boolean) {
     this.menuOpened = menuOpened;
   }
 
-  onChangeAvatar() {
-    // @TODO
-    this.changeAvatar.emit({
-      user: this.user,
-      photoURL: generateAvatar([...Array(10)].map(i=>(~~(Math.random()*36)).toString(36)).join(''))
+  onUpdateProfile() {
+    this.dialog.open(SidePanelUserUpdateComponent, {
+      data: this.user
     });
   }
 

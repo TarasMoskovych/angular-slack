@@ -1,5 +1,5 @@
 export interface SideState {
-  photoURL: string;
+  photoURL: string | ArrayBuffer;
 }
 
 export const initialSideState: SideState = {
