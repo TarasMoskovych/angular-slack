@@ -1,7 +1,7 @@
-<div class="side-panel-user-update">
+<div class="user-profile-edit">
   <form
     appFocusInvalidField
-    class="side-panel-user-update__form"
+    class="user-profile-edit__form"
     [formGroup]="form"
     (ngSubmit)="onSubmit()"
   >
@@ -17,11 +17,11 @@
         {{ errorMessages.username }}
       </mat-error>
     </mat-form-field>
-    <div class="side-panel-user-update__file-wrapper">
-      <label class="side-panel-user-update__file-label" for="file">Photo</label>
-      <div class="side-panel-user-update__image-wrapper">
+    <div class="user-profile-edit__file-wrapper">
+      <label class="user-profile-edit__file-label" for="file">Photo</label>
+      <div class="user-profile-edit__image-wrapper">
         <img
-          class="side-panel-user-update__image"
+          class="user-profile-edit__image"
           [src]="(photoPreview$ | async) || user.photoURL"
           alt=""
         />
@@ -30,23 +30,23 @@
         <input id="file" type="file" (change)="onFileUpload($event)">
       </div>
     </div>
-    <div class="side-panel-user-update__divider"></div>
-    <div class="side-panel-user-update__actions">
+    <div class="user-profile-edit__divider"></div>
+    <div class="user-profile-edit__actions">
       <button
         *ngIf="photoPreview$ | async"
         type="button"
-        class="side-panel-user-update__actions--remove"
+        class="user-profile-edit__actions--remove"
         mat-raised-button (click)="onRemovePhoto()"
         color="warn"
       >Remove
       </button>
       <button
         type="button"
-        class="side-panel-user-update__actions--cancel"
+        class="user-profile-edit__actions--cancel"
         mat-raised-button (click)="onCancel()"
       >Cancel
       </button>
-      <button class="" mat-raised-button color="primary">
+      <button [disabled]="loading$ | async" mat-raised-button color="primary">
         <ng-container *ngIf="loading$ | async; else text">
           <mat-icon>
             <mat-spinner diameter="20"></mat-spinner>

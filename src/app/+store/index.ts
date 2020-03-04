@@ -1,4 +1,4 @@
 export * from './router';
 export * from './auth';
-export * from './side';
+export * from './user-profile';
 export * from './app.state';

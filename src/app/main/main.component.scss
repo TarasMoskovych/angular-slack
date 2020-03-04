@@ -1,15 +1,4 @@
-@import './../scss/variables';
-
 .main {
   display: flex;
   justify-content: space-between;
-
-  app-side-panel {
-    background: $brown;
-    color: $white;
-    height: 100vh;
-    max-width: 15em;
-    padding: 0 1em;
-    width: 100%;
-  }
 }

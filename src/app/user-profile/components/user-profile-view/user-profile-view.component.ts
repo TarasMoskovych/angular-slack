@@ -1,16 +1,17 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { UserProfileEditComponent } from '../user-profile-edit/user-profile-edit.component';
 import { User } from 'src/app/shared';
-import { SidePanelUserUpdateComponent } from '../side-panel-user-update/side-panel-user-update.component';
 
 @Component({
-  selector: 'app-side-panel-user',
-  templateUrl: './side-panel-user.component.html',
-  styleUrls: ['./side-panel-user.component.scss'],
+  selector: 'app-user-profile-view',
+  templateUrl: './user-profile-view.component.html',
+  styleUrls: ['./user-profile-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidePanelUserComponent {
+export class UserProfileViewComponent {
+  @Input() loading: boolean;
   @Input() user: User;
   @Output() logout = new EventEmitter<void>();
 
@@ -18,14 +19,14 @@ export class SidePanelUserComponent {
 
   constructor(private dialog: MatDialog) { }
 
-  onToggleMenu(menuOpened: boolean) {
-    this.menuOpened = menuOpened;
-  }
-
   onUpdateProfile() {
-    this.dialog.open(SidePanelUserUpdateComponent, {
+    this.dialog.open(UserProfileEditComponent, {
       data: this.user
     });
+  }
+
+  onToggleMenu(menuOpened: boolean) {
+    this.menuOpened = menuOpened;
   }
 
   onLogout() {
