@@ -1,0 +1,18 @@
+<ng-container *ngIf="user">
+  <div class="user-profile-view">
+    <mat-menu #userActions="matMenu" (menuOpened)="onToggleMenu()">
+      <button (click)="onUpdateProfile()" mat-menu-item>Update Profile</button>
+      <button (click)="onLogout()" mat-menu-item>Logout</button>
+    </mat-menu>
+
+    <button
+      mat-button
+      [matMenuTriggerFor]="userActions"
+      (menuOpened)="onToggleMenu(true)"
+      (menuClosed)="onToggleMenu(false)"
+    > <img [src]="user.photoURL" alt="" class="user-profile-view__gravatar">
+      {{ user.displayName }}
+      <mat-icon>{{ menuOpened ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+    </button>
+  </div>
+</ng-container>

@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+import { fontIcons } from 'src/app/shared';
 
 @Component({
   selector: 'app-side-panel',
   templateUrl: './side-panel.component.html',
-  styleUrls: ['./side-panel.component.scss']
+  styleUrls: ['./side-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidePanelComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class SidePanelComponent {
+  icons = fontIcons;
 }

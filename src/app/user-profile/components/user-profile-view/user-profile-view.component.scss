@@ -1,0 +1,10 @@
+.user-profile-view {
+
+  &__gravatar {
+    border-radius: 50%;
+    height: 35px;
+    margin-right: 5px;
+    object-fit: cover;
+    width: 35px;
+  }
+}

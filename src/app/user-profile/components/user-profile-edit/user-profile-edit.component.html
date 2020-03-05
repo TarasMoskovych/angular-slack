@@ -1,0 +1,61 @@
+<div class="user-profile-edit">
+  <form
+    appFocusInvalidField
+    class="user-profile-edit__form"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field *ngIf="form.get('displayName') as displayName">
+      <mat-label>Username</mat-label>
+      <input
+        [errorStateMatcher]="matcher"
+        matInput
+        placeholder="Username"
+        formControlName="displayName"
+      >
+      <mat-error *ngIf="displayName.invalid">
+        {{ errorMessages.username }}
+      </mat-error>
+    </mat-form-field>
+    <div class="user-profile-edit__file-wrapper">
+      <label class="user-profile-edit__file-label" for="file">Photo</label>
+      <div class="user-profile-edit__image-wrapper">
+        <img
+          class="user-profile-edit__image"
+          [src]="(photoPreview$ | async) || user.photoURL"
+          alt=""
+        />
+      </div>
+      <div>
+        <input id="file" type="file" (change)="onFileUpload($event)">
+      </div>
+    </div>
+    <div class="user-profile-edit__divider"></div>
+    <div class="user-profile-edit__actions">
+      <button
+        *ngIf="photoPreview$ | async"
+        type="button"
+        class="user-profile-edit__actions--remove"
+        mat-raised-button (click)="onRemovePhoto()"
+        color="warn"
+      >Remove
+      </button>
+      <button
+        type="button"
+        class="user-profile-edit__actions--cancel"
+        mat-raised-button (click)="onCancel()"
+      >Cancel
+      </button>
+      <button [disabled]="loading$ | async" mat-raised-button color="primary">
+        <ng-container *ngIf="loading$ | async; else text">
+          <mat-icon>
+            <mat-spinner diameter="20"></mat-spinner>
+          </mat-icon>
+        </ng-container>
+        <ng-template #text>
+          Update
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>

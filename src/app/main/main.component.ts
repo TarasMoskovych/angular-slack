@@ -1,20 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Store } from '@ngrx/store';
-import { AuthState, authUserSelector } from '../+store/auth';
-import { User } from '../shared';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainComponent implements OnInit {
-
-  constructor(private store: Store<AuthState>) { }
-
-  ngOnInit() {
-    this.store.select(authUserSelector).subscribe((user: User) => console.log(user));
-  }
-
-}
+export class MainComponent { }

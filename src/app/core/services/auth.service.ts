@@ -37,7 +37,7 @@ export class AuthService {
           }
           throw new FirebaseError('INACTIVE', 'Your Account is inactive.');
         }),
-        catchError((err: firebase.auth.Error) => this.handleError(err))
+        catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
       );
   }
 
@@ -45,8 +45,13 @@ export class AuthService {
     return from(this.afauth.auth.signInWithPopup(new auth.GoogleAuthProvider()))
       .pipe(
         switchMap(({ user }: firebase.auth.UserCredential) => this.update(user)),
-        catchError((err: firebase.auth.Error) => this.handleError(err))
+        catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
       );
+  }
+
+  logout(): Observable<void> {
+    return from(this.afauth.auth.signOut())
+      .pipe(catchError((err: firebase.auth.Error) => this.notificationService.handleError(err)));
   }
 
   register({ displayName, email, password }: User): Observable<firebase.UserInfo> {
@@ -61,7 +66,7 @@ export class AuthService {
           return from(user.updateProfile({ displayName, photoURL: generateAvatar(user.uid) }))
         }),
         switchMap(() => this.update(userData)),
-        catchError((err: firebase.auth.Error) => this.handleError(err))
+        catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
       )
   }
 
@@ -70,10 +75,5 @@ export class AuthService {
 
     return from(this.afs.doc(`${Collections.Users}/${uid}`).set({ displayName, email, photoURL }))
       .pipe(switchMap(() => of(user)));
-  }
-
-  private handleError(err: firebase.auth.Error) {
-    this.notificationService.show(err.message);
-    return throwError(err);
   }
 }

@@ -14,6 +14,10 @@ export enum AuthActionTypes {
   LOGIN_GOOGLE         = '[Auth] Login Google',
   LOGIN_SUCCESS        = '[Auth] Login Success',
   LOGIN_ERROR          = '[Auth] Login Error',
+
+  LOGOUT               = '[Auth] Logout',
+  LOGOUT_SUCCESS       = '[Auth] Logout Success',
+  LOGOUT_ERROR         = '[Auth] Logout Error',
 }
 
 export class StateChange implements Action {
@@ -62,6 +66,19 @@ export class LoginError implements Action {
   constructor(public payload: firebase.auth.Error) { }
 }
 
+export class Logout implements Action {
+  readonly type = AuthActionTypes.LOGOUT;
+}
+
+export class LogoutSuccess implements Action {
+  readonly type = AuthActionTypes.LOGOUT_SUCCESS;
+}
+
+export class LogoutError implements Action {
+  readonly type = AuthActionTypes.LOGOUT_ERROR;
+  constructor(public payload: firebase.auth.Error) { }
+}
+
 export type AuthActions
   = StateChange
   | StateChangeSuccess
@@ -74,4 +91,8 @@ export type AuthActions
   | Login
   | LoginGoogle
   | LoginSuccess
-  | LoginError;
+  | LoginError
+
+  | Logout
+  | LogoutSuccess
+  | LogoutError;

@@ -1,0 +1,29 @@
+@import './../../../../assets/scss/variables';
+
+:host {
+  background: $brown;
+  color: $white;
+  height: 100vh;
+  max-width: 15em;
+  padding: 0 1em;
+  width: 100%;
+}
+
+.side-panel {
+  padding: 1em 0;
+
+  &__header {
+    align-items: center;
+    display: flex;
+    margin: 0 0 15px;
+
+    &--icon {
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+
+    &--text {
+      font-weight: 500;
+    }
+  }
+}

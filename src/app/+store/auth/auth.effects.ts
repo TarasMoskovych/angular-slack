@@ -52,6 +52,19 @@ export class AuthEffects {
   );
 
   @Effect()
+  logout$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.LoginGoogle>(AuthActionTypes.LOGOUT),
+    switchMap(() => {
+      return this.authService
+        .logout()
+        .pipe(
+          map(() => new authActions.LogoutSuccess()),
+          catchError((err: firebase.auth.Error) => of(new authActions.LogoutError(err)))
+        )
+      })
+  );
+
+  @Effect()
   register$: Observable<Action> = this.actions$.pipe(
     ofType<authActions.Register>(AuthActionTypes.REGISTER),
     pluck('payload'),
@@ -83,8 +96,11 @@ export class AuthEffects {
   );
 
   @Effect()
-  registerSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType<authActions.RegisterSuccess>(AuthActionTypes.REGISTER_SUCCESS),
+  registerLogoutSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<authActions.RegisterSuccess | authActions.LogoutSuccess>(
+      AuthActionTypes.REGISTER_SUCCESS,
+      AuthActionTypes.LOGOUT_SUCCESS
+    ),
     map(() => new RouterActions.Go({ path: ['/login'] }))
   );
 
