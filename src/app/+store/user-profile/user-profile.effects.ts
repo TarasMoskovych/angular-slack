@@ -6,9 +6,9 @@ import { UserProfileActionTypes } from './user-profile.actions';
 import * as userProfileActions from './user-profile.actions';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError, pluck } from 'rxjs/operators';
+import { switchMap, map, catchError, pluck, tap } from 'rxjs/operators';
 
-import { UserProfileService } from 'src/app/core/services';
+import { UserProfileService, NotificationService } from 'src/app/core/services';
 import { User } from 'src/app/shared/models';
 import { StateChangeSuccess } from '../auth';
 
@@ -16,27 +16,29 @@ import { StateChangeSuccess } from '../auth';
 export class UserProfileEffects {
   constructor(
     private actions$: Actions,
+    private notificationService: NotificationService,
     private userProfileService: UserProfileService
   ) {}
 
   @Effect()
   update$: Observable<Action> = this.actions$.pipe(
-    ofType<userProfileActions.Update>(UserProfileActionTypes.UPDATE),
+    ofType<userProfileActions.UpdateProfile>(UserProfileActionTypes.UPDATE_PROFILE),
     pluck('payload'),
     switchMap(({ user, photoURL }) => {
       return this.userProfileService
         .update(user, photoURL)
         .pipe(
-          map((data: User) => new userProfileActions.UpdateSuccess(data)),
-          catchError((err: firebase.auth.Error) => of(new userProfileActions.UpdateError(err)))
+          map((data: User) => new userProfileActions.UpdateProfileSuccess(data)),
+          catchError((err: firebase.auth.Error) => of(new userProfileActions.UpdateProfileError(err)))
         )
       })
   );
 
   @Effect()
   updateSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType<userProfileActions.UpdateSuccess>(UserProfileActionTypes.UPDATE_SUCCESS),
+    ofType<userProfileActions.UpdateProfileSuccess>(UserProfileActionTypes.UPDATE_PROFILE_SUCCESS),
     pluck('payload'),
+    tap(() => this.notificationService.show('User profile was updated.')),
     switchMap((user: User) => of(new StateChangeSuccess(user)))
   );
 }

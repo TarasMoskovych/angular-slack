@@ -13,7 +13,6 @@ export class NotificationService {
   constructor(private matSnackBar: MatSnackBar) { }
 
   handleError(err: firebase.auth.Error) {
-    console.log('zz')
     this.show(err.message);
     return throwError(err);
   }

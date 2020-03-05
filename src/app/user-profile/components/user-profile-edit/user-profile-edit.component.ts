@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject, OnChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -11,12 +11,11 @@ import {
   LoadPhotoPreviewSuccess,
   ClearPhotoPreview,
   LoadPhotoPreview,
-  Update,
-  Init,
+  InitProfile,
+  UpdateProfile,
 } from 'src/app/+store';
 
 import { Observable, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
 
 import { GlobalErrorStateMatcher, errorMessages, User } from 'src/app/shared';
 
@@ -26,7 +25,7 @@ import { GlobalErrorStateMatcher, errorMessages, User } from 'src/app/shared';
   styleUrls: ['./user-profile-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserProfileEditComponent implements OnInit {
+export class UserProfileEditComponent implements OnInit, OnDestroy {
   private reader = new FileReader();
 
   loading$: Observable<boolean>;
@@ -45,7 +44,7 @@ export class UserProfileEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new Init());
+    this.store.dispatch(new InitProfile());
 
     this.loading$ = this.store.select(userProfileLoadingSelector);
     this.photoPreview$ = this.store.select(userProfilePhotoPreviewSelector);
@@ -53,8 +52,11 @@ export class UserProfileEditComponent implements OnInit {
     this.buildForm();
 
     this.sub$ = this.updated$
-      .pipe(delay(1000))
       .subscribe((updated: boolean) => updated && this.onCancel());
+  }
+
+  ngOnDestroy() {
+    this.sub$.unsubscribe();
   }
 
   onFileUpload(event: Event) {
@@ -73,7 +75,6 @@ export class UserProfileEditComponent implements OnInit {
 
   onCancel() {
     this.clearPhotoPreview();
-    this.sub$.unsubscribe();
     this.dialogRef.close();
   }
 
@@ -84,7 +85,7 @@ export class UserProfileEditComponent implements OnInit {
     const user = { ...this.user, displayName };
     const photoURL = this.reader.result ? String(this.reader.result).split(',')[1] : null;
 
-    this.store.dispatch(new Update({ user, photoURL }));
+    this.store.dispatch(new UpdateProfile({ user, photoURL }));
   }
 
   private buildForm() {

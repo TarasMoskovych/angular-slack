@@ -3,14 +3,15 @@ import { UserProfileActionTypes, UserProfileActions } from './user-profile.actio
 
 export function userProfileReducer(state = initialUserProfileState, action: UserProfileActions): UserProfileState {
   switch (action.type) {
-    case UserProfileActionTypes.INIT: {
+    case UserProfileActionTypes.INIT_PROFILE: {
       return {
         ...state,
-        updated: false
+        updated: false,
+        photoURL: null
       };
     }
 
-    case UserProfileActionTypes.UPDATE: {
+    case UserProfileActionTypes.UPDATE_PROFILE: {
       return {
         ...state,
         loading: true,
@@ -25,15 +26,15 @@ export function userProfileReducer(state = initialUserProfileState, action: User
       };
     }
 
-    case UserProfileActionTypes.UPDATE_SUCCESS: {
+    case UserProfileActionTypes.UPDATE_PROFILE_SUCCESS: {
       return {
         ...state,
         loading: false,
-        updated: true
+        updated: true,
       };
     }
 
-    case UserProfileActionTypes.UPDATE_ERROR: {
+    case UserProfileActionTypes.UPDATE_PROFILE_ERROR: {
       return {
         ...state,
         loading: false

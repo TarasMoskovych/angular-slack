@@ -3,32 +3,33 @@ import { Action } from '@ngrx/store';
 import { User } from 'src/app/shared';
 
 export enum UserProfileActionTypes {
-  INIT                       = '[User Profile] Init',
-  UPDATE                     = '[User Profile] Update',
-  UPDATE_SUCCESS             = '[User Profile] Update Success',
-  UPDATE_ERROR               = '[User Profile] Update Error',
+  INIT_PROFILE               = '[User Profile] Init Profile',
+
+  UPDATE_PROFILE             = '[User Profile] Update Profile',
+  UPDATE_PROFILE_SUCCESS     = '[User Profile] Update Profile Success',
+  UPDATE_PROFILE_ERROR       = '[User Profile] Update Profile Error',
 
   LOAD_PHOTO_PREVIEW         = '[User Profile] Load Photo Preview',
   LOAD_PHOTO_PREVIEW_SUCCESS = '[User Profile] Load Photo Preview Success',
   CLEAR_PHOTO_PREVIEW        = '[User Profile] Clear Photo Preview',
 }
 
-export class Init implements Action {
-  readonly type = UserProfileActionTypes.INIT;
+export class InitProfile implements Action {
+  readonly type = UserProfileActionTypes.INIT_PROFILE;
 }
 
-export class Update implements Action {
-  readonly type = UserProfileActionTypes.UPDATE;
+export class UpdateProfile implements Action {
+  readonly type = UserProfileActionTypes.UPDATE_PROFILE;
   constructor(public payload: { user: User, photoURL: string }) { }
 }
 
-export class UpdateSuccess implements Action {
-  readonly type = UserProfileActionTypes.UPDATE_SUCCESS;
+export class UpdateProfileSuccess implements Action {
+  readonly type = UserProfileActionTypes.UPDATE_PROFILE_SUCCESS;
   constructor(public payload: User) { }
 }
 
-export class UpdateError implements Action {
-  readonly type = UserProfileActionTypes.UPDATE_ERROR;
+export class UpdateProfileError implements Action {
+  readonly type = UserProfileActionTypes.UPDATE_PROFILE_ERROR;
   constructor(public payload: firebase.auth.Error) { }
 }
 
@@ -47,11 +48,11 @@ export class ClearPhotoPreview implements Action {
 }
 
 export type UserProfileActions
-  = Init
+  = InitProfile
 
-  |Update
-  | UpdateSuccess
-  | UpdateError
+  | UpdateProfile
+  | UpdateProfileSuccess
+  | UpdateProfileError
 
   | LoadPhotoPreview
   | LoadPhotoPreviewSuccess
