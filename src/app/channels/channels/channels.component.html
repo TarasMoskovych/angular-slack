@@ -1,0 +1,13 @@
+<app-channels-header
+  [add]="true"
+  [count]="(channels$ | async).length"
+  iconName="faExchangeAlt"
+  title="channels"
+  (addChannel)="onAddChannel()"
+></app-channels-header>
+
+<app-channels-body
+  [channels]="channels$ | async"
+  [selected]="selected$ | async"
+  (select)="onSelect($event)"
+></app-channels-body>

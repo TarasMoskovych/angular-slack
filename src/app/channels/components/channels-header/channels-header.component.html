@@ -1,0 +1,16 @@
+<div class="channels-header">
+  <div class="channels-header__left">
+    <fa-icon class="" [icon]="icons[iconName]"></fa-icon>
+    <span class="channels-header__text">
+      {{ title }}
+    </span>
+    ({{ count }})
+  </div>
+  <div class="channels-header__right" *ngIf="add">
+    <fa-icon
+      class="channels-header__link-icon"
+      [icon]="icons.faPlus"
+      (click)="onAddChannel()"
+    ></fa-icon>
+  </div>
+</div>

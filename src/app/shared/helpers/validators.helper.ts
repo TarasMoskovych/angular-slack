@@ -31,4 +31,6 @@ export const errorMessages: { [key: string]: string } = {
   passwordLength: 'Password should be greater than 6 symbols.',
   confirmPassword: 'Please confirm Password.',
   confirmPasswordMatch: 'Confirm Password is not matched Password.',
+  name: 'Please enter Name.',
+  description: 'Please enter Description.',
 };

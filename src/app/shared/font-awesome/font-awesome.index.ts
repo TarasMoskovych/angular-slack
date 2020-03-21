@@ -7,6 +7,8 @@ import {
   faUser,
   faReply,
   faCode,
+  faExchangeAlt,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontIcons = {
@@ -18,4 +20,6 @@ export const fontIcons = {
   faUser,
   faReply,
   faCode,
+  faExchangeAlt,
+  faPlus,
 }
