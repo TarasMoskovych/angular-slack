@@ -7,24 +7,32 @@ import { channelsReducer, ChannelsEffects } from '../+store/channels';
 import { SharedModule } from '../shared/shared.module';
 
 import { ChannelsComponent } from './channels/channels.component';
+import { ChannelDetailComponent } from './channel-detail/channel-detail.component';
+
 import {
   ChannelsHeaderComponent,
   ChannelsFormComponent,
+  ChannelsEditFormComponent,
   ChannelsBodyComponent
 } from './components';
 
 @NgModule({
   declarations: [
     ChannelsComponent,
+    ChannelDetailComponent,
     ChannelsHeaderComponent,
     ChannelsFormComponent,
-    ChannelsBodyComponent
+    ChannelsBodyComponent,
+    ChannelsEditFormComponent,
   ],
   imports: [
     SharedModule,
     StoreModule.forFeature('channels', channelsReducer),
     EffectsModule.forFeature([ChannelsEffects]),
   ],
-  exports: [ChannelsComponent]
+  exports: [
+    ChannelsComponent,
+    ChannelDetailComponent,
+  ]
 })
 export class ChannelsModule { }

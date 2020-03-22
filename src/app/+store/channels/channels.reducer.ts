@@ -40,7 +40,7 @@ export function channelsReducer(state = initialChannelsState, action: ChannelsAc
       };
     }
 
-    case ChannelsActionTypes.SELECT_CHANNEL: {
+    case ChannelsActionTypes.SELECT_CHANNEL_SUCCESS: {
       return {
         ...state,
         selected: { ...action.payload }

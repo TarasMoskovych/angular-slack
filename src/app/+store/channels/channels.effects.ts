@@ -8,14 +8,15 @@ import * as channelsActions from './channels.actions';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, pluck } from 'rxjs/operators';
 
-import { ChannelsService } from 'src/app/core';
-import { Channel } from 'src/app/shared';
+import { ChannelsService, UserProfileService } from 'src/app/core';
+import { Channel, User } from 'src/app/shared';
 
 @Injectable()
 export class ChannelsEffects {
   constructor(
     private actions$: Actions,
-    private channelsService: ChannelsService
+    private channelsService: ChannelsService,
+    private userProfileService: UserProfileService,
   ) {}
 
   @Effect()
@@ -42,6 +43,32 @@ export class ChannelsEffects {
         .pipe(
           map((channels: Channel[]) => new channelsActions.GetChannelsSuccess(channels)),
           catchError((err: firebase.auth.Error) => of(new channelsActions.GetChannelsError(err)))
+        )
+      })
+  );
+
+  @Effect()
+  getSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<channelsActions.GetChannelsSuccess>(ChannelsActionTypes.GET_CHANNELS_SUCCESS),
+    pluck('payload'),
+    map((channels: Channel[]) => new channelsActions.SelectChannel(channels[0]))
+  );
+
+  @Effect()
+  select$: Observable<Action> = this.actions$.pipe(
+    ofType<channelsActions.SelectChannel>(ChannelsActionTypes.SELECT_CHANNEL),
+    pluck('payload'),
+    switchMap((channel: Channel) => {
+      return this.userProfileService
+        .getById(channel?.uid)
+        .pipe(
+          map((user: User) => {
+            if (user && channel) {
+              return new channelsActions.SelectChannelSuccess({ ...channel, createdBy: user })
+            }
+            throw new Error('User or Channel is not defined');
+          }),
+          catchError((err: firebase.auth.Error) => of(new channelsActions.SelectChannelError(err)))
         )
       })
   );

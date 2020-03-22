@@ -4,5 +4,6 @@ export interface Channel {
   id: number;
   name: string;
   description: string;
-  createdBy: User;
+  uid: string;
+  createdBy?: User;
 }

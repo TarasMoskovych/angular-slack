@@ -21,10 +21,9 @@ export class ChannelsService {
   ) { }
 
   add(channel: Channel): Observable<DocumentReference> {
-    const { uid, displayName, photoURL } = this.afauth.auth.currentUser;
-    const createdBy = { id: uid, displayName, photoURL };
+    const { uid } = this.afauth.auth.currentUser;
 
-    return from(this.afs.collection(Collections.Channels).add({ ...channel, id: Date.now(), createdBy })).pipe(
+    return from(this.afs.collection(Collections.Channels).add({ ...channel, id: Date.now(), uid })).pipe(
       catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
     );
   }

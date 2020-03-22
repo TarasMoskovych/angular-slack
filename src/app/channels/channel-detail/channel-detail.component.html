@@ -1,0 +1,61 @@
+<ng-container *ngIf="user$ | async as user">
+  <mat-accordion *ngIf="channel$ | async as channel" class="channel-detail">
+
+    <mat-expansion-panel [hideToggle]="true">
+      <mat-expansion-panel-header class="channel-detail__header channel-detail__header--info">
+        <fa-icon class="channel-detail__icon" [icon]="icons.faInfo"></fa-icon>
+        <span class="channel-detail__title">
+          About # {{ channel.name }}
+        </span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        {{ channel.description }}
+      </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <fa-icon [icon]="icons.faUserCircle"></fa-icon>
+        <span class="channel-detail__title">
+          Top Posters
+        </span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <span class="channel-detail__title">
+          Some deferred content
+        </span>
+      </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <fa-icon [icon]="icons.faUser"></fa-icon>
+        <span class="channel-detail__title">
+        Created by
+      </span>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <div class="channel-detail__author">
+        <img
+        class="channel-detail__gravatar"
+        [src]="channel.createdBy.photoURL"
+        alt=""
+        >{{ channel.createdBy.displayName }}
+      </div>
+    </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="user.uid === channel.uid">
+      <mat-expansion-panel-header>
+        <fa-icon [icon]="icons.faCog"></fa-icon>
+        <span class="channel-detail__title">
+          Actions
+        </span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <app-channels-edit-form></app-channels-edit-form>
+      </ng-template>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</ng-container>

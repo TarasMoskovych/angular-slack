@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 
@@ -30,6 +30,15 @@ export class UserProfileService {
     return obs$().pipe(
       switchMap((photoURL: string) => this.updateProfile(user, photoURL || user.photoURL)),
       switchMap((photoURL: string) => of({ ...user, photoURL })),
+      catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
+    );
+  }
+
+  getById(uid: string): Observable<User> {
+    if (!uid) { return of(null); }
+
+    return <Observable<User>>this.afs.collection(Collections.Users).doc(uid).valueChanges().pipe(
+      switchMap((user: DocumentSnapshot<User>) => of(user)),
       catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
     );
   }
