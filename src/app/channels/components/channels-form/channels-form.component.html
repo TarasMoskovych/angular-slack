@@ -30,24 +30,19 @@
   </mat-form-field>
   <div class="channels-form__actions">
     <button
-      type="button"
-      class="channels-form__actions--cancel"
+      [disabled]="loading"
+      [color]="submitButton.color"
       mat-raised-button
-      (click)="onCancel()"
-    >Cancel
-    </button>
-    <button
-      [disabled]="loading$ | async"
-      mat-raised-button color="primary"
     >
-      <ng-container *ngIf="loading$ | async; else text">
+      <ng-container *ngIf="loading; else text">
         <mat-icon>
           <mat-spinner diameter="20"></mat-spinner>
         </mat-icon>
       </ng-container>
       <ng-template #text>
-        Add
+        {{ submitButton.text }}
       </ng-template>
     </button>
+    <ng-content></ng-content>
   </div>
 </form>

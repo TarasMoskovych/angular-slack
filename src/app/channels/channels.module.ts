@@ -12,8 +12,8 @@ import { ChannelDetailComponent } from './channel-detail/channel-detail.componen
 import {
   ChannelsHeaderComponent,
   ChannelsFormComponent,
-  ChannelsEditFormComponent,
-  ChannelsBodyComponent
+  ChannelsBodyComponent,
+  ChannelsModalComponent
 } from './components';
 
 @NgModule({
@@ -21,9 +21,9 @@ import {
     ChannelsComponent,
     ChannelDetailComponent,
     ChannelsHeaderComponent,
-    ChannelsFormComponent,
     ChannelsBodyComponent,
-    ChannelsEditFormComponent,
+    ChannelsFormComponent,
+    ChannelsModalComponent,
   ],
   imports: [
     SharedModule,

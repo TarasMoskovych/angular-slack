@@ -20,11 +20,17 @@ export class ChannelDetailComponent implements OnInit {
 
   icons = fontIcons;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(
+    private store: Store<AppState>
+  ) { }
 
   ngOnInit(): void {
     this.getSelectedChannel();
     this.getUser();
+  }
+
+  onChannelEdit(channel: Channel) {
+    console.log(channel);
   }
 
   private getSelectedChannel() {

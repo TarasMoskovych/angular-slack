@@ -6,7 +6,7 @@ import { AppState } from 'src/app/+store';
 
 import { Observable } from 'rxjs';
 
-import { ChannelsFormComponent } from '../components';
+import { ChannelsModalComponent } from '../components';
 import { GetChannels, channelsSelector, SelectChannel, channelsSelectedSelector } from 'src/app/+store/channels';
 import { Channel } from 'src/app/shared';
 
@@ -30,7 +30,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   onAddChannel() {
-    this.dialog.open(ChannelsFormComponent);
+    this.dialog.open(ChannelsModalComponent);
   }
 
   onSelect(channel: Channel) {

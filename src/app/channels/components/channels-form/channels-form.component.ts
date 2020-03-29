@@ -1,19 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-
-import { Store } from '@ngrx/store';
 import {
-  ChannelsState,
-  AddChannel,
-  AddChannelInit,
-  channelsLoadingSelector,
-  channelsAddedSelector,
-} from 'src/app/+store/channels';
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter,
+  SimpleChanges
+} from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { Observable, Subscription } from 'rxjs';
-
-import { GlobalErrorStateMatcher, errorMessages } from 'src/app/shared';
+import { Channel, GlobalErrorStateMatcher, errorMessages, SubmitButton } from 'src/app/shared';
 
 @Component({
   selector: 'app-channels-form',
@@ -21,45 +18,39 @@ import { GlobalErrorStateMatcher, errorMessages } from 'src/app/shared';
   styleUrls: ['./channels-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChannelsFormComponent implements OnInit, OnDestroy {
-  loading$: Observable<boolean>;
-  sub$: Subscription;
+export class ChannelsFormComponent implements OnInit, OnChanges {
+  @Input() channel: Channel;
+  @Input() submitButton: SubmitButton = { color: 'primary', text: 'Add' };
+  @Input() loading: boolean;
+  @Output() submitEmitter = new EventEmitter<Channel>();
 
+  errorMessages = errorMessages;
   form: FormGroup;
   matcher = new GlobalErrorStateMatcher();
-  errorMessages = errorMessages;
-
-  constructor(
-    private store: Store<ChannelsState>,
-    private dialogRef: MatDialogRef<ChannelsFormComponent>
-  ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new AddChannelInit());
-
-    this.loading$ = this.store.select(channelsLoadingSelector);
-    this.sub$ = this.store.select(channelsAddedSelector).subscribe((added: boolean) => added && this.onCancel());
     this.buildForm();
   }
 
-  ngOnDestroy() {
-    this.sub$.unsubscribe();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.channel) {
+      this.form?.patchValue({
+        name: this.channel.name,
+        description: this.channel.description
+      });
+    }
   }
 
   onSubmit() {
     if (this.form.invalid) { return; }
 
-    this.store.dispatch(new AddChannel(this.form.value));
-  }
-
-  onCancel() {
-    this.dialogRef.close();
+    this.submitEmitter.emit(this.form.value);
   }
 
   private buildForm() {
     this.form = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
+      name: new FormControl(this.channel?.name, [Validators.required]),
+      description: new FormControl(this.channel?.description, [Validators.required])
     });
   }
 

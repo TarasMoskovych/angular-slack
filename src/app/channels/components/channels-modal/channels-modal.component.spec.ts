@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChannelsEditFormComponent } from './channels-edit-form.component';
+import { ChannelsModalComponent } from './channels-modal.component';
 
-describe('ChannelsEditFormComponent', () => {
-  let component: ChannelsEditFormComponent;
-  let fixture: ComponentFixture<ChannelsEditFormComponent>;
+describe('ChannelsModalComponent', () => {
+  let component: ChannelsModalComponent;
+  let fixture: ComponentFixture<ChannelsModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChannelsEditFormComponent ]
+      declarations: [ ChannelsModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChannelsEditFormComponent);
+    fixture = TestBed.createComponent(ChannelsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

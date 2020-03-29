@@ -53,7 +53,18 @@
         </span>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <app-channels-edit-form></app-channels-edit-form>
+        <app-channels-form
+          [channel]="channel"
+          [submitButton]="{ color: '', text: 'Edit' }"
+          (submitEmitter)="onChannelEdit($event)"
+        ><button
+            type="button"
+            class=""
+            mat-raised-button
+            color="warn"
+          >Remove
+          </button>
+        </app-channels-form>
       </ng-template>
     </mat-expansion-panel>
 
