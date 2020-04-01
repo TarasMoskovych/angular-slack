@@ -15,6 +15,14 @@ export enum ChannelsActionTypes {
   SELECT_CHANNEL         = '[Channels] Select Channel',
   SELECT_CHANNEL_SUCCESS = '[Channels] Select Channel Success',
   SELECT_CHANNEL_ERROR   = '[Channels] Select Channel Error',
+
+  UPDATE_CHANNEL         = '[Channels] Update Channel',
+  UPDATE_CHANNEL_SUCCESS = '[Channels] Update Channel Success',
+  UPDATE_CHANNEL_ERROR   = '[Channels] Update Channel Error',
+
+  REMOVE_CHANNEL         = '[Channels] Remove Channel',
+  REMOVE_CHANNEL_SUCCESS = '[Channels] Remove Channel Success',
+  REMOVE_CHANNEL_ERROR   = '[Channels] Remove Channel Error',
 }
 
 export class AddChannelInit implements Action {
@@ -64,6 +72,36 @@ export class SelectChannelError implements Action {
   constructor(public payload: any) { }
 }
 
+export class UpdateChannel implements Action {
+  readonly type = ChannelsActionTypes.UPDATE_CHANNEL;
+  constructor(public payload: Channel) { }
+}
+
+export class UpdateChannelSuccess implements Action {
+  readonly type = ChannelsActionTypes.UPDATE_CHANNEL_SUCCESS;
+  constructor(public payload: Channel) { }
+}
+
+export class UpdateChannelError implements Action {
+  readonly type = ChannelsActionTypes.UPDATE_CHANNEL_ERROR;
+  constructor(public payload: any) { }
+}
+
+export class RemoveChannel implements Action {
+  readonly type = ChannelsActionTypes.REMOVE_CHANNEL;
+  constructor(public payload: Channel) { }
+}
+
+export class RemoveChannelSuccess implements Action {
+  readonly type = ChannelsActionTypes.REMOVE_CHANNEL_SUCCESS;
+  constructor(public payload: Channel) { }
+}
+
+export class RemoveChannelError implements Action {
+  readonly type = ChannelsActionTypes.REMOVE_CHANNEL_ERROR;
+  constructor(public payload: any) { }
+}
+
 export type ChannelsActions
   = AddChannelInit
 
@@ -77,4 +115,12 @@ export type ChannelsActions
 
   | SelectChannel
   | SelectChannelSuccess
-  | SelectChannelError;
+  | SelectChannelError
+
+  | UpdateChannel
+  | UpdateChannelSuccess
+  | UpdateChannelError
+
+  | RemoveChannel
+  | RemoveChannelSuccess
+  | RemoveChannelError;

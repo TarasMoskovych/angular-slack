@@ -73,4 +73,32 @@ export class ChannelsEffects {
       })
   );
 
+  @Effect()
+  update$: Observable<Action> = this.actions$.pipe(
+    ofType<channelsActions.UpdateChannel>(ChannelsActionTypes.UPDATE_CHANNEL),
+    pluck('payload'),
+    switchMap((channel: Channel) => {
+      return this.channelsService
+        .update(channel)
+        .pipe(
+          map((channel: Channel) => new channelsActions.UpdateChannelSuccess(channel)),
+          catchError((err: firebase.auth.Error) => of(new channelsActions.UpdateChannelError(err)))
+        )
+      })
+  );
+
+  @Effect()
+  remove$: Observable<Action> = this.actions$.pipe(
+    ofType<channelsActions.RemoveChannel>(ChannelsActionTypes.REMOVE_CHANNEL),
+    pluck('payload'),
+    switchMap((channel: Channel) => {
+      return this.channelsService
+        .remove(channel)
+        .pipe(
+          map((channel: Channel) => new channelsActions.RemoveChannelSuccess(channel)),
+          catchError((err: firebase.auth.Error) => of(new channelsActions.UpdateChannelError(err)))
+        )
+      })
+  );
+
 }

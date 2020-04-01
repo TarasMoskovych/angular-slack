@@ -1,4 +1,8 @@
 .main {
   display: flex;
   justify-content: space-between;
+
+  app-meta-panel {
+    padding: 15px 15px 0 0;
+  }
 }

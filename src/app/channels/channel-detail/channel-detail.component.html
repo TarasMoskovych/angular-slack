@@ -56,10 +56,11 @@
         <app-channels-form
           [channel]="channel"
           [submitButton]="{ color: '', text: 'Edit' }"
-          (submitEmitter)="onChannelEdit($event)"
+          (submitEmitter)="onChannelEdit($event, channel)"
         ><button
+            (click)="onChannelRemove(channel)"
             type="button"
-            class=""
+            class="channel-detail__remove-btn"
             mat-raised-button
             color="warn"
           >Remove
