@@ -1,0 +1,9 @@
+.channels-form {
+  display: flex;
+  flex-direction: column;
+
+  &__actions {
+    margin-top: 10px;
+    text-align: right;
+  }
+}

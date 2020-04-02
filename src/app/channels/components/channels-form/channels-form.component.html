@@ -1,0 +1,48 @@
+<form
+  appFocusInvalidField
+  class="channels-form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field *ngIf="form.get('name') as name">
+    <mat-label>Name</mat-label>
+    <input
+      [errorStateMatcher]="matcher"
+      matInput
+      placeholder="Name"
+      formControlName="name"
+    >
+    <mat-error *ngIf="name.invalid">
+      {{ errorMessages.name }}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="form.get('description') as description">
+    <mat-label>Description</mat-label>
+    <textarea
+      [errorStateMatcher]="matcher"
+      matInput
+      placeholder="Description"
+      formControlName="description"
+    ></textarea>
+    <mat-error *ngIf="description.invalid">
+      {{ errorMessages.description }}
+    </mat-error>
+  </mat-form-field>
+  <div class="channels-form__actions">
+    <button
+      [disabled]="loading"
+      [color]="submitButton.color"
+      mat-raised-button
+    >
+      <ng-container *ngIf="loading; else text">
+        <mat-icon>
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-icon>
+      </ng-container>
+      <ng-template #text>
+        {{ submitButton.text }}
+      </ng-template>
+    </button>
+    <ng-content></ng-content>
+  </div>
+</form>

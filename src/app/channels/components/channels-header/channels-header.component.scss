@@ -1,0 +1,28 @@
+@import './../../../../assets/scss/variables';
+
+.channels-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+
+  &__left,
+  &__right {
+    color: $brown2;
+    display: flex;
+    font-size: .85em;
+  }
+
+  &__text {
+    margin: 0 5px;
+    text-transform: uppercase;
+  }
+
+  &__link-icon {
+    cursor: pointer;
+    transition: .3s;
+
+    &:hover {
+      color: darken($brown2, 50);
+    }
+  }
+}

@@ -1,0 +1,42 @@
+.channel-detail {
+
+  &__header {
+
+    &--info {
+      .channel-detail {
+        &__title {
+          font-size: 1.1em;
+          font-weight: 500;
+          margin-left: 20px;
+          margin-right: 0;
+        }
+
+        &__icon {
+          left: 5px;
+          position: relative;
+        }
+      }
+    }
+  }
+
+  &__title {
+    margin: 0 10px;
+  }
+
+  &__author {
+    align-items: center;
+    display: flex;
+  }
+
+  &__gravatar {
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    height: 35px;
+    width: 35px;
+  }
+
+  &__remove-btn {
+    margin-left: 5px;
+  }
+}

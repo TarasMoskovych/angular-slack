@@ -1,0 +1,10 @@
+<app-channels-form
+  (submitEmitter)="onChannelAdd($event)"
+  [loading]="loading$ | async">
+  <button
+    (click)="onClose()"
+    type="button"
+    mat-raised-button
+  >Close
+  </button>
+</app-channels-form>

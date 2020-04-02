@@ -5,8 +5,13 @@ import {
   faUnlockAlt,
   faPuzzlePiece,
   faUser,
+  faUserCircle,
   faReply,
   faCode,
+  faExchangeAlt,
+  faPlus,
+  faInfo,
+  faCog,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontIcons = {
@@ -16,6 +21,11 @@ export const fontIcons = {
   faUnlockAlt,
   faPuzzlePiece,
   faUser,
+  faUserCircle,
   faReply,
   faCode,
+  faExchangeAlt,
+  faPlus,
+  faInfo,
+  faCog,
 }

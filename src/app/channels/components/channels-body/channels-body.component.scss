@@ -1,0 +1,18 @@
+@import './../../../../assets/scss/variables';
+
+.channels-body {
+
+  &__item {
+    color: $brown2;
+    cursor: pointer;
+    font-size: .8em;
+    padding: 5px;
+    text-transform: capitalize;
+    transition: .3s;
+
+    &--selected,
+    &:hover {
+      background: $brown3;
+    }
+  }
+}
