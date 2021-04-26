@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "target": "ng",
+    "public": "./dist/angular-slack",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

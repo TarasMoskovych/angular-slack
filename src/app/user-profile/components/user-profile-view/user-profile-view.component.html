@@ -1,6 +1,6 @@
 <ng-container *ngIf="user">
   <div class="user-profile-view">
-    <mat-menu #userActions="matMenu" (menuOpened)="onToggleMenu()">
+    <mat-menu #userActions="matMenu">
       <button (click)="onUpdateProfile()" mat-menu-item>Update Profile</button>
       <button (click)="onLogout()" mat-menu-item>Logout</button>
     </mat-menu>

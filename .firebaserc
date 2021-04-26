@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "rng-slack"
+  },
+  "targets": {
+    "rng-slack": {
+      "hosting": {
+        "ng": [
+          "ng11-slack"
+        ]
+      }
+    }
+  }
+}
