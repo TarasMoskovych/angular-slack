@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from 'src/app/shared/models';
+import { AuthError, User } from 'src/app/shared/models';
 
 export enum AuthActionTypes {
   STATE_CHANGE         = '[Auth] State Change',
@@ -44,7 +44,7 @@ export class RegisterSuccess implements Action {
 
 export class RegisterError implements Action {
   readonly type = AuthActionTypes.REGISTER_ERROR;
-  constructor(public payload: firebase.auth.Error) { }
+  constructor(public payload: AuthError) { }
 }
 
 export class Login implements Action {
@@ -63,7 +63,7 @@ export class LoginSuccess implements Action {
 
 export class LoginError implements Action {
   readonly type = AuthActionTypes.LOGIN_ERROR;
-  constructor(public payload: firebase.auth.Error) { }
+  constructor(public payload: AuthError) { }
 }
 
 export class Logout implements Action {
@@ -76,7 +76,7 @@ export class LogoutSuccess implements Action {
 
 export class LogoutError implements Action {
   readonly type = AuthActionTypes.LOGOUT_ERROR;
-  constructor(public payload: firebase.auth.Error) { }
+  constructor(public payload: AuthError) { }
 }
 
 export type AuthActions

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { throwError } from 'rxjs';
+import { AuthError } from 'src/app/shared';
 
 import { CoreModule } from '../core.module';
 
@@ -12,7 +13,7 @@ export class NotificationService {
 
   constructor(private matSnackBar: MatSnackBar) { }
 
-  handleError(err: firebase.auth.Error) {
+  handleError(err: AuthError) {
     this.show(err.message);
     return throwError(err);
   }

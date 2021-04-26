@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, pluck, tap } from 'rxjs/operators';
 
 import { UserProfileService, NotificationService } from 'src/app/core/services';
-import { User } from 'src/app/shared/models';
+import { AuthError, User } from 'src/app/shared/models';
 import { StateChangeSuccess } from '../auth';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class UserProfileEffects {
         .update(user, photoURL)
         .pipe(
           map((data: User) => new userProfileActions.UpdateProfileSuccess(data)),
-          catchError((err: firebase.auth.Error) => of(new userProfileActions.UpdateProfileError(err)))
+          catchError((err: AuthError) => of(new userProfileActions.UpdateProfileError(err)))
         )
       })
   );

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, DocumentReference, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 
 import { from, Observable, of } from 'rxjs';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
-import { Collections, Channel } from 'src/app/shared';
+import { Collections, Channel, AuthError, FirestoreQuerySnapshot, FirebaseUser } from 'src/app/shared';
 import { catchError, switchMap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: CoreModule
@@ -16,16 +16,21 @@ export class ChannelsService {
 
   constructor(
     private afs: AngularFirestore,
-    private afauth: AngularFireAuth,
+    private authService: AuthService,
     private notificationService: NotificationService
   ) { }
 
   add(channel: Channel): Observable<DocumentReference> {
-    const { uid } = this.afauth.auth.currentUser;
-
-    return from(this.afs.collection(Collections.Channels).add({ ...channel, id: Date.now(), uid })).pipe(
-      catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
-    );
+    return this.authService.getCurrentUser()
+      .pipe(
+        switchMap((firebaseUser: FirebaseUser) => {
+          const { uid } = firebaseUser;
+          return from(this.afs.collection(Collections.Channels).add({ ...channel, id: Date.now(), uid }))
+            .pipe(
+              catchError((err: AuthError) => this.notificationService.handleError(err)),
+            );
+        }),
+      );
   }
 
   get(): Observable<Channel[]> {
@@ -34,7 +39,7 @@ export class ChannelsService {
 
   update(channel: Channel): Observable<Channel> {
     return this.getById(channel).pipe(
-      switchMap((snapshot: firebase.firestore.QuerySnapshot) => {
+      switchMap((snapshot: FirestoreQuerySnapshot) => {
         if (!snapshot.empty) {
           return this.afs.doc(`${Collections.Channels}/${snapshot.docs[0].id}`).update({
             name: channel.name,
@@ -43,23 +48,23 @@ export class ChannelsService {
         }
         return of(null);
       }),
-      catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
+      catchError((err: AuthError) => this.notificationService.handleError(err))
     );
   }
 
   remove(channel: Channel): Observable<Channel> {
     return this.getById(channel).pipe(
-      switchMap((snapshot: firebase.firestore.QuerySnapshot) => {
+      switchMap((snapshot: FirestoreQuerySnapshot) => {
         if (!snapshot.empty) {
           return this.afs.doc(`${Collections.Channels}/${snapshot.docs[0].id}`).delete();
         }
         return of(null);
       }),
-      catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
+      catchError((err: AuthError) => this.notificationService.handleError(err))
     );
   }
 
-  private getById(channel: Channel): Observable<firebase.firestore.QuerySnapshot> {
+  private getById(channel: Channel): Observable<FirestoreQuerySnapshot> {
     return from(this.afs.collection(Collections.Channels, ref => ref.where('id', '==', channel.id)).get());
   }
 }

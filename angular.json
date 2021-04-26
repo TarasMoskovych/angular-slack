@@ -33,7 +33,10 @@
               "./node_modules/font-awesome/css/font-awesome.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "md5"
+            ]
           },
           "configurations": {
             "production": {

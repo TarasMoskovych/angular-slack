@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Channel } from 'src/app/shared';
+import { AuthError, Channel } from 'src/app/shared';
 
 export enum ChannelsActionTypes {
   ADD_CHANNEL_INIT       = '[Channels] Add Channel Init',
@@ -40,7 +40,7 @@ export class AddChannelSuccess implements Action {
 
 export class AddChannelError implements Action {
   readonly type = ChannelsActionTypes.ADD_CHANNEL_ERROR;
-  constructor(public payload: firebase.auth.Error) { }
+  constructor(public payload: AuthError) { }
 }
 
 export class GetChannels implements Action {

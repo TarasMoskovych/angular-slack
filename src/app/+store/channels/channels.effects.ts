@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, pluck } from 'rxjs/operators';
 
 import { ChannelsService, UserProfileService } from 'src/app/core';
-import { Channel, User } from 'src/app/shared';
+import { AuthError, Channel, User } from 'src/app/shared';
 
 @Injectable()
 export class ChannelsEffects {
@@ -28,7 +28,7 @@ export class ChannelsEffects {
         .add(channel)
         .pipe(
           map(() => new channelsActions.AddChannelSuccess()),
-          catchError((err: firebase.auth.Error) => of(new channelsActions.AddChannelError(err)))
+          catchError((err: AuthError) => of(new channelsActions.AddChannelError(err)))
         )
       })
   );
@@ -42,7 +42,7 @@ export class ChannelsEffects {
         .get()
         .pipe(
           map((channels: Channel[]) => new channelsActions.GetChannelsSuccess(channels)),
-          catchError((err: firebase.auth.Error) => of(new channelsActions.GetChannelsError(err)))
+          catchError((err: AuthError) => of(new channelsActions.GetChannelsError(err)))
         )
       })
   );
@@ -68,7 +68,7 @@ export class ChannelsEffects {
             }
             throw new Error('User or Channel is not defined');
           }),
-          catchError((err: firebase.auth.Error) => of(new channelsActions.SelectChannelError(err)))
+          catchError((err: AuthError) => of(new channelsActions.SelectChannelError(err)))
         )
       })
   );
@@ -82,7 +82,7 @@ export class ChannelsEffects {
         .update(channel)
         .pipe(
           map((channel: Channel) => new channelsActions.UpdateChannelSuccess(channel)),
-          catchError((err: firebase.auth.Error) => of(new channelsActions.UpdateChannelError(err)))
+          catchError((err: AuthError) => of(new channelsActions.UpdateChannelError(err)))
         )
       })
   );
@@ -96,7 +96,7 @@ export class ChannelsEffects {
         .remove(channel)
         .pipe(
           map((channel: Channel) => new channelsActions.RemoveChannelSuccess(channel)),
-          catchError((err: firebase.auth.Error) => of(new channelsActions.UpdateChannelError(err)))
+          catchError((err: AuthError) => of(new channelsActions.UpdateChannelError(err)))
         )
       })
   );

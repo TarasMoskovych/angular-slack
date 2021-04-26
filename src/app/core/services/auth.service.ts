@@ -3,13 +3,21 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseError } from '@firebase/util';
 
-import { of, throwError, Observable, from } from 'rxjs';
+import { of, Observable, from } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { auth } from 'firebase/app';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
-import { Collections, generateAvatar, User } from 'src/app/shared';
+import {
+  AuthError,
+  AuthUserCredential,
+  Collections,
+  FirebaseUser,
+  FirebaseUserInfo,
+  generateAvatar,
+  googleAuthProvider,
+  User
+} from 'src/app/shared';
 
 @Injectable({
   providedIn: CoreModule
@@ -22,14 +30,14 @@ export class AuthService {
     private notificationService: NotificationService
   ) { }
 
-  onAuthStateChange() {
+  getCurrentUser(): Observable<FirebaseUser> {
     return this.afauth.authState;
   }
 
-  login({ email, password }: User): Observable<firebase.User> {
-    return from(this.afauth.auth.signInWithEmailAndPassword(email, password))
+  login({ email, password }: User): Observable<FirebaseUser> {
+    return from(this.afauth.signInWithEmailAndPassword(email, password))
       .pipe(
-        switchMap((userCredential: firebase.auth.UserCredential) => {
+        switchMap((userCredential: AuthUserCredential) => {
           const { user } = userCredential;
 
           if (user.emailVerified) {
@@ -37,43 +45,43 @@ export class AuthService {
           }
           throw new FirebaseError('INACTIVE', 'Your Account is inactive.');
         }),
-        catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
+        catchError((err: AuthError) => this.notificationService.handleError(err))
       );
   }
 
-  loginWithGoole(): Observable<firebase.UserInfo> {
-    return from(this.afauth.auth.signInWithPopup(new auth.GoogleAuthProvider()))
+  loginWithGoole(): Observable<FirebaseUserInfo> {
+    return from(this.afauth.signInWithPopup(googleAuthProvider()))
       .pipe(
-        switchMap(({ user }: firebase.auth.UserCredential) => this.update(user)),
-        catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
+        switchMap(({ user }: AuthUserCredential) => this.update(user)),
+        catchError((err: AuthError) => this.notificationService.handleError(err))
       );
   }
 
   logout(): Observable<void> {
-    return from(this.afauth.auth.signOut())
-      .pipe(catchError((err: firebase.auth.Error) => this.notificationService.handleError(err)));
+    return from(this.afauth.signOut())
+      .pipe(catchError((err: AuthError) => this.notificationService.handleError(err)));
   }
 
-  register({ displayName, email, password }: User): Observable<firebase.UserInfo> {
-    let userData: firebase.UserInfo;
+  register({ displayName, email, password }: User): Observable<FirebaseUserInfo> {
+    let userData: FirebaseUserInfo;
 
-    return from(this.afauth.auth.createUserWithEmailAndPassword(email, password))
+    return from(this.afauth.createUserWithEmailAndPassword(email, password))
       .pipe(
-        switchMap((userCredential: firebase.auth.UserCredential) => {
+        switchMap((userCredential: AuthUserCredential) => {
           const { user } = userCredential;
           userData = user;
           user.sendEmailVerification();
           return from(user.updateProfile({ displayName, photoURL: generateAvatar(user.uid) }))
         }),
         switchMap(() => this.update(userData)),
-        catchError((err: firebase.auth.Error) => this.notificationService.handleError(err))
+        catchError((err: AuthError) => this.notificationService.handleError(err))
       )
   }
 
-  update(user: firebase.UserInfo): Observable<firebase.UserInfo> {
+  update(user: FirebaseUserInfo): Observable<FirebaseUserInfo> {
     const { displayName, email, photoURL, uid } = user;
 
-    return from(this.afs.doc(`${Collections.Users}/${uid}`).set({ displayName, email, photoURL }))
+    return from(this.afs.doc(`${Collections.Users}/${uid}`).set({ displayName, email, photoURL, uid }))
       .pipe(switchMap(() => of(user)));
   }
 }

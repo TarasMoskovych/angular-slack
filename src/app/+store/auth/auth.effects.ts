@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, pluck } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/core/services';
-import { User } from 'src/app/shared/models';
+import { AuthError, FirebaseUser, User } from 'src/app/shared/models';
 
 @Injectable()
 export class AuthEffects {
@@ -19,7 +19,7 @@ export class AuthEffects {
     private authService: AuthService
   ) {}
 
-  getUserData(user: firebase.User): User {
+  getUserData(user: FirebaseUser): User {
     const { displayName, email, photoURL, emailVerified, uid, updateProfile } = user;
     return { displayName, email, photoURL, emailVerified, uid, updateProfile };
   }
@@ -32,8 +32,8 @@ export class AuthEffects {
       return this.authService
         .login(user)
         .pipe(
-          map((user: firebase.User) => new authActions.LoginSuccess(this.getUserData(user))),
-          catchError((err: firebase.auth.Error) => of(new authActions.LoginError(err)))
+          map((user: FirebaseUser) => new authActions.LoginSuccess(this.getUserData(user))),
+          catchError((err: AuthError) => of(new authActions.LoginError(err)))
         )
       })
   );
@@ -45,8 +45,8 @@ export class AuthEffects {
       return this.authService
         .loginWithGoole()
         .pipe(
-          map((user: firebase.User) => new authActions.LoginSuccess(this.getUserData(user))),
-          catchError((err: firebase.auth.Error) => of(new authActions.LoginError(err)))
+          map((user: FirebaseUser) => new authActions.LoginSuccess(this.getUserData(user))),
+          catchError((err: AuthError) => of(new authActions.LoginError(err)))
         )
       })
   );
@@ -59,7 +59,7 @@ export class AuthEffects {
         .logout()
         .pipe(
           map(() => new authActions.LogoutSuccess()),
-          catchError((err: firebase.auth.Error) => of(new authActions.LogoutError(err)))
+          catchError((err: AuthError) => of(new authActions.LogoutError(err)))
         )
       })
   );
@@ -73,7 +73,7 @@ export class AuthEffects {
         .register(user)
         .pipe(
           map(() => new authActions.RegisterSuccess()),
-          catchError((err: firebase.auth.Error) => of(new authActions.RegisterError(err)))
+          catchError((err: AuthError) => of(new authActions.RegisterError(err)))
         )
       })
   );
@@ -83,9 +83,9 @@ export class AuthEffects {
     ofType<authActions.StateChange>(AuthActionTypes.STATE_CHANGE),
     switchMap(() => {
       return this.authService
-        .onAuthStateChange()
+        .getCurrentUser()
         .pipe(
-          map((user: firebase.User) => {
+          map((user: FirebaseUser) => {
             if (user && user.emailVerified) {
               return new authActions.StateChangeSuccess(this.getUserData(user));
             }

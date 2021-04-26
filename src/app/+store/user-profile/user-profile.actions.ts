@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { User } from 'src/app/shared';
+import { AuthError, User } from 'src/app/shared';
 
 export enum UserProfileActionTypes {
   INIT_PROFILE               = '[User Profile] Init Profile',
@@ -30,7 +30,7 @@ export class UpdateProfileSuccess implements Action {
 
 export class UpdateProfileError implements Action {
   readonly type = UserProfileActionTypes.UPDATE_PROFILE_ERROR;
-  constructor(public payload: firebase.auth.Error) { }
+  constructor(public payload: AuthError) { }
 }
 
 export class LoadPhotoPreview implements Action {
@@ -44,7 +44,7 @@ export class LoadPhotoPreviewSuccess implements Action {
 
 export class ClearPhotoPreview implements Action {
   readonly type = UserProfileActionTypes.CLEAR_PHOTO_PREVIEW;
-  constructor(public payload?: firebase.auth.Error) { }
+  constructor(public payload?: AuthError) { }
 }
 
 export type UserProfileActions
