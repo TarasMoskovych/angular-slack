@@ -5,11 +5,12 @@ import { MainRoutingModule } from './main-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { ChannelsModule } from '../channels/channels.module';
+import { MessagesModule } from '../messages/messages.module';
 import { UserProfileModule } from '../user-profile/user-profile.module';
 
 import { MainComponent } from './main.component';
 import {
-  MessagesComponent,
+  MessagesPanelComponent,
   MetaPanelComponent,
   SidePanelComponent,
 } from './components';
@@ -17,7 +18,7 @@ import {
 @NgModule({
   declarations: [
     MainComponent,
-    MessagesComponent,
+    MessagesPanelComponent,
     MetaPanelComponent,
     SidePanelComponent,
   ],
@@ -26,7 +27,8 @@ import {
     SharedModule,
     UserProfileModule,
     ChannelsModule,
-    MainRoutingModule
-  ]
+    MessagesModule,
+    MainRoutingModule,
+  ],
 })
 export class MainModule { }
