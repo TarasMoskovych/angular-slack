@@ -6,4 +6,5 @@ export interface User {
   emailVerified?: boolean;
   uid?: string;
   updateProfile?: Function;
+  starredChannels?: string[];
 }
