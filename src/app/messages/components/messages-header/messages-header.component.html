@@ -1,0 +1,20 @@
+<mat-card class="messages-header">
+  <div>
+    <h2 *ngIf="channel?.name" class="messages-header__title">
+      #{{ channel.name }}
+      <fa-icon
+        class="messages-header__star"
+        [class.messages-header__star--starred]="starred"
+        [icon]="icons[starred ? 'faStarSolid' : 'faStar']"
+        (click)="onStar()"
+      ></fa-icon>
+    </h2>
+    <span>0 Users</span>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Search Messages">
+      <mat-icon class="messages-header__search" matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+</mat-card>
