@@ -9,6 +9,7 @@ import { Channel } from 'src/app/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChannelsBodyComponent {
+  @Input() starred: boolean;
   @Input() channels: Channel[];
   @Input() prefix: string = '#';
   @Input() selected: Channel;
