@@ -9,11 +9,16 @@ import { Channel, fontIcons } from 'src/app/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessagesHeaderComponent {
+  @Input() starredChannelsLength: number;
   @Input() channel: Channel;
   @Input() starred: boolean;
   @Output() star = new EventEmitter<{ channel: Channel, starred: boolean }>();
 
   icons = fontIcons;
+
+  get showIcon(): boolean {
+    return this.starredChannelsLength < 5 || this.starred;
+  }
 
   onStar(): void {
     this.star.emit({ channel: this.channel, starred: !this.starred });

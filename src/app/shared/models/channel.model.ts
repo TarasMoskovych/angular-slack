@@ -1,9 +1,10 @@
 import { User } from './user.model';
 
 export interface Channel {
-  id: number;
+  id: string;
   name: string;
   description: string;
   uid: string;
   createdBy?: User;
+  starred?: boolean;
 }
