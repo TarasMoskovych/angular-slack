@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthActionTypes } from './auth.actions';
 import * as authActions from './auth.actions';
 import * as RouterActions from './../router';
 
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { switchMap, map, catchError, pluck } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/core/services';
@@ -20,12 +19,11 @@ export class AuthEffects {
   ) {}
 
   getUserData(user: FirebaseUser): User {
-    const { displayName, email, photoURL, emailVerified, uid, updateProfile } = user;
-    return { displayName, email, photoURL, emailVerified, uid, updateProfile };
+    const { displayName, email, photoURL, emailVerified, uid } = user;
+    return { displayName, email, photoURL, emailVerified, uid };
   }
 
-  @Effect()
-  login$: Observable<Action> = this.actions$.pipe(
+  login$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.Login>(AuthActionTypes.LOGIN),
     pluck('payload'),
     switchMap((user: User) => {
@@ -35,11 +33,11 @@ export class AuthEffects {
           map((user: FirebaseUser) => new authActions.LoginSuccess(this.getUserData(user))),
           catchError((err: AuthError) => of(new authActions.LoginError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  loginGoogle$: Observable<Action> = this.actions$.pipe(
+  loginGoogle$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.LoginGoogle>(AuthActionTypes.LOGIN_GOOGLE),
     switchMap(() => {
       return this.authService
@@ -48,11 +46,11 @@ export class AuthEffects {
           map((user: FirebaseUser) => new authActions.LoginSuccess(this.getUserData(user))),
           catchError((err: AuthError) => of(new authActions.LoginError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  logout$: Observable<Action> = this.actions$.pipe(
+  logout$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.LoginGoogle>(AuthActionTypes.LOGOUT),
     switchMap(() => {
       return this.authService
@@ -61,11 +59,11 @@ export class AuthEffects {
           map(() => new authActions.LogoutSuccess()),
           catchError((err: AuthError) => of(new authActions.LogoutError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  register$: Observable<Action> = this.actions$.pipe(
+  register$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.Register>(AuthActionTypes.REGISTER),
     pluck('payload'),
     switchMap((user: User) => {
@@ -75,41 +73,40 @@ export class AuthEffects {
           map(() => new authActions.RegisterSuccess()),
           catchError((err: AuthError) => of(new authActions.RegisterError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  stateChange$: Observable<Action> = this.actions$.pipe(
+  stateChange$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.StateChange>(AuthActionTypes.STATE_CHANGE),
     switchMap(() => {
       return this.authService
         .getCurrentUser()
         .pipe(
-          map((user: FirebaseUser) => {
+          map((user: User) => {
             if (user && user.emailVerified) {
-              return new authActions.StateChangeSuccess(this.getUserData(user));
+              return new authActions.StateChangeSuccess(user);
             }
             return new authActions.StateChangeError();
-          })
-        )
-      })
+          }),
+        );
+      }),
+    ),
   );
 
-  @Effect()
-  registerLogoutSuccess$: Observable<Action> = this.actions$.pipe(
+  registerLogoutSuccess$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.RegisterSuccess | authActions.LogoutSuccess>(
       AuthActionTypes.REGISTER_SUCCESS,
       AuthActionTypes.LOGOUT_SUCCESS
     ),
-    map(() => new RouterActions.Go({ path: ['/login'] }))
+    map(() => new RouterActions.Go({ path: ['/login'] }))),
   );
 
-  @Effect()
-  stateChangeLoginSuccess$: Observable<Action> = this.actions$.pipe(
+  stateChangeLoginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType<authActions.StateChangeSuccess | authActions.StateChangeSuccess>(
       AuthActionTypes.STATE_CHANGE_SUCCESS,
       AuthActionTypes.LOGIN_SUCCESS
     ),
-    map(() => new RouterActions.Go({ path: ['/app'] }))
+    map(() => new RouterActions.Go({ path: ['/app'] }))),
   );
 }
