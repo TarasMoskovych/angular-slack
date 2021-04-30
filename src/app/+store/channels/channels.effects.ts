@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ChannelsActionTypes } from './channels.actions';
 import * as channelsActions from './channels.actions';
 
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { switchMap, map, catchError, pluck } from 'rxjs/operators';
 
 import { ChannelsService, UserProfileService } from 'src/app/core';
@@ -19,8 +18,7 @@ export class ChannelsEffects {
     private userProfileService: UserProfileService,
   ) {}
 
-  @Effect()
-  add$: Observable<Action> = this.actions$.pipe(
+  add$ = createEffect(() => this.actions$.pipe(
     ofType<channelsActions.AddChannel>(ChannelsActionTypes.ADD_CHANNEL),
     pluck('payload'),
     switchMap((channel: Channel) => {
@@ -30,11 +28,11 @@ export class ChannelsEffects {
           map(() => new channelsActions.AddChannelSuccess()),
           catchError((err: AuthError) => of(new channelsActions.AddChannelError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  get$: Observable<Action> = this.actions$.pipe(
+  get$ = createEffect(() => this.actions$.pipe(
     ofType<channelsActions.GetChannels>(ChannelsActionTypes.GET_CHANNELS),
     pluck('payload'),
     switchMap(() => {
@@ -44,18 +42,31 @@ export class ChannelsEffects {
           map((channels: Channel[]) => new channelsActions.GetChannelsSuccess(channels)),
           catchError((err: AuthError) => of(new channelsActions.GetChannelsError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  getSuccess$: Observable<Action> = this.actions$.pipe(
+  getStarred$ = createEffect(() => this.actions$.pipe(
+    ofType<channelsActions.GetStarredChannels>(ChannelsActionTypes.GET_STARRED_CHANNELS),
+    pluck('payload'),
+    switchMap(() => {
+      return this.channelsService
+        .getStarred()
+        .pipe(
+          map((channels: Channel[]) => new channelsActions.GetStarredChannelsSuccess(channels)),
+          catchError((err: AuthError) => of(new channelsActions.GetStarredChannelsError(err)))
+        )
+      }),
+    ),
+  );
+
+  getSuccess$ = createEffect(() => this.actions$.pipe(
     ofType<channelsActions.GetChannelsSuccess>(ChannelsActionTypes.GET_CHANNELS_SUCCESS),
     pluck('payload'),
-    map((channels: Channel[]) => new channelsActions.SelectChannel(channels[0]))
+    map((channels: Channel[]) => new channelsActions.SelectChannel(channels[0]))),
   );
 
-  @Effect()
-  select$: Observable<Action> = this.actions$.pipe(
+  select$ = createEffect(() => this.actions$.pipe(
     ofType<channelsActions.SelectChannel>(ChannelsActionTypes.SELECT_CHANNEL),
     pluck('payload'),
     switchMap((channel: Channel) => {
@@ -70,11 +81,11 @@ export class ChannelsEffects {
           }),
           catchError((err: AuthError) => of(new channelsActions.SelectChannelError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  update$: Observable<Action> = this.actions$.pipe(
+  update$ = createEffect(() => this.actions$.pipe(
     ofType<channelsActions.UpdateChannel>(ChannelsActionTypes.UPDATE_CHANNEL),
     pluck('payload'),
     switchMap((channel: Channel) => {
@@ -84,11 +95,11 @@ export class ChannelsEffects {
           map((channel: Channel) => new channelsActions.UpdateChannelSuccess(channel)),
           catchError((err: AuthError) => of(new channelsActions.UpdateChannelError(err)))
         )
-      })
+      }),
+    ),
   );
 
-  @Effect()
-  remove$: Observable<Action> = this.actions$.pipe(
+  remove$ = createEffect(() => this.actions$.pipe(
     ofType<channelsActions.RemoveChannel>(ChannelsActionTypes.REMOVE_CHANNEL),
     pluck('payload'),
     switchMap((channel: Channel) => {
@@ -98,7 +109,7 @@ export class ChannelsEffects {
           map((channel: Channel) => new channelsActions.RemoveChannelSuccess(channel)),
           catchError((err: AuthError) => of(new channelsActions.UpdateChannelError(err)))
         )
-      })
+      }),
+    ),
   );
-
 }

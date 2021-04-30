@@ -9,6 +9,8 @@ export enum UserProfileActionTypes {
   UPDATE_PROFILE_SUCCESS     = '[User Profile] Update Profile Success',
   UPDATE_PROFILE_ERROR       = '[User Profile] Update Profile Error',
 
+  STAR_CHANNEL               = '[User Profile] Star Channel',
+
   LOAD_PHOTO_PREVIEW         = '[User Profile] Load Photo Preview',
   LOAD_PHOTO_PREVIEW_SUCCESS = '[User Profile] Load Photo Preview Success',
   CLEAR_PHOTO_PREVIEW        = '[User Profile] Clear Photo Preview',
@@ -33,6 +35,11 @@ export class UpdateProfileError implements Action {
   constructor(public payload: AuthError) { }
 }
 
+export class StarChannel implements Action {
+  readonly type = UserProfileActionTypes.STAR_CHANNEL;
+  constructor(public payload: { [key: number]: boolean }) { }
+}
+
 export class LoadPhotoPreview implements Action {
   readonly type = UserProfileActionTypes.LOAD_PHOTO_PREVIEW;
 }
@@ -53,6 +60,8 @@ export type UserProfileActions
   | UpdateProfile
   | UpdateProfileSuccess
   | UpdateProfileError
+
+  | StarChannel
 
   | LoadPhotoPreview
   | LoadPhotoPreviewSuccess
