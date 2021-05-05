@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 
-import { Store } from '@ngrx/store';
 import { from, Observable, of } from 'rxjs';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
-import { Collections, Channel, AuthError, FirestoreQuerySnapshot, User } from 'src/app/shared';
-import { catchError, exhaustMap, switchMap, take } from 'rxjs/operators';
-import { authUserSelector } from 'src/app/+store/auth/auth.selectors';
+import { Collections, Channel, AuthError, FirestoreQuerySnapshot, FirebaseUser } from 'src/app/shared';
+import { catchError, switchMap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: CoreModule
@@ -17,17 +16,16 @@ export class ChannelsService {
 
   constructor(
     private afs: AngularFirestore,
-    private notificationService: NotificationService,
-    private store: Store,
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) { }
 
   add(channel: Channel): Observable<DocumentReference> {
-    return this.store.select(authUserSelector)
+    return this.authService.getCurrentUser()
       .pipe(
-        take(1),
-        exhaustMap((user: User) => {
-          const { uid } = user;
-          return from(this.afs.collection(Collections.Channels).add({ ...channel, id: String(Date.now()), uid }))
+        switchMap((firebaseUser: FirebaseUser) => {
+          const { uid } = firebaseUser;
+          return from(this.afs.collection(Collections.Channels).add({ ...channel, id: Date.now(), uid }))
             .pipe(
               catchError((err: AuthError) => this.notificationService.handleError(err)),
             );
@@ -36,19 +34,7 @@ export class ChannelsService {
   }
 
   get(): Observable<Channel[]> {
-    return this.afs.collection<Channel>(Collections.Channels, ref => ref.orderBy('name')).valueChanges();
-  }
-
-  getStarred(): Observable<Channel[]> {
-    return this.store.select(authUserSelector)
-    .pipe(
-      switchMap((user: User) => {
-        if (!user?.starredChannels?.length) return of([]);
-        return this.afs.collection<Channel>(Collections.Channels, ref => ref
-          .where('id', 'in', user.starredChannels))
-          .valueChanges();
-      }),
-    );
+    return <Observable<Channel[]>>this.afs.collection(Collections.Channels, ref => ref.orderBy('name')).valueChanges();
   }
 
   update(channel: Channel): Observable<Channel> {

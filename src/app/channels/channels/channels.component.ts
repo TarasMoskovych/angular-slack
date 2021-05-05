@@ -7,15 +7,8 @@ import { AppState } from 'src/app/+store';
 import { Observable } from 'rxjs';
 
 import { ChannelsModalComponent } from '../components';
+import { GetChannels, channelsSelector, SelectChannel, channelsSelectedSelector } from 'src/app/+store/channels';
 import { Channel } from 'src/app/shared';
-import {
-  GetChannels,
-  GetStarredChannels,
-  SelectChannel,
-  channelsSelector,
-  channelsSelectedSelector,
-  starredChannelsSelector,
-} from 'src/app/+store/channels';
 
 @Component({
   selector: 'app-channels',
@@ -25,7 +18,6 @@ import {
 })
 export class ChannelsComponent implements OnInit {
   channels$: Observable<Channel[]>;
-  starredChannels$: Observable<Channel[]>;
   selected$: Observable<Channel>;
 
   constructor(
@@ -41,15 +33,13 @@ export class ChannelsComponent implements OnInit {
     this.dialog.open(ChannelsModalComponent);
   }
 
-  onSelect(channel: Channel, starred: boolean) {
-    this.store.dispatch(new SelectChannel({ ...channel, starred }));
+  onSelect(channel: Channel) {
+    this.store.dispatch(new SelectChannel(channel));
   }
 
   private getChannels() {
     this.store.dispatch(new GetChannels());
-    this.store.dispatch(new GetStarredChannels());
     this.channels$ = this.store.select(channelsSelector);
-    this.starredChannels$ = this.store.select(starredChannelsSelector);
     this.selected$ = this.store.select(channelsSelectedSelector);
   }
 }

@@ -1,7 +1,7 @@
-<div *ngFor="let channel of channels; trackBy: trackByFn" class="channels-body">
+<div *ngFor="let channel of channels" class="channels-body">
   <div
     class="channels-body__item"
-    [class.channels-body__item--selected]="channel.id === selected?.id && starred"
+    [class.channels-body__item--selected]="channel.id === selected?.id"
     (click)="onSelect(channel)"
   >{{ prefix }} {{ channel.name }}
   </div>

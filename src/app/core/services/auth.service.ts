@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseError } from '@firebase/util';
 
 import { of, Observable, from } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
@@ -14,7 +14,6 @@ import {
   Collections,
   FirebaseUser,
   FirebaseUserInfo,
-  FirestoreCollectionReference,
   generateAvatar,
   googleAuthProvider,
   User
@@ -31,28 +30,8 @@ export class AuthService {
     private notificationService: NotificationService
   ) { }
 
-  getFirebaseUser(): Observable<FirebaseUser> {
+  getCurrentUser(): Observable<FirebaseUser> {
     return this.afauth.authState;
-  }
-
-  getCurrentUser(): Observable<User> {
-    return this.afauth.authState
-      .pipe(
-        switchMap((firebaseUser: FirebaseUser) => {
-          if (!firebaseUser) return of(null);
-          return this.afs.collection<User>(Collections.Users, (ref: FirestoreCollectionReference) => ref
-            .where('email', '==', firebaseUser.email))
-            .valueChanges()
-            .pipe(
-              map((users: User[]) => {
-                return {
-                  ...users[0],
-                  emailVerified: firebaseUser.emailVerified,
-                };
-              }),
-            );
-        }),
-      );
   }
 
   login({ email, password }: User): Observable<FirebaseUser> {
@@ -102,10 +81,7 @@ export class AuthService {
   update(user: FirebaseUserInfo): Observable<FirebaseUserInfo> {
     const { displayName, email, photoURL, uid } = user;
 
-    return this.afs.doc(`${Collections.Users}/${uid}`).get()
-      .pipe(
-        switchMap(snapshot => from(this.afs.doc(`${Collections.Users}/${uid}`)[snapshot.exists ? 'update' : 'set']({ displayName, email, photoURL, uid }))),
-        switchMap(() => of(user)),
-      );
+    return from(this.afs.doc(`${Collections.Users}/${uid}`).set({ displayName, email, photoURL, uid }))
+      .pipe(switchMap(() => of(user)));
   }
 }

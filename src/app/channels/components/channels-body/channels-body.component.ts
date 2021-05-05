@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
-import { Channel, TrackByUtil } from 'src/app/shared';
+import { Channel } from 'src/app/shared';
 
 @Component({
   selector: 'app-channels-body',
@@ -8,8 +8,7 @@ import { Channel, TrackByUtil } from 'src/app/shared';
   styleUrls: ['./channels-body.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChannelsBodyComponent extends TrackByUtil<Channel> {
-  @Input() starred: boolean;
+export class ChannelsBodyComponent {
   @Input() channels: Channel[];
   @Input() prefix: string = '#';
   @Input() selected: Channel;

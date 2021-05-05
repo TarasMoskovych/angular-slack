@@ -39,12 +39,7 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "md5"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/scss"
-              ]
-            }
+            ]
           },
           "configurations": {
             "production": {

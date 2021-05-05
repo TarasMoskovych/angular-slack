@@ -1,5 +1,4 @@
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
 import {
   faCodeBranch,
   faEnvelope,
@@ -13,7 +12,6 @@ import {
   faPlus,
   faInfo,
   faCog,
-  faStar as faStarSolid,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontIcons = {
@@ -30,6 +28,4 @@ export const fontIcons = {
   faPlus,
   faInfo,
   faCog,
-  faStar,
-  faStarSolid,
-};
+}
