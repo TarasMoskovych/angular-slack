@@ -16,7 +16,7 @@ export class RouterEffects {
   ) {}
 
   navigate$ = createEffect(() => this.actions$.pipe(
-    ofType<RouterActions.Go>(RouterActions.RouterActionTypes.GO),
+    ofType(RouterActions.go),
     pluck('payload'),
     tap(({ path, queryParams, extras }) => {
       this.router.navigate(path, { queryParams, ...extras });
@@ -24,12 +24,12 @@ export class RouterEffects {
   );
 
   navigateBack$ = createEffect(() => this.actions$.pipe(
-    ofType<RouterActions.Back>(RouterActions.RouterActionTypes.BACK),
+    ofType(RouterActions.back),
     tap(() => this.location.back())), { dispatch: false },
   );
 
   navigateForward$ = createEffect(() => this.actions$.pipe(
-    ofType<RouterActions.Forward>(RouterActions.RouterActionTypes.FORWARD),
+    ofType(RouterActions.forward),
     tap(() => this.location.forward())), { dispatch: false },
   );
 }
