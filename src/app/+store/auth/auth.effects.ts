@@ -99,7 +99,7 @@ export class AuthEffects {
       AuthActionTypes.REGISTER_SUCCESS,
       AuthActionTypes.LOGOUT_SUCCESS
     ),
-    map(() => new RouterActions.Go({ path: ['/login'] }))),
+    map(() => RouterActions.go({ payload: { path: ['/login'] } }))),
   );
 
   stateChangeLoginSuccess$ = createEffect(() => this.actions$.pipe(
@@ -107,6 +107,6 @@ export class AuthEffects {
       AuthActionTypes.STATE_CHANGE_SUCCESS,
       AuthActionTypes.LOGIN_SUCCESS
     ),
-    map(() => new RouterActions.Go({ path: ['/app'] }))),
+    map(() => RouterActions.go({ payload: { path: ['/app'] } }))),
   );
 }
