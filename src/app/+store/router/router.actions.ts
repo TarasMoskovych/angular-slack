@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 import { NavigationExtras } from '@angular/router';
 
@@ -8,23 +8,17 @@ interface RouterPayload {
   extras?: NavigationExtras
 }
 
-export enum RouterActionTypes {
-  GO      = '[Router] GO',
-  BACK    = '[Router] BACK',
-  FORWARD = '[Router] FORWARD'
-}
+const BASE = '[Router]';
 
-export class Go implements Action {
-  readonly type = RouterActionTypes.GO;
-  constructor(public payload: RouterPayload) { }
-}
+export const go = createAction(
+  `${BASE} GO`,
+  props<{ payload: RouterPayload }>(),
+);
 
-export class Back implements Action {
-  readonly type = RouterActionTypes.BACK;
-}
+export const back = createAction(
+  `${BASE} BACK`,
+);
 
-export class Forward implements Action {
-  readonly type = RouterActionTypes.FORWARD;
-}
-
-export type RouterActions = Go | Back | Forward;
+export const forward = createAction(
+  `${BASE} FORWARD`,
+);

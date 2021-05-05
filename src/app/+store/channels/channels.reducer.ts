@@ -40,6 +40,13 @@ export function channelsReducer(state = initialChannelsState, action: ChannelsAc
       };
     }
 
+    case ChannelsActionTypes.GET_STARRED_CHANNELS_SUCCESS: {
+      return {
+        ...state,
+        starredChannels: [...action.payload]
+      };
+    }
+
     case ChannelsActionTypes.SELECT_CHANNEL_SUCCESS: {
       return {
         ...state,

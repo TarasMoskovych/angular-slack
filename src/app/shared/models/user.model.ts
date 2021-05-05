@@ -5,5 +5,5 @@ export interface User {
   photoURL?: string;
   emailVerified?: boolean;
   uid?: string;
-  updateProfile?: Function;
+  starredChannels?: string[];
 }
