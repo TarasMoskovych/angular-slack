@@ -1,148 +1,101 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 import { AuthError, Channel } from 'src/app/shared';
 
-export enum ChannelsActionTypes {
-  ADD_CHANNEL_INIT             = '[Channels] Add Channel Init',
-  ADD_CHANNEL                  = '[Channels] Add Channel',
-  ADD_CHANNEL_SUCCESS          = '[Channels] Add Channel Success',
-  ADD_CHANNEL_ERROR            = '[Channels] Add Channel Error',
+const BASE = '[Channels]';
 
-  GET_CHANNELS                 = '[Channels] Get Channels',
-  GET_CHANNELS_SUCCESS         = '[Channels] Get Channels Success',
-  GET_CHANNELS_ERROR           = '[Channels] Get Channels Error',
+// add channels
+export const addChannelInit = createAction(
+  `${BASE} Add Channel Init`,
+);
 
-  GET_STARRED_CHANNELS         = '[Channels] Get Starred Channels',
-  GET_STARRED_CHANNELS_SUCCESS = '[Channels] Get Starred Channels Success',
-  GET_STARRED_CHANNELS_ERROR   = '[Channels] Get Starred Channels Error',
+export const addChannel = createAction(
+  `${BASE} Add Channel`,
+  props<{ channel: Channel }>(),
+);
 
-  SELECT_CHANNEL               = '[Channels] Select Channel',
-  SELECT_CHANNEL_SUCCESS       = '[Channels] Select Channel Success',
-  SELECT_CHANNEL_ERROR         = '[Channels] Select Channel Error',
+export const addChannelSuccess = createAction(
+  `${BASE} Add Channel Success`,
+);
 
-  UPDATE_CHANNEL               = '[Channels] Update Channel',
-  UPDATE_CHANNEL_SUCCESS       = '[Channels] Update Channel Success',
-  UPDATE_CHANNEL_ERROR         = '[Channels] Update Channel Error',
+export const addChannelError = createAction(
+  `${BASE} Add Channel Error`,
+  props<{ error: AuthError }>(),
+);
 
-  REMOVE_CHANNEL               = '[Channels] Remove Channel',
-  REMOVE_CHANNEL_SUCCESS       = '[Channels] Remove Channel Success',
-  REMOVE_CHANNEL_ERROR         = '[Channels] Remove Channel Error',
-}
+// get channels
+export const getChannels = createAction(
+  `${BASE} Get Channels`,
+);
 
-export class AddChannelInit implements Action {
-  readonly type = ChannelsActionTypes.ADD_CHANNEL_INIT;
-}
+export const getChannelsSuccess = createAction(
+  `${BASE} Get Channels Success`,
+  props<{ channels: Channel[] }>(),
+);
 
-export class AddChannel implements Action {
-  readonly type = ChannelsActionTypes.ADD_CHANNEL;
-  constructor(public payload: Channel) { }
-}
+export const getChannelsError = createAction(
+  `${BASE} Get Channels Error`,
+  props<{ error: any }>(),
+);
 
-export class AddChannelSuccess implements Action {
-  readonly type = ChannelsActionTypes.ADD_CHANNEL_SUCCESS;
-}
+export const getStarredChannels = createAction(
+  `${BASE} Get Starred Channels`,
+);
 
-export class AddChannelError implements Action {
-  readonly type = ChannelsActionTypes.ADD_CHANNEL_ERROR;
-  constructor(public payload: AuthError) { }
-}
+export const getStarredChannelsSuccess = createAction(
+  `${BASE} Get Starred Channels Success`,
+  props<{ channels: Channel[] }>(),
+);
 
-export class GetChannels implements Action {
-  readonly type = ChannelsActionTypes.GET_CHANNELS;
-}
+export const getStarredChannelsError = createAction(
+  `${BASE} Get Starred Channels Error`,
+  props<{ error: any }>(),
+);
 
-export class GetChannelsSuccess implements Action {
-  readonly type = ChannelsActionTypes.GET_CHANNELS_SUCCESS;
-  constructor(public payload: Channel[]) { }
-}
+// select channel
+export const selectChannel = createAction(
+  `${BASE} Select Channel`,
+  props<{ channel: Channel }>(),
+);
 
-export class GetChannelsError implements Action {
-  readonly type = ChannelsActionTypes.GET_CHANNELS_ERROR;
-  constructor(public payload: any) { }
-}
+export const selectChannelSuccess = createAction(
+  `${BASE} Select Channel Success`,
+  props<{ channel: Channel }>(),
+);
 
-export class GetStarredChannels implements Action {
-  readonly type = ChannelsActionTypes.GET_STARRED_CHANNELS;
-}
+export const selectChannelError = createAction(
+  `${BASE} Select Channel Error`,
+  props<{ error: any }>(),
+);
 
-export class GetStarredChannelsSuccess implements Action {
-  readonly type = ChannelsActionTypes.GET_STARRED_CHANNELS_SUCCESS;
-  constructor(public payload: Channel[]) { }
-}
+// update channel
+export const updateChannel = createAction(
+  `${BASE} Update Channel`,
+  props<{ channel: Channel }>(),
+);
 
-export class GetStarredChannelsError implements Action {
-  readonly type = ChannelsActionTypes.GET_STARRED_CHANNELS_ERROR;
-  constructor(public payload: any) { }
-}
+export const updateChannelSuccess = createAction(
+  `${BASE} Update Channel Success`,
+  props<{ channel: Channel }>(),
+);
 
-export class SelectChannel implements Action {
-  readonly type = ChannelsActionTypes.SELECT_CHANNEL;
-  constructor(public payload: Channel) { }
-}
+export const updateChannelError = createAction(
+  `${BASE} Update Channel Error`,
+  props<{ error: any }>(),
+);
 
-export class SelectChannelSuccess implements Action {
-  readonly type = ChannelsActionTypes.SELECT_CHANNEL_SUCCESS;
-  constructor(public payload: Channel) { }
-}
+// remove channel
+export const removeChannel = createAction(
+  `${BASE} Remove Channel`,
+  props<{ channel: Channel }>(),
+);
 
-export class SelectChannelError implements Action {
-  readonly type = ChannelsActionTypes.SELECT_CHANNEL_ERROR;
-  constructor(public payload: any) { }
-}
+export const removeChannelSuccess = createAction(
+  `${BASE} Remove Channel Success`,
+  props<{ channel: Channel }>(),
+);
 
-export class UpdateChannel implements Action {
-  readonly type = ChannelsActionTypes.UPDATE_CHANNEL;
-  constructor(public payload: Channel) { }
-}
-
-export class UpdateChannelSuccess implements Action {
-  readonly type = ChannelsActionTypes.UPDATE_CHANNEL_SUCCESS;
-  constructor(public payload: Channel) { }
-}
-
-export class UpdateChannelError implements Action {
-  readonly type = ChannelsActionTypes.UPDATE_CHANNEL_ERROR;
-  constructor(public payload: any) { }
-}
-
-export class RemoveChannel implements Action {
-  readonly type = ChannelsActionTypes.REMOVE_CHANNEL;
-  constructor(public payload: Channel) { }
-}
-
-export class RemoveChannelSuccess implements Action {
-  readonly type = ChannelsActionTypes.REMOVE_CHANNEL_SUCCESS;
-  constructor(public payload: Channel) { }
-}
-
-export class RemoveChannelError implements Action {
-  readonly type = ChannelsActionTypes.REMOVE_CHANNEL_ERROR;
-  constructor(public payload: any) { }
-}
-
-export type ChannelsActions
-  = AddChannelInit
-
-  | AddChannel
-  | AddChannelSuccess
-  | AddChannelError
-
-  | GetChannels
-  | GetChannelsSuccess
-  | GetChannelsError
-
-  | GetStarredChannels
-  | GetStarredChannelsSuccess
-  | GetStarredChannelsError
-
-  | SelectChannel
-  | SelectChannelSuccess
-  | SelectChannelError
-
-  | UpdateChannel
-  | UpdateChannelSuccess
-  | UpdateChannelError
-
-  | RemoveChannel
-  | RemoveChannelSuccess
-  | RemoveChannelError;
+export const removeChannelError = createAction(
+  `${BASE} Remove Channel Error`,
+  props<{ error: any }>(),
+);

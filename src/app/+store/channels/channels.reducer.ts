@@ -1,60 +1,15 @@
-import { initialChannelsState, ChannelsState } from './channels.state';
-import { ChannelsActions, ChannelsActionTypes } from './channels.actions';
+import { createReducer, on } from '@ngrx/store';
 
-export function channelsReducer(state = initialChannelsState, action: ChannelsActions): ChannelsState {
-  switch (action.type) {
-    case ChannelsActionTypes.ADD_CHANNEL_INIT: {
-      return {
-        ...state,
-        added: false,
-      };
-    }
+import { initialChannelsState } from './channels.state';
+import * as channelsActions from './channels.actions';
 
-    case ChannelsActionTypes.ADD_CHANNEL: {
-      return {
-        ...state,
-        added: false,
-        loading: true
-      };
-    }
-
-    case ChannelsActionTypes.ADD_CHANNEL_SUCCESS: {
-      return {
-        ...state,
-        added: true,
-        loading: false
-      };
-    }
-
-    case ChannelsActionTypes.ADD_CHANNEL_ERROR: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-
-    case ChannelsActionTypes.GET_CHANNELS_SUCCESS: {
-      return {
-        ...state,
-        channels: [...action.payload]
-      };
-    }
-
-    case ChannelsActionTypes.GET_STARRED_CHANNELS_SUCCESS: {
-      return {
-        ...state,
-        starredChannels: [...action.payload]
-      };
-    }
-
-    case ChannelsActionTypes.SELECT_CHANNEL_SUCCESS: {
-      return {
-        ...state,
-        selected: { ...action.payload }
-      };
-    }
-
-    default:
-      return state;
-  }
-}
+export const channelsReducer = createReducer(
+  initialChannelsState,
+  on(channelsActions.addChannelInit, state => ({ ...state, added: false })),
+  on(channelsActions.addChannel, state => ({ ...state, added: false, loading: true })),
+  on(channelsActions.addChannelSuccess, state => ({ ...state, added: true, loading: false })),
+  on(channelsActions.addChannelError, state => ({ ...state, loading: false })),
+  on(channelsActions.getChannelsSuccess, (state, action) => ({ ...state, channels: [...action.channels] })),
+  on(channelsActions.getStarredChannelsSuccess, (state, action) => ({ ...state, starredChannels: [...action.channels] })),
+  on(channelsActions.selectChannelSuccess, (state, action) => ({ ...state, selected: { ...action.channel } })),
+);

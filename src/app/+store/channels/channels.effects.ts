@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ChannelsActionTypes } from './channels.actions';
 import * as channelsActions from './channels.actions';
 
 import { of } from 'rxjs';
@@ -19,95 +18,93 @@ export class ChannelsEffects {
   ) {}
 
   add$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.AddChannel>(ChannelsActionTypes.ADD_CHANNEL),
-    pluck('payload'),
+    ofType(channelsActions.addChannel),
+    pluck('channel'),
     switchMap((channel: Channel) => {
       return this.channelsService
         .add(channel)
         .pipe(
-          map(() => new channelsActions.AddChannelSuccess()),
-          catchError((err: AuthError) => of(new channelsActions.AddChannelError(err)))
+          map(() => channelsActions.addChannelSuccess()),
+          catchError((error: AuthError) => of(channelsActions.addChannelError({ error })))
         )
       }),
     ),
   );
 
   get$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.GetChannels>(ChannelsActionTypes.GET_CHANNELS),
-    pluck('payload'),
+    ofType(channelsActions.getChannels),
     switchMap(() => {
       return this.channelsService
         .get()
         .pipe(
-          map((channels: Channel[]) => new channelsActions.GetChannelsSuccess(channels)),
-          catchError((err: AuthError) => of(new channelsActions.GetChannelsError(err)))
+          map((channels: Channel[]) => channelsActions.getChannelsSuccess({ channels })),
+          catchError((error: AuthError) => of(channelsActions.getChannelsError({ error })))
         )
       }),
     ),
   );
 
   getStarred$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.GetStarredChannels>(ChannelsActionTypes.GET_STARRED_CHANNELS),
-    pluck('payload'),
+    ofType(channelsActions.getStarredChannels),
     switchMap(() => {
       return this.channelsService
         .getStarred()
         .pipe(
-          map((channels: Channel[]) => new channelsActions.GetStarredChannelsSuccess(channels)),
-          catchError((err: AuthError) => of(new channelsActions.GetStarredChannelsError(err)))
+          map((channels: Channel[]) => channelsActions.getStarredChannelsSuccess({ channels })),
+          catchError((error: AuthError) => of(channelsActions.getStarredChannelsError({ error })))
         )
       }),
     ),
   );
 
   getSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.GetChannelsSuccess>(ChannelsActionTypes.GET_CHANNELS_SUCCESS),
-    pluck('payload'),
-    map((channels: Channel[]) => new channelsActions.SelectChannel(channels[0]))),
+    ofType(channelsActions.getChannelsSuccess),
+    pluck('channels'),
+    map((channels: Channel[]) => channelsActions.selectChannel({ channel: channels[0] }))),
   );
 
   select$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.SelectChannel>(ChannelsActionTypes.SELECT_CHANNEL),
-    pluck('payload'),
+    ofType(channelsActions.selectChannel),
+    pluck('channel'),
     switchMap((channel: Channel) => {
       return this.userProfileService
         .getById(channel?.uid)
         .pipe(
           map((user: User) => {
             if (user && channel) {
-              return new channelsActions.SelectChannelSuccess({ ...channel, createdBy: user })
+              return channelsActions.selectChannelSuccess({ channel: { ...channel, createdBy: user } })
             }
             throw new Error('User or Channel is not defined');
           }),
-          catchError((err: AuthError) => of(new channelsActions.SelectChannelError(err)))
+          catchError((error: AuthError) => of(channelsActions.selectChannelError({ error })))
         )
       }),
     ),
   );
 
   update$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.UpdateChannel>(ChannelsActionTypes.UPDATE_CHANNEL),
-    pluck('payload'),
+    ofType(channelsActions.updateChannel),
+    pluck('channel'),
     switchMap((channel: Channel) => {
       return this.channelsService
         .update(channel)
         .pipe(
-          map((channel: Channel) => new channelsActions.UpdateChannelSuccess(channel)),
-          catchError((err: AuthError) => of(new channelsActions.UpdateChannelError(err)))
+          map((channel: Channel) => channelsActions.updateChannelSuccess({ channel })),
+          catchError((error: AuthError) => of(channelsActions.updateChannelError({ error })))
         )
       }),
     ),
   );
 
   remove$ = createEffect(() => this.actions$.pipe(
-    ofType<channelsActions.RemoveChannel>(ChannelsActionTypes.REMOVE_CHANNEL),
-    pluck('payload'),
+    ofType(channelsActions.removeChannel),
+    pluck('channel'),
     switchMap((channel: Channel) => {
       return this.channelsService
         .remove(channel)
         .pipe(
-          map((channel: Channel) => new channelsActions.RemoveChannelSuccess(channel)),
-          catchError((err: AuthError) => of(new channelsActions.UpdateChannelError(err)))
+          map((channel: Channel) => channelsActions.removeChannelSuccess({ channel })),
+          catchError((error: AuthError) => of(channelsActions.removeChannelError({ error })))
         )
       }),
     ),

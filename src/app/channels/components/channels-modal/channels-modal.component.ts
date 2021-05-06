@@ -4,8 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import {
   AppState,
-  AddChannelInit,
-  AddChannel,
+  addChannelInit,
+  addChannel,
   channelsAddedSelector,
   channelsLoadingSelector,
 } from 'src/app/+store';
@@ -31,7 +31,7 @@ export class ChannelsModalComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new AddChannelInit());
+    this.store.dispatch(addChannelInit());
 
     this.loading$ = this.store.select(channelsLoadingSelector);
     this.sub$ = this.store.select(channelsAddedSelector).subscribe((added: boolean) => added && this.onClose());
@@ -42,7 +42,7 @@ export class ChannelsModalComponent implements OnInit, OnDestroy {
   }
 
   onChannelAdd(channel: Channel) {
-    this.store.dispatch(new AddChannel(channel));
+    this.store.dispatch(addChannel({ channel }));
   }
 
   onClose() {

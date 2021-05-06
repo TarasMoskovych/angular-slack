@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 import { ChannelsModalComponent } from '../components';
 import { Channel } from 'src/app/shared';
 import {
-  GetChannels,
-  GetStarredChannels,
-  SelectChannel,
+  getChannels,
+  getStarredChannels,
+  selectChannel,
   channelsSelector,
   channelsSelectedSelector,
   starredChannelsSelector,
@@ -42,12 +42,12 @@ export class ChannelsComponent implements OnInit {
   }
 
   onSelect(channel: Channel, starred: boolean) {
-    this.store.dispatch(new SelectChannel({ ...channel, starred }));
+    this.store.dispatch(selectChannel({ channel: { ...channel, starred } }));
   }
 
   private getChannels() {
-    this.store.dispatch(new GetChannels());
-    this.store.dispatch(new GetStarredChannels());
+    this.store.dispatch(getChannels());
+    this.store.dispatch(getStarredChannels());
     this.channels$ = this.store.select(channelsSelector);
     this.starredChannels$ = this.store.select(starredChannelsSelector);
     this.selected$ = this.store.select(channelsSelectedSelector);

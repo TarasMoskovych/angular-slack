@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AppState, RemoveChannel, UpdateChannel } from 'src/app/+store';
+import { AppState, removeChannel, updateChannel } from 'src/app/+store';
 import { channelsSelectedSelector, authUserSelector } from 'src/app/+store';
 
 import { Observable } from 'rxjs';
@@ -30,11 +30,11 @@ export class ChannelDetailComponent implements OnInit {
   }
 
   onChannelEdit(newChannel: Channel, channel: Channel) {
-    this.store.dispatch(new UpdateChannel({ ...channel, ...newChannel }));
+    this.store.dispatch(updateChannel({ channel: { ...channel, ...newChannel } }));
   }
 
   onChannelRemove(channel: Channel) {
-    this.store.dispatch(new RemoveChannel(channel));
+    this.store.dispatch(removeChannel({ channel }));
   }
 
   private getSelectedChannel() {
