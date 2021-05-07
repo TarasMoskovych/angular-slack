@@ -11,14 +11,14 @@ interface RouterPayload {
 const BASE = '[Router]';
 
 export const go = createAction(
-  `${BASE} GO`,
+  `${BASE} Go`,
   props<{ payload: RouterPayload }>(),
 );
 
 export const back = createAction(
-  `${BASE} BACK`,
+  `${BASE} Back`,
 );
 
 export const forward = createAction(
-  `${BASE} FORWARD`,
+  `${BASE} Forward`,
 );
