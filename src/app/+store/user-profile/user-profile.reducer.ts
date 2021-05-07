@@ -1,63 +1,15 @@
-import { UserProfileState, initialUserProfileState } from './user-profile.state';
-import { UserProfileActionTypes, UserProfileActions } from './user-profile.actions';
+import { createReducer, on } from '@ngrx/store';
 
-export function userProfileReducer(state = initialUserProfileState, action: UserProfileActions): UserProfileState {
-  switch (action.type) {
-    case UserProfileActionTypes.INIT_PROFILE: {
-      return {
-        ...state,
-        updated: false,
-        photoURL: null
-      };
-    }
+import { initialUserProfileState } from './user-profile.state';
+import * as userProfileActions from './user-profile.actions';
 
-    case UserProfileActionTypes.UPDATE_PROFILE: {
-      return {
-        ...state,
-        loading: true,
-        updated: false
-      };
-    }
-
-    case UserProfileActionTypes.LOAD_PHOTO_PREVIEW: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-
-    case UserProfileActionTypes.UPDATE_PROFILE_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        updated: true,
-      };
-    }
-
-    case UserProfileActionTypes.UPDATE_PROFILE_ERROR: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-
-    case UserProfileActionTypes.LOAD_PHOTO_PREVIEW_SUCCESS: {
-      return {
-        ...state,
-        photoURL: action.payload,
-        loading: false
-      };
-    }
-
-    case UserProfileActionTypes.CLEAR_PHOTO_PREVIEW: {
-      return {
-        ...state,
-        photoURL: null,
-        loading: false
-      };
-    }
-
-    default:
-      return state;
-  }
-}
+export const userProfileReducer = createReducer(
+  initialUserProfileState,
+  on(userProfileActions.initProfile, state => ({ ...state, updated: false, photoURL: null })),
+  on(userProfileActions.updateProfile, state => ({ ...state, updated: false, loading: true })),
+  on(userProfileActions.updateProfileSuccess, state => ({ ...state, updated: true, loading: false })),
+  on(userProfileActions.updateProfileError, state => ({ ...state, loading: false })),
+  on(userProfileActions.loadPhotoPreview, state => ({ ...state, loading: true })),
+  on(userProfileActions.loadPhotoPreviewSuccess, (state, action) => ({ ...state, loading: false, photoURL: action.photo })),
+  on(userProfileActions.clearPhotoPreview, state => ({ ...state, loading: false, photoURL: null })),
+);

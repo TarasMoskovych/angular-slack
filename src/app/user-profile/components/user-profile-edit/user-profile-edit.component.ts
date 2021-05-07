@@ -8,11 +8,11 @@ import {
   userProfilePhotoPreviewSelector,
   userProfileLoadingSelector,
   userProfileUpdatedSelector,
-  LoadPhotoPreviewSuccess,
-  ClearPhotoPreview,
-  LoadPhotoPreview,
-  InitProfile,
-  UpdateProfile,
+  loadPhotoPreviewSuccess,
+  clearPhotoPreview,
+  loadPhotoPreview,
+  initProfile,
+  updateProfile,
 } from 'src/app/+store';
 
 import { Observable, Subscription } from 'rxjs';
@@ -44,7 +44,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new InitProfile());
+    this.store.dispatch(initProfile());
 
     this.loading$ = this.store.select(userProfileLoadingSelector);
     this.photoPreview$ = this.store.select(userProfilePhotoPreviewSelector);
@@ -63,9 +63,9 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLInputElement;
 
     if (target.files?.length) {
-      this.store.dispatch(new LoadPhotoPreview());
+      this.store.dispatch(loadPhotoPreview());
       this.reader.readAsDataURL(target.files[0]);
-      this.reader.onload = () => this.store.dispatch(new LoadPhotoPreviewSuccess(this.reader.result));
+      this.reader.onload = () => this.store.dispatch(loadPhotoPreviewSuccess({ photo: this.reader.result }));
     }
   }
 
@@ -85,7 +85,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     const user = { ...this.user, displayName };
     const photoURL = this.reader.result ? String(this.reader.result).split(',')[1] : null;
 
-    this.store.dispatch(new UpdateProfile({ user, photoURL }));
+    this.store.dispatch(updateProfile({ payload: { user, photoURL } }));
   }
 
   private buildForm() {
@@ -96,7 +96,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
   private clearPhotoPreview() {
     this.reader = new FileReader();
-    this.store.dispatch(new ClearPhotoPreview());
+    this.store.dispatch(clearPhotoPreview());
   }
 
 }

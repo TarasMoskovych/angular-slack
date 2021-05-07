@@ -1,68 +1,43 @@
-import { Action } from '@ngrx/store';
-
+import { createAction, props } from '@ngrx/store';
 import { AuthError, User } from 'src/app/shared';
 
-export enum UserProfileActionTypes {
-  INIT_PROFILE               = '[User Profile] Init Profile',
+const BASE = '[User Profile]';
 
-  UPDATE_PROFILE             = '[User Profile] Update Profile',
-  UPDATE_PROFILE_SUCCESS     = '[User Profile] Update Profile Success',
-  UPDATE_PROFILE_ERROR       = '[User Profile] Update Profile Error',
+export const initProfile = createAction(
+  `${BASE} Init Profile`,
+);
 
-  STAR_CHANNEL               = '[User Profile] Star Channel',
+export const starChannel = createAction(
+  `${BASE} Star Channel`,
+  props<{ channel: { [key: number]: boolean} }>(),
+);
 
-  LOAD_PHOTO_PREVIEW         = '[User Profile] Load Photo Preview',
-  LOAD_PHOTO_PREVIEW_SUCCESS = '[User Profile] Load Photo Preview Success',
-  CLEAR_PHOTO_PREVIEW        = '[User Profile] Clear Photo Preview',
-}
+// update profile
+export const updateProfile = createAction(
+  `${BASE} Update Profile`,
+  props<{ payload: { user: User, photoURL: string } }>(),
+);
 
-export class InitProfile implements Action {
-  readonly type = UserProfileActionTypes.INIT_PROFILE;
-}
+export const updateProfileSuccess = createAction(
+  `${BASE} Update Profile Success`,
+  props<{ user: User }>(),
+);
 
-export class UpdateProfile implements Action {
-  readonly type = UserProfileActionTypes.UPDATE_PROFILE;
-  constructor(public payload: { user: User, photoURL: string }) { }
-}
+export const updateProfileError = createAction(
+  `${BASE} Update Profile Error`,
+  props<{ error: AuthError }>(),
+);
 
-export class UpdateProfileSuccess implements Action {
-  readonly type = UserProfileActionTypes.UPDATE_PROFILE_SUCCESS;
-  constructor(public payload: User) { }
-}
+// load photo preview
+export const loadPhotoPreview = createAction(
+  `${BASE} Load Photo Preview`,
+);
 
-export class UpdateProfileError implements Action {
-  readonly type = UserProfileActionTypes.UPDATE_PROFILE_ERROR;
-  constructor(public payload: AuthError) { }
-}
+export const loadPhotoPreviewSuccess = createAction(
+  `${BASE} Load Photo Preview Success`,
+  props<{ photo: string | ArrayBuffer }>(),
+);
 
-export class StarChannel implements Action {
-  readonly type = UserProfileActionTypes.STAR_CHANNEL;
-  constructor(public payload: { [key: number]: boolean }) { }
-}
-
-export class LoadPhotoPreview implements Action {
-  readonly type = UserProfileActionTypes.LOAD_PHOTO_PREVIEW;
-}
-
-export class LoadPhotoPreviewSuccess implements Action {
-  readonly type = UserProfileActionTypes.LOAD_PHOTO_PREVIEW_SUCCESS;
-  constructor(public payload: string | ArrayBuffer) { }
-}
-
-export class ClearPhotoPreview implements Action {
-  readonly type = UserProfileActionTypes.CLEAR_PHOTO_PREVIEW;
-  constructor(public payload?: AuthError) { }
-}
-
-export type UserProfileActions
-  = InitProfile
-
-  | UpdateProfile
-  | UpdateProfileSuccess
-  | UpdateProfileError
-
-  | StarChannel
-
-  | LoadPhotoPreview
-  | LoadPhotoPreviewSuccess
-  | ClearPhotoPreview;
+export const clearPhotoPreview = createAction(
+  `${BASE} Clear Photo Preview`,
+);

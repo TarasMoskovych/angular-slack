@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UserProfileActionTypes } from './user-profile.actions';
 import * as userProfileActions from './user-profile.actions';
 
 import { of } from 'rxjs';
@@ -20,31 +19,31 @@ export class UserProfileEffects {
   ) {}
 
   update$ = createEffect(() => this.actions$.pipe(
-    ofType<userProfileActions.UpdateProfile>(UserProfileActionTypes.UPDATE_PROFILE),
+    ofType(userProfileActions.updateProfile),
     pluck('payload'),
     switchMap(({ user, photoURL }) => {
       return this.userProfileService
         .update(user, photoURL)
         .pipe(
-          map((data: User) => new userProfileActions.UpdateProfileSuccess(data)),
-          catchError((err: AuthError) => of(new userProfileActions.UpdateProfileError(err)))
+          map((user: User) => userProfileActions.updateProfileSuccess({ user })),
+          catchError((error: AuthError) => of(userProfileActions.updateProfileError({ error })))
         )
       }),
     ),
   );
 
   updateSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType<userProfileActions.UpdateProfileSuccess>(UserProfileActionTypes.UPDATE_PROFILE_SUCCESS),
-    pluck('payload'),
+    ofType(userProfileActions.updateProfileSuccess),
+    pluck('user'),
     tap(() => this.notificationService.show('User profile was updated.')),
     switchMap((user: User) => of(new StateChangeSuccess(user)))),
   );
 
   starChannel$ = createEffect(() => this.actions$.pipe(
-    ofType<userProfileActions.StarChannel>(UserProfileActionTypes.STAR_CHANNEL),
-    pluck('payload'),
-    switchMap((payload: { [key: number]: boolean }) => {
-      return this.userProfileService.starChannel(payload);
+    ofType(userProfileActions.starChannel),
+    pluck('channel'),
+    switchMap((channel: { [key: number]: boolean }) => {
+      return this.userProfileService.starChannel(channel);
     })), { dispatch: false },
   );
 }

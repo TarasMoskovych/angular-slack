@@ -6,7 +6,7 @@ import { Channel } from 'src/app/shared';
 import {
   channelsSelectedSelector,
   selectedStarredSelector,
-  StarChannel,
+  starChannel,
   starredChannelsLengthSelector,
 } from 'src/app/+store';
 
@@ -32,6 +32,6 @@ export class MessagesComponent implements OnInit {
   }
 
   onStar({ channel, starred }: { channel: Channel, starred: boolean }): void {
-    this.store.dispatch(new StarChannel({ [channel.id]: starred }));
+    this.store.dispatch(starChannel({ channel: { [channel.id]: starred } }));
   }
 }
