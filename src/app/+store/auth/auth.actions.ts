@@ -1,98 +1,67 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { AuthError, User } from 'src/app/shared/models';
 
-export enum AuthActionTypes {
-  STATE_CHANGE         = '[Auth] State Change',
-  STATE_CHANGE_SUCCESS = '[Auth] State Change Success',
-  STATE_CHANGE_ERROR   = '[Auth] State Change Error ',
+const BASE = '[Auth]';
 
-  REGISTER             = '[Auth] Register',
-  REGISTER_SUCCESS     = '[Auth] Register Success',
-  REGISTER_ERROR       = '[Auth] Register Error',
+// state change
+export const stateChange = createAction(
+  `${BASE} State Change`,
+);
 
-  LOGIN                = '[Auth] Login',
-  LOGIN_GOOGLE         = '[Auth] Login Google',
-  LOGIN_SUCCESS        = '[Auth] Login Success',
-  LOGIN_ERROR          = '[Auth] Login Error',
+export const stateChangeSuccess = createAction(
+  `${BASE} State Change Success`,
+  props<{ user: User }>(),
+);
 
-  LOGOUT               = '[Auth] Logout',
-  LOGOUT_SUCCESS       = '[Auth] Logout Success',
-  LOGOUT_ERROR         = '[Auth] Logout Error',
-}
+export const stateChangeError = createAction(
+  `${BASE} State Change Error`,
+);
 
-export class StateChange implements Action {
-  readonly type = AuthActionTypes.STATE_CHANGE;
-}
+// register
+export const register = createAction(
+  `${BASE} Register`,
+  props<{ user: User }>(),
+);
 
-export class StateChangeSuccess implements Action {
-  readonly type = AuthActionTypes.STATE_CHANGE_SUCCESS;
-  constructor(public payload: User) { }
-}
+export const registerSuccess = createAction(
+  `${BASE} Register Success`,
+);
 
-export class StateChangeError implements Action {
-  readonly type = AuthActionTypes.STATE_CHANGE_ERROR;
-}
+export const registerError = createAction(
+  `${BASE} Register Error`,
+  props<{ error: AuthError }>(),
+);
 
-export class Register implements Action {
-  readonly type = AuthActionTypes.REGISTER;
-  constructor(public payload: User) { }
-}
+// login
+export const login = createAction(
+  `${BASE} Login`,
+  props<{ user: User }>(),
+);
 
-export class RegisterSuccess implements Action {
-  readonly type = AuthActionTypes.REGISTER_SUCCESS;
-}
+export const loginGoogle = createAction(
+  `${BASE} Login Google`,
+);
 
-export class RegisterError implements Action {
-  readonly type = AuthActionTypes.REGISTER_ERROR;
-  constructor(public payload: AuthError) { }
-}
+export const loginSuccess = createAction(
+  `${BASE} Login Success`,
+  props<{ user: User }>(),
+);
 
-export class Login implements Action {
-  readonly type = AuthActionTypes.LOGIN;
-  constructor(public payload: User) { }
-}
+export const loginError = createAction(
+  `${BASE} Login Error`,
+  props<{ error: AuthError }>(),
+);
 
-export class LoginGoogle implements Action {
-  readonly type = AuthActionTypes.LOGIN_GOOGLE;
-}
+// logout
+export const logout = createAction(
+  `${BASE} Logout`,
+);
 
-export class LoginSuccess implements Action {
-  readonly type = AuthActionTypes.LOGIN_SUCCESS;
-  constructor(public payload: User) { }
-}
+export const logoutSuccess = createAction(
+  `${BASE} Logout Success`,
+);
 
-export class LoginError implements Action {
-  readonly type = AuthActionTypes.LOGIN_ERROR;
-  constructor(public payload: AuthError) { }
-}
-
-export class Logout implements Action {
-  readonly type = AuthActionTypes.LOGOUT;
-}
-
-export class LogoutSuccess implements Action {
-  readonly type = AuthActionTypes.LOGOUT_SUCCESS;
-}
-
-export class LogoutError implements Action {
-  readonly type = AuthActionTypes.LOGOUT_ERROR;
-  constructor(public payload: AuthError) { }
-}
-
-export type AuthActions
-  = StateChange
-  | StateChangeSuccess
-  | StateChangeError
-
-  | Register
-  | RegisterSuccess
-  | RegisterError
-
-  | Login
-  | LoginGoogle
-  | LoginSuccess
-  | LoginError
-
-  | Logout
-  | LogoutSuccess
-  | LogoutError;
+export const logoutError = createAction(
+  `${BASE} Logout Error`,
+  props<{ error: AuthError }>(),
+);

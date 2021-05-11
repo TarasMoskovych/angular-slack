@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AuthState, authUserSelector, Logout, userProfileLoadingSelector } from '../+store';
+import { AuthState, authUserSelector, logout } from '../+store';
 
 import { Observable } from 'rxjs';
 
@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   onLogout() {
-    this.store.dispatch(new Logout());
+    this.store.dispatch(logout());
   }
 
 }

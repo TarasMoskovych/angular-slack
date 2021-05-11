@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AuthState, StateChange } from './+store/auth';
+import { AuthState, stateChange } from './+store/auth';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
-    this.store.dispatch(new StateChange());
+    this.store.dispatch(stateChange());
   }
 }

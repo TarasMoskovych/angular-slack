@@ -8,7 +8,7 @@ import { switchMap, map, catchError, pluck, tap } from 'rxjs/operators';
 
 import { UserProfileService, NotificationService } from 'src/app/core/services';
 import { AuthError, User } from 'src/app/shared/models';
-import { StateChangeSuccess } from '../auth';
+import { stateChangeSuccess } from '../auth';
 
 @Injectable()
 export class UserProfileEffects {
@@ -36,7 +36,7 @@ export class UserProfileEffects {
     ofType(userProfileActions.updateProfileSuccess),
     pluck('user'),
     tap(() => this.notificationService.show('User profile was updated.')),
-    switchMap((user: User) => of(new StateChangeSuccess(user)))),
+    switchMap((user: User) => of(stateChangeSuccess({ user })))),
   );
 
   starChannel$ = createEffect(() => this.actions$.pipe(

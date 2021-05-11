@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthActionTypes } from './auth.actions';
 import * as authActions from './auth.actions';
 import * as RouterActions from './../router';
 
@@ -24,70 +23,70 @@ export class AuthEffects {
   }
 
   login$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.Login>(AuthActionTypes.LOGIN),
-    pluck('payload'),
+    ofType(authActions.login),
+    pluck('user'),
     switchMap((user: User) => {
       return this.authService
         .login(user)
         .pipe(
-          map((user: FirebaseUser) => new authActions.LoginSuccess(this.getUserData(user))),
-          catchError((err: AuthError) => of(new authActions.LoginError(err)))
+          map((user: FirebaseUser) => authActions.loginSuccess({ user: this.getUserData(user) })),
+          catchError((error: AuthError) => of(authActions.loginError({ error })))
         )
       }),
     ),
   );
 
   loginGoogle$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.LoginGoogle>(AuthActionTypes.LOGIN_GOOGLE),
+    ofType(authActions.loginGoogle),
     switchMap(() => {
       return this.authService
-        .loginWithGoole()
+        .loginWithGoogle()
         .pipe(
-          map((user: FirebaseUser) => new authActions.LoginSuccess(this.getUserData(user))),
-          catchError((err: AuthError) => of(new authActions.LoginError(err)))
+          map((user: FirebaseUser) => authActions.loginSuccess({ user: this.getUserData(user) })),
+          catchError((error: AuthError) => of(authActions.loginError({ error })))
         )
       }),
     ),
   );
 
   logout$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.LoginGoogle>(AuthActionTypes.LOGOUT),
+    ofType(authActions.logout),
     switchMap(() => {
       return this.authService
         .logout()
         .pipe(
-          map(() => new authActions.LogoutSuccess()),
-          catchError((err: AuthError) => of(new authActions.LogoutError(err)))
+          map(() => authActions.logoutSuccess()),
+          catchError((error: AuthError) => of(authActions.logoutError({ error })))
         )
       }),
     ),
   );
 
   register$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.Register>(AuthActionTypes.REGISTER),
-    pluck('payload'),
+    ofType(authActions.register),
+    pluck('user'),
     switchMap((user: User) => {
       return this.authService
         .register(user)
         .pipe(
-          map(() => new authActions.RegisterSuccess()),
-          catchError((err: AuthError) => of(new authActions.RegisterError(err)))
+          map(() => authActions.registerSuccess()),
+          catchError((error: AuthError) => of(authActions.registerError({ error })))
         )
       }),
     ),
   );
 
   stateChange$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.StateChange>(AuthActionTypes.STATE_CHANGE),
+    ofType(authActions.stateChange),
     switchMap(() => {
       return this.authService
         .getCurrentUser()
         .pipe(
           map((user: User) => {
             if (user && user.emailVerified) {
-              return new authActions.StateChangeSuccess(user);
+              return authActions.stateChangeSuccess({ user });
             }
-            return new authActions.StateChangeError();
+            return authActions.stateChangeError();
           }),
         );
       }),
@@ -95,17 +94,17 @@ export class AuthEffects {
   );
 
   registerLogoutSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.RegisterSuccess | authActions.LogoutSuccess>(
-      AuthActionTypes.REGISTER_SUCCESS,
-      AuthActionTypes.LOGOUT_SUCCESS
+    ofType(
+      authActions.registerSuccess,
+      authActions.logoutSuccess
     ),
     map(() => RouterActions.go({ payload: { path: ['/login'] } }))),
   );
 
   stateChangeLoginSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType<authActions.StateChangeSuccess | authActions.StateChangeSuccess>(
-      AuthActionTypes.STATE_CHANGE_SUCCESS,
-      AuthActionTypes.LOGIN_SUCCESS
+    ofType(
+      authActions.stateChangeSuccess,
+      authActions.loginSuccess
     ),
     map(() => RouterActions.go({ payload: { path: ['/app'] } }))),
   );

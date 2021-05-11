@@ -70,7 +70,7 @@ export class AuthService {
       );
   }
 
-  loginWithGoole(): Observable<FirebaseUserInfo> {
+  loginWithGoogle(): Observable<FirebaseUserInfo> {
     return from(this.afauth.signInWithPopup(googleAuthProvider()))
       .pipe(
         switchMap(({ user }: AuthUserCredential) => this.update(user)),

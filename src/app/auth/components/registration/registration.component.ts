@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { AuthState, Register, authSubmitSelector } from 'src/app/+store/auth';
+import { AuthState, register, authSubmitSelector } from 'src/app/+store/auth';
 
 import { Observable } from 'rxjs';
 
@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
     const { userName, email } = this.form.value;
     const { password } = this.form.value.passwordGroup;
 
-    this.store.dispatch(new Register({ displayName: userName, email, password }));
+    this.store.dispatch(register({ user: { displayName: userName, email, password } }));
   }
 
   private buildForm() {

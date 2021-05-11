@@ -1,4 +1,4 @@
-import { AuthError, Channel, User } from '../shared';
+import { AuthError, Channel, FirebaseUser, User } from '../shared';
 
 export const channel: Channel = {
   description: 'Test description',
@@ -16,6 +16,12 @@ export const user: User = {
   displayName: 'Test',
   starredChannels: [channel.id],
 };
+
+export const firebaseUser: FirebaseUser = {
+  email: 'abc@gmail.com',
+  displayName: 'Test',
+  emailVerified: true,
+} as FirebaseUser;
 
 export const error = {
   message: 'Error',

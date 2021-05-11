@@ -2,7 +2,13 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { AuthState, Login, authSubmitSelector, LoginGoogle, authAuthorizeDataSelector } from 'src/app/+store';
+import {
+  AuthState,
+  authSubmitSelector,
+  authAuthorizeDataSelector,
+  login,
+  loginGoogle,
+} from 'src/app/+store';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -44,14 +50,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  onLoginWithGoole() {
-    this.store.dispatch(new LoginGoogle());
+  onLoginWithGoogle() {
+    this.store.dispatch(loginGoogle());
   }
 
   onSubmit() {
     if (this.form.invalid) { return; }
 
-    this.store.dispatch(new Login(this.form.value));
+    this.store.dispatch(login({ user: this.form.value }));
   }
 
   private buildForm() {
