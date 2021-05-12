@@ -14,6 +14,7 @@ export const channel: Channel = {
 export const user: User = {
   email: 'abc@gmail.com',
   displayName: 'Test',
+  password: '123456',
   starredChannels: [channel.id],
 };
 
