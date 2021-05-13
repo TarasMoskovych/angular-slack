@@ -1,16 +1,16 @@
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import { AppState, register } from 'src/app/+store';
+import { AuthState, register } from 'src/app/+store';
 import { user } from 'src/app/mock';
 import { RegistrationComponent } from './registration.component';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
-  let mockStore: jasmine.SpyObj<Store<any>>;
+  let mockStore: jasmine.SpyObj<Store<AuthState>>;
 
   beforeEach(() => {
-    mockStore = jasmine.createSpyObj<Store<AppState>>('Store', ['select', 'dispatch']);
+    mockStore = jasmine.createSpyObj<Store<AuthState>>('Store', ['select', 'dispatch']);
     component = new RegistrationComponent(mockStore);
   });
 

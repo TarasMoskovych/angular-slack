@@ -3,15 +3,15 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { user } from 'src/app/mock';
-import { loginGoogle, login, AppState } from 'src/app/+store';
+import { loginGoogle, login, AuthState } from 'src/app/+store';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
-  let mockStore: jasmine.SpyObj<Store<any>>;
+  let mockStore: jasmine.SpyObj<Store<AuthState>>;
 
   beforeEach(() => {
-    mockStore = jasmine.createSpyObj<Store<AppState>>('Store', ['select', 'dispatch']);
+    mockStore = jasmine.createSpyObj<Store<AuthState>>('Store', ['select', 'dispatch']);
     component = new LoginComponent(mockStore);
   });
 

@@ -1,35 +1,28 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Store } from '@ngrx/store';
+
+import { AuthState, stateChange } from './+store';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+  let component: AppComponent;
+  let mockStore: jasmine.SpyObj<Store<AuthState>>;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+  beforeEach(() => {
+    mockStore = jasmine.createSpyObj<Store<AuthState>>('Store', ['dispatch']);
+    component = new AppComponent(mockStore);
   });
 
-  it(`should have as title 'angular-slack'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angular-slack');
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-slack app is running!');
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      component.ngOnInit();
+    });
+
+    it('should dispatch "stateChange"', () => {
+      expect(mockStore.dispatch).toHaveBeenCalledOnceWith(stateChange());
+    });
   });
 });
