@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ChannelsHeaderComponent } from './channels-header.component';
 
 describe('ChannelsHeaderComponent', () => {
   let component: ChannelsHeaderComponent;
-  let fixture: ComponentFixture<ChannelsHeaderComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ChannelsHeaderComponent ]
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChannelsHeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new ChannelsHeaderComponent();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onAddChannel', () => {
+    beforeEach(() => {
+      spyOn(component.addChannel, 'emit');
+      component.onAddChannel();
+    });
+
+    it('should emit "addChannel" event', () => {
+      expect(component.addChannel.emit).toHaveBeenCalledTimes(1);
+    });
   });
 });

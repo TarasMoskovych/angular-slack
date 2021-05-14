@@ -2,17 +2,17 @@ import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import { user } from 'src/app/mock';
+import { mockStore, user } from 'src/app/mock';
 import { loginGoogle, login, AuthState } from 'src/app/+store';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
-  let mockStore: jasmine.SpyObj<Store<AuthState>>;
+  let store: jasmine.SpyObj<Store<AuthState>>;
 
   beforeEach(() => {
-    mockStore = jasmine.createSpyObj<Store<AuthState>>('Store', ['select', 'dispatch']);
-    component = new LoginComponent(mockStore);
+    store = mockStore();
+    component = new LoginComponent(store);
   });
 
   it('should create', () => {
@@ -21,7 +21,7 @@ describe('LoginComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      mockStore.select.and.returnValue(of(true));
+      store.select.and.returnValue(of(true));
       spyOn(component, 'onAuthorizeDataUpdate');
 
       component.ngOnInit();
@@ -64,14 +64,14 @@ describe('LoginComponent', () => {
     });
 
     it('should call "patchValue" method when user is defined', () => {
-      mockStore.select.and.returnValue(of(user));
+      store.select.and.returnValue(of(user));
       component.onAuthorizeDataUpdate();
 
       expect(component.form.patchValue).toHaveBeenCalledOnceWith({ email: user.email, password: user.password });
     });
 
     it('should not call "patchValue" method when user is undefined', () => {
-      mockStore.select.and.returnValue(of(undefined));
+      store.select.and.returnValue(of(undefined));
       component.onAuthorizeDataUpdate();
 
       expect(component.form.patchValue).not.toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe('LoginComponent', () => {
     it('should dispatch an action with correct type', () => {
       component.onLoginWithGoogle();
 
-      expect(mockStore.dispatch).toHaveBeenCalledOnceWith(loginGoogle());
+      expect(store.dispatch).toHaveBeenCalledOnceWith(loginGoogle());
     });
   });
 
@@ -99,12 +99,12 @@ describe('LoginComponent', () => {
       component.form.setValue(value);
       component.onSubmit();
 
-      expect(mockStore.dispatch).toHaveBeenCalledOnceWith(login({ user: value }));
+      expect(store.dispatch).toHaveBeenCalledOnceWith(login({ user: value }));
     });
 
     it('should not dispatch an action when form is invalid', () => {
       component.onSubmit();
-      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });

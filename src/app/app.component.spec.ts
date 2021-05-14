@@ -2,14 +2,15 @@ import { Store } from '@ngrx/store';
 
 import { AuthState, stateChange } from './+store';
 import { AppComponent } from './app.component';
+import { mockStore } from './mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
-  let mockStore: jasmine.SpyObj<Store<AuthState>>;
+  let store: jasmine.SpyObj<Store<AuthState>>;
 
   beforeEach(() => {
-    mockStore = jasmine.createSpyObj<Store<AuthState>>('Store', ['dispatch']);
-    component = new AppComponent(mockStore);
+    store = mockStore();
+    component = new AppComponent(store);
   });
 
   it('should create', () => {
@@ -22,7 +23,7 @@ describe('AppComponent', () => {
     });
 
     it('should dispatch "stateChange"', () => {
-      expect(mockStore.dispatch).toHaveBeenCalledOnceWith(stateChange());
+      expect(store.dispatch).toHaveBeenCalledOnceWith(stateChange());
     });
   });
 });

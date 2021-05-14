@@ -2,16 +2,16 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { AuthState, register } from 'src/app/+store';
-import { user } from 'src/app/mock';
+import { mockStore, user } from 'src/app/mock';
 import { RegistrationComponent } from './registration.component';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
-  let mockStore: jasmine.SpyObj<Store<AuthState>>;
+  let store: jasmine.SpyObj<Store<AuthState>>;
 
   beforeEach(() => {
-    mockStore = jasmine.createSpyObj<Store<AuthState>>('Store', ['select', 'dispatch']);
-    component = new RegistrationComponent(mockStore);
+    store = mockStore();
+    component = new RegistrationComponent(store);
   });
 
   it('should create', () => {
@@ -20,7 +20,7 @@ describe('RegistrationComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      mockStore.select.and.returnValue(of(true));
+      store.select.and.returnValue(of(true));
       component.ngOnInit();
     });
 
@@ -55,12 +55,12 @@ describe('RegistrationComponent', () => {
       });
       component.onSubmit();
 
-      expect(mockStore.dispatch).toHaveBeenCalledOnceWith(register({ user: value }));
+      expect(store.dispatch).toHaveBeenCalledOnceWith(register({ user: value }));
     });
 
     it('should not dispatch an action when form is invalid', () => {
       component.onSubmit();
-      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });

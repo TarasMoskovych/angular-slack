@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { channel } from 'src/app/mock';
 import { ChannelsBodyComponent } from './channels-body.component';
 
 describe('ChannelsBodyComponent', () => {
   let component: ChannelsBodyComponent;
-  let fixture: ComponentFixture<ChannelsBodyComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ChannelsBodyComponent ]
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChannelsBodyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new ChannelsBodyComponent();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onSelect', () => {
+    beforeEach(() => {
+      spyOn(component.select, 'emit');
+      component.onSelect(channel);
+    });
+
+    it('should emit "select" event', () => {
+      expect(component.select.emit).toHaveBeenCalledOnceWith(channel);
+    });
   });
 });

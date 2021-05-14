@@ -1,25 +1,44 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 
+import { AppState, removeChannel, updateChannel } from 'src/app/+store';
+import { channel, mockStore } from 'src/app/mock';
+import { Channel } from 'src/app/shared';
 import { ChannelDetailComponent } from './channel-detail.component';
 
 describe('ChannelDetailComponent', () => {
   let component: ChannelDetailComponent;
-  let fixture: ComponentFixture<ChannelDetailComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ChannelDetailComponent ]
-    })
-    .compileComponents();
-  }));
+  let store: jasmine.SpyObj<Store<AppState>>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChannelDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    store = mockStore();
+    component = new ChannelDetailComponent(store);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      component.ngOnInit();
+    });
+
+    it('should call "select" twice', () => {
+      expect(store.select).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('onChannelEdit', () => {
+    it('should dispatch action', () => {
+      component.onChannelEdit({ name: 'New test channel' } as Channel, channel);
+      expect(store.dispatch).toHaveBeenCalledOnceWith(updateChannel({ channel: { ...channel, name: 'New test channel' } }));
+    });
+  });
+
+  describe('onChannelRemove', () => {
+    it('should dispatch action', () => {
+      component.onChannelRemove(channel);
+      expect(store.dispatch).toHaveBeenCalledOnceWith(removeChannel({ channel }));
+    });
   });
 });
