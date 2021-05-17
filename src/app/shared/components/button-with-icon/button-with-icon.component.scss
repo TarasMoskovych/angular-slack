@@ -1,0 +1,58 @@
+@import 'variables';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.button-with-icon {
+  align-items: center;
+  border: 0;
+  border-radius: 4px;
+  color: $white;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+  text-align: center;
+  transition: .1s;
+  width: 100%;
+
+  &:active {
+    transform: scale(1.05);
+  }
+
+  &--left {
+    &,
+    .button-with-icon__icon-wrapper {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .button-with-icon__text {
+      margin-left: -30px;
+    }
+  }
+
+  &--right {
+    &,
+    .button-with-icon__icon-wrapper {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+
+    .button-with-icon__text {
+      margin-left: 30px;
+    }
+  }
+
+  &__icon-wrapper {
+    border-radius: 4px;
+    padding: 8px;
+    width: 30px;
+  }
+
+  &__text {
+    padding: 8px;
+    width: 100%;
+  }
+}

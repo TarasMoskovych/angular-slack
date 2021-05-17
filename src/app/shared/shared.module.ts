@@ -4,11 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModule } from '../material/material.module';
 
-import { FocusInvalidFieldDirective } from './directives';
+import {
+  FocusInvalidFieldDirective,
+} from './directives';
+
+import {
+  ButtonWithIconComponent,
+} from './components';
 
 @NgModule({
   declarations: [
-    FocusInvalidFieldDirective
+    FocusInvalidFieldDirective,
+    ButtonWithIconComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +30,8 @@ import { FocusInvalidFieldDirective } from './directives';
     ReactiveFormsModule,
     FontAwesomeModule,
     MaterialModule,
-    FocusInvalidFieldDirective
-  ]
+    FocusInvalidFieldDirective,
+    ButtonWithIconComponent,
+  ],
 })
 export class SharedModule { }
