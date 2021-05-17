@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { MessagesComponent } from './messages.component';
 import {
+  MessagesActionsComponent,
   MessagesHeaderComponent,
 } from './components';
 
 @NgModule({
   declarations: [
     MessagesComponent,
+    MessagesActionsComponent,
     MessagesHeaderComponent,
   ],
   imports: [

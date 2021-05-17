@@ -14,6 +14,8 @@ import {
   faInfo,
   faCog,
   faStar as faStarSolid,
+  faEdit,
+  faFileUpload,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontIcons = {
@@ -32,4 +34,6 @@ export const fontIcons = {
   faCog,
   faStar,
   faStarSolid,
+  faEdit,
+  faFileUpload,
 };

@@ -1,0 +1,23 @@
+<button
+  #btn
+  class="button-with-icon"
+  [class.button-with-icon--left]="icon && leftIcon"
+  [class.button-with-icon--right]="icon && !leftIcon"
+  [ngStyle]="{ 'background-color': color }"
+  (mouseover)="toggleColor(true)"
+  (mouseleave)="toggleColor(false)">
+  <ng-container *ngTemplateOutlet="iconTemplate; context: { render: leftIcon }"></ng-container>
+  <div class="button-with-icon__text">
+    {{ text }}
+  </div>
+  <ng-container *ngTemplateOutlet="iconTemplate; context: { render: !leftIcon }"></ng-container>
+</button>
+
+<ng-template #iconTemplate let-render="render">
+  <div
+    *ngIf="icon && render"
+    class="button-with-icon__icon-wrapper"
+    [ngStyle]="{ 'background-color': iconColor }"
+  ><fa-icon [icon]="icon"></fa-icon>
+  </div>
+</ng-template>

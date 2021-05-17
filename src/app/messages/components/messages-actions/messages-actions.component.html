@@ -1,0 +1,25 @@
+<mat-card class="messages-actions">
+  <div class="messages-actions__input-wrapper">
+    <button class="messages-actions__icon-wrapper">
+      <fa-icon [icon]="icons.faPlus"></fa-icon>
+    </button>
+    <label class="messages-actions__label">
+      <input class="messages-actions__input" type="text" name="message">
+    </label>
+  </div>
+  <div class="messages-actions__buttons-wrapper">
+    <app-button-with-icon
+      color="#f2711c"
+      iconColor="#EA5A0D"
+      text="Add Repply"
+      [icon]="icons.faEdit"
+    ></app-button-with-icon>
+    <app-button-with-icon
+      color="#00B5AD"
+      iconColor="#00A9A1"
+      text="Upload Media"
+      [leftIcon]="false"
+      [icon]="icons.faFileUpload"
+    ></app-button-with-icon>
+  </div>
+</mat-card>
