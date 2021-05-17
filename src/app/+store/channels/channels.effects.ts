@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as channelsActions from './channels.actions';
 
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck } from 'rxjs/operators';
+import { switchMap, map, catchError, pluck, take } from 'rxjs/operators';
 
 import { ChannelsService, UserProfileService } from 'src/app/core';
 import { AuthError, Channel, User } from 'src/app/shared';
@@ -70,6 +70,7 @@ export class ChannelsEffects {
       return this.userProfileService
         .getById(channel?.uid)
         .pipe(
+          take(1),
           map((user: User) => {
             if (user && channel) {
               return channelsActions.selectChannelSuccess({ channel: { ...channel, createdBy: user } })

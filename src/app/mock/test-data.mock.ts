@@ -1,4 +1,4 @@
-import { AuthError, Channel, FirebaseUser, User } from '../shared';
+import { AuthError, Channel, FirebaseUser, Message, User } from '../shared';
 
 export const channel: Channel = {
   description: 'Test description',
@@ -27,3 +27,10 @@ export const firebaseUser: FirebaseUser = {
 export const error = {
   message: 'Error',
 } as AuthError;
+
+export const message: Message = {
+  channelId: channel.id,
+  content: 'text',
+  timestamp: Date.now() as any,
+  user: { ...user },
+};

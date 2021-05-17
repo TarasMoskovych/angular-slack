@@ -12,3 +12,4 @@ export type FirebaseUser = firebase.User;
 export type FirebaseUserInfo = firebase.UserInfo;
 export type FirebaseWhereFilterOp = WhereFilterOp;
 export const googleAuthProvider = () => new firebase.auth.GoogleAuthProvider();
+export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
