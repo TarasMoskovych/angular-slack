@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { fontIcons } from 'src/app/shared';
 
 @Component({
@@ -8,11 +8,21 @@ import { fontIcons } from 'src/app/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessagesActionsComponent implements OnInit {
+  @Output() messageAdd = new EventEmitter<{ type: 'text' | 'photo', value: string }>();
+
   icons = fontIcons;
+  message = '';
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onMessageAdd(): void {
+    if (this.message.trim().length) {
+      this.messageAdd.emit({ type: 'text', value: this.message });
+      this.message = '';
+    }
   }
 
 }

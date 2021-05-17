@@ -1,8 +1,12 @@
-<app-messages-header
-  [channel]="channel$ | async"
-  [starred]="isStarred$ | async"
-  [starredChannelsLength]="starredChannelsLength$ | async"
-  (star)="onStar($event)"
-></app-messages-header>
+<ng-container *ngIf="{ channel: channel$ | async, user: user$ | async } as obs$">
+  <app-messages-header
+    [channel]="obs$.channel"
+    [starred]="isStarred$ | async"
+    [starredChannelsLength]="starredChannelsLength$ | async"
+    (star)="onStar($event)"
+  ></app-messages-header>
 
-<app-messages-actions></app-messages-actions>
+  <app-messages-actions
+    (messageAdd)="onMessageAdd($event, obs$.channel.id, obs$.user)"
+  ></app-messages-actions>
+</ng-container>

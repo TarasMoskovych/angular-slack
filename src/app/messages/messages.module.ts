@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { MessagesEffects, messagesReducer } from '../+store/messages';
 
 import { SharedModule } from '../shared/shared.module';
 import { MessagesComponent } from './messages.component';
@@ -15,8 +18,9 @@ import {
     MessagesHeaderComponent,
   ],
   imports: [
-    CommonModule,
     SharedModule,
+    StoreModule.forFeature('messages', messagesReducer),
+    EffectsModule.forFeature([MessagesEffects]),
   ],
   exports: [
     MessagesComponent,

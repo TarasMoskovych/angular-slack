@@ -4,11 +4,18 @@
       <fa-icon [icon]="icons.faPlus"></fa-icon>
     </button>
     <label class="messages-actions__label">
-      <input class="messages-actions__input" type="text" name="message">
+      <input
+        [(ngModel)]="message"
+        (keyup.enter)="onMessageAdd()"
+        class="messages-actions__input"
+        type="text"
+        name="message"
+      >
     </label>
   </div>
   <div class="messages-actions__buttons-wrapper">
     <app-button-with-icon
+      (click)="onMessageAdd()"
       color="#f2711c"
       iconColor="#EA5A0D"
       text="Add Repply"
