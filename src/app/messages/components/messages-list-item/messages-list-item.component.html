@@ -1,0 +1,15 @@
+<li class="messages-list-item" [class.messages-list-item--outcome]="outcome">
+  <div class="messages-list-item__avatar">
+    <img [src]="message.user.photoURL" [alt]="message.user.displayName">
+  </div>
+  <div class="messages-list-item__content">
+    <div>
+      <span class="messages-list-item__name">
+        {{ message.user.displayName }}
+      </span>
+    </div>
+    <span class="messages-list-item__text">
+      {{ message.content }}
+    </span>
+  </div>
+</li>

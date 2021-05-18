@@ -6,6 +6,11 @@
     (star)="onStar($event)"
   ></app-messages-header>
 
+  <app-messages-list
+    [messages]="messages$ | async"
+    [user]="obs$.user"
+  ></app-messages-list>
+
   <app-messages-actions
     (messageAdd)="onMessageAdd($event, obs$.channel.id, obs$.user)"
   ></app-messages-actions>

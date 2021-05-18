@@ -24,6 +24,7 @@ import {
 export class MessagesComponent implements OnInit {
   channel$: Observable<Channel>;
   isStarred$: Observable<boolean>;
+  messages$: Observable<Message[]>;
   starredChannelsLength$: Observable<number>;
   user$: Observable<User>;
 
@@ -38,10 +39,9 @@ export class MessagesComponent implements OnInit {
       }),
     );
     this.isStarred$ = this.store.select(selectedStarredSelector);
+    this.messages$ = this.store.select(messagesSelector);
     this.starredChannelsLength$ = this.store.select(starredChannelsLengthSelector);
     this.user$ = this.store.select(authUserSelector);
-
-    this.store.select(messagesSelector).subscribe(messages => console.log(messages));
   }
 
   onStar({ channel, starred }: { channel: Channel, starred: boolean }): void {
@@ -50,6 +50,7 @@ export class MessagesComponent implements OnInit {
 
   onMessageAdd(data: { type: 'text' | 'photo', value: string }, channelId: string, user: User) {
     const message: Message = {
+      id: Date.now(),
       channelId,
       content: data.value,
       timestamp: serverTimestamp(),

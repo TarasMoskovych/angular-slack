@@ -1,0 +1,9 @@
+<mat-card class="messages-list">
+  <ul class="messages-list__container">
+    <app-messages-list-item
+      *ngFor="let message of messages; trackBy: trackByFn"
+      [message]="message"
+      [user]="user"
+    ></app-messages-list-item>
+  </ul>
+</mat-card>

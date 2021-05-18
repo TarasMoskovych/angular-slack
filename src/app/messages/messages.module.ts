@@ -9,6 +9,8 @@ import { MessagesComponent } from './messages.component';
 import {
   MessagesActionsComponent,
   MessagesHeaderComponent,
+  MessagesListComponent,
+  MessagesListItemComponent,
 } from './components';
 
 @NgModule({
@@ -16,6 +18,8 @@ import {
     MessagesComponent,
     MessagesActionsComponent,
     MessagesHeaderComponent,
+    MessagesListComponent,
+    MessagesListItemComponent,
   ],
   imports: [
     SharedModule,
