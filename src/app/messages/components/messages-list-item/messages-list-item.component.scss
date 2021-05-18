@@ -1,0 +1,36 @@
+.messages-list-item {
+  display: flex;
+  margin-bottom: 15px;
+
+  &--outcome {
+    .messages-list-item {
+      &__content {
+        border-left: 2px solid orange;
+        padding-left: 10px;
+      }
+    }
+  }
+
+  &__avatar {
+    margin-top: 3px;
+    height: 35px;
+    width: 35px;
+
+    img {
+      border-radius: 4px;
+      width: 35px;
+    }
+  }
+
+  &__content {
+    margin-left: 15px;
+  }
+
+  &__name {
+    font-weight: 600;
+  }
+
+  &__text {
+    word-break: break-word;
+  }
+}

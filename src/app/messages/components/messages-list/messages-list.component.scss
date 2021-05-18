@@ -1,0 +1,15 @@
+:host {
+  flex: 1 1 auto;
+  margin: 15px 0;
+}
+
+.messages-list {
+  height: 100%;
+
+  &__container {
+    list-style-type: none;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+    padding: 0;
+  }
+}
