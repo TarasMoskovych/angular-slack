@@ -24,6 +24,6 @@ export class MessagesService {
   }
 
   getByChannelId(id: string): Observable<Message[]> {
-    return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', id)).valueChanges();
+    return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', id).orderBy('id')).valueChanges();
   }
 }
