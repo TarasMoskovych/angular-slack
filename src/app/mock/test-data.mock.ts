@@ -29,6 +29,7 @@ export const error = {
 } as AuthError;
 
 export const message: Message = {
+  id: Date.now(),
   channelId: channel.id,
   content: 'text',
   timestamp: Date.now() as any,
