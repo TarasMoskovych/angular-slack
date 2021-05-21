@@ -12,6 +12,8 @@
   ></app-messages-list>
 
   <app-messages-actions
+    [showEmoji]="showEmoji"
     (messageAdd)="onMessageAdd($event, obs$.channel.id, obs$.user)"
+    (toggleEmoji)="onToggleEmoji($event)"
   ></app-messages-actions>
 </ng-container>

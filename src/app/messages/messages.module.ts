@@ -4,6 +4,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { MessagesEffects, messagesReducer } from '../+store/messages';
 
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+
 import { SharedModule } from '../shared/shared.module';
 import { MessagesComponent } from './messages.component';
 import {
@@ -25,6 +27,7 @@ import {
     SharedModule,
     StoreModule.forFeature('messages', messagesReducer),
     EffectsModule.forFeature([MessagesEffects]),
+    PickerModule,
   ],
   exports: [
     MessagesComponent,
