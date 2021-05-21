@@ -26,6 +26,7 @@ export class MessagesComponent implements OnInit {
   isStarred$: Observable<boolean>;
   messages$: Observable<Message[]>;
   starredChannelsLength$: Observable<number>;
+  showEmoji = false;
   user$: Observable<User>;
 
   constructor(
@@ -57,5 +58,9 @@ export class MessagesComponent implements OnInit {
       user,
     };
     this.store.dispatch(addMessage({ message }));
+  }
+
+  onToggleEmoji(showEmoji: boolean): void {
+    this.showEmoji = showEmoji;
   }
 }
