@@ -1,25 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ElementRef } from '@angular/core';
+import { message, mockElementRef, user } from 'src/app/mock';
 
 import { MessagesListItemComponent } from './messages-list-item.component';
 
 describe('MessagesListItemComponent', () => {
   let component: MessagesListItemComponent;
-  let fixture: ComponentFixture<MessagesListItemComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ MessagesListItemComponent ]
-    })
-    .compileComponents();
-  });
+  let elementRef: jasmine.SpyObj<ElementRef>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MessagesListItemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    elementRef = mockElementRef();
+    component = new MessagesListItemComponent(elementRef);
+    component.message = message;
+    component.user = user;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('scrollIntoView', () => {
+    beforeEach(() => {
+      component.scrollIntoView();
+    });
+
+    it('should call scrollIntoView from elementRef', () => {
+      expect(elementRef.nativeElement.scrollIntoView).toHaveBeenCalledOnceWith({ behavior: 'smooth' });
+    });
+  });
+
+  describe('get outcome', () => {
+    it('should return true when message uid and user uid equal', () => {
+      expect(component.outcome).toBeTrue();
+    });
   });
 });
