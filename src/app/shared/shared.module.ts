@@ -12,10 +12,15 @@ import {
   ButtonWithIconComponent,
 } from './components';
 
+import {
+  DateAgoPipe,
+} from './pipes';
+
 @NgModule({
   declarations: [
     FocusInvalidFieldDirective,
     ButtonWithIconComponent,
+    DateAgoPipe,
   ],
   imports: [
     CommonModule,
@@ -32,6 +37,7 @@ import {
     MaterialModule,
     FocusInvalidFieldDirective,
     ButtonWithIconComponent,
+    DateAgoPipe,
   ],
 })
 export class SharedModule { }

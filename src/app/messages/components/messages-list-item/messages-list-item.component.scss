@@ -30,6 +30,12 @@
     font-weight: 600;
   }
 
+  &__date {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 0.75rem;
+    margin-left: 5px;
+  }
+
   &__text {
     word-break: break-word;
   }

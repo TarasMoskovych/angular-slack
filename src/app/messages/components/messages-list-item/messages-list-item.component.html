@@ -7,6 +7,9 @@
       <span class="messages-list-item__name">
         {{ message.user.displayName }}
       </span>
+      <span class="messages-list-item__date">
+        {{ message.timestamp | dateAgo }}
+      </span>
     </div>
     <span class="messages-list-item__text">
       {{ message.content }}
