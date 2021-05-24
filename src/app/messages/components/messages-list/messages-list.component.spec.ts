@@ -1,25 +1,40 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { fakeAsync, tick } from '@angular/core/testing';
 import { MessagesListComponent } from './messages-list.component';
 
 describe('MessagesListComponent', () => {
   let component: MessagesListComponent;
-  let fixture: ComponentFixture<MessagesListComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ MessagesListComponent ]
-    })
-    .compileComponents();
-  });
+  let nativeElement: HTMLElement;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MessagesListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    nativeElement = { scrollIntoView: jasmine.createSpy() } as any;
+    component = new MessagesListComponent();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnChanges', () => {
+    it('should call scrollIntoView', fakeAsync(() => {
+      component.list = { last: nativeElement } as any;
+      component.ngOnChanges();
+      tick();
+
+      expect(nativeElement.scrollIntoView).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should not call scrollIntoView when last element is not defined', () => {
+      component.list = {} as any;
+      component.ngOnChanges();
+
+      expect(nativeElement.scrollIntoView).not.toHaveBeenCalled();
+    });
+
+    it('should not call scrollIntoView when list is not defined', () => {
+      component.list = undefined;
+      component.ngOnChanges();
+
+      expect(nativeElement.scrollIntoView).not.toHaveBeenCalled();
+    });
   });
 });

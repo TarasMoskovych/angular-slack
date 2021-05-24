@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewChildren, QueryList } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ViewChildren, QueryList } from '@angular/core';
 
 import { Message, TrackByUtil, User } from 'src/app/shared';
 import { MessagesListItemComponent } from '../messages-list-item/messages-list-item.component';
@@ -9,13 +9,10 @@ import { MessagesListItemComponent } from '../messages-list-item/messages-list-i
   styleUrls: ['./messages-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MessagesListComponent extends TrackByUtil<Message> implements OnInit {
+export class MessagesListComponent extends TrackByUtil<Message> {
   @Input() messages: Message[] = [];
   @Input() user: User;
   @ViewChildren(MessagesListItemComponent) list: QueryList<MessagesListItemComponent>;
-
-  ngOnInit(): void {
-  }
 
   ngOnChanges() {
     if (this.list?.last) {

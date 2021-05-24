@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ElementRef } from '@angular/core';
 
 import { Message, User } from 'src/app/shared';
 
@@ -8,15 +8,11 @@ import { Message, User } from 'src/app/shared';
   styleUrls: ['./messages-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MessagesListItemComponent implements OnInit {
+export class MessagesListItemComponent {
   @Input() message: Message;
   @Input() user: User;
 
   constructor(private elementRef: ElementRef) { }
-
-  ngOnInit(): void {
-
-  }
 
   scrollIntoView(): void {
     this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });

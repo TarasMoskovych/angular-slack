@@ -36,7 +36,7 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.channel$ = this.store.select(channelsSelectedSelector).pipe(
       tap((channel: Channel) => {
-        channel?.id && this.store.dispatch(getMessages({ channelId: channel.id }));
+        channel && this.store.dispatch(getMessages({ channelId: channel.id }));
       }),
     );
     this.isStarred$ = this.store.select(selectedStarredSelector);

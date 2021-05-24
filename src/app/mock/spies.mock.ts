@@ -1,9 +1,8 @@
-import { Renderer2 } from '@angular/core';
+import { ElementRef, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
 
 export const mockStore = () => {
-  return jasmine.createSpyObj<Store<any>>('Store', ['dispatch', 'select']);
+  return jasmine.createSpyObj('Store', ['dispatch', 'select']);
 };
 
 export const mockDialog = () => {
@@ -16,4 +15,8 @@ export const mockDialogRef = () => {
 
 export const mockRenderer = () => {
   return jasmine.createSpyObj<Renderer2>('Renderer2', ['setStyle']);
+};
+
+export const mockElementRef = () => {
+  return jasmine.createSpyObj<ElementRef>('ElementRef', [], { nativeElement: { scrollIntoView: jasmine.createSpy() } });
 };
