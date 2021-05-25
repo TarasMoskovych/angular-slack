@@ -15,8 +15,10 @@ export class MessagesListComponent extends TrackByUtil<Message> {
   @ViewChildren(MessagesListItemComponent) list: QueryList<MessagesListItemComponent>;
 
   ngOnChanges() {
-    if (this.list?.last) {
-      setTimeout(() => this.list.last.scrollIntoView(), 0);
-    }
+    setTimeout(() => {
+      if (this.list?.last) {
+        this.list.last.scrollIntoView();
+      }
+    }, 0);
   }
 }

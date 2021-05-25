@@ -23,18 +23,20 @@ describe('MessagesListComponent', () => {
       expect(nativeElement.scrollIntoView).toHaveBeenCalledTimes(1);
     }));
 
-    it('should not call scrollIntoView when last element is not defined', () => {
+    it('should not call scrollIntoView when last element is not defined', fakeAsync(() => {
       component.list = {} as any;
       component.ngOnChanges();
+      tick();
 
       expect(nativeElement.scrollIntoView).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('should not call scrollIntoView when list is not defined', () => {
+    it('should not call scrollIntoView when list is not defined', fakeAsync(() => {
       component.list = undefined;
       component.ngOnChanges();
+      tick();
 
       expect(nativeElement.scrollIntoView).not.toHaveBeenCalled();
-    });
+    }));
   });
 });
