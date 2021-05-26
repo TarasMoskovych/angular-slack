@@ -16,6 +16,7 @@ export const addChannel = createAction(
 
 export const addChannelSuccess = createAction(
   `${BASE} Add Channel Success`,
+  props<{ channel: Channel }>(),
 );
 
 export const addChannelError = createAction(

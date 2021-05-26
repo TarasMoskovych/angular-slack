@@ -4,10 +4,15 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as channelsActions from './channels.actions';
 
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck, take } from 'rxjs/operators';
+import { switchMap, map, catchError, pluck, take, withLatestFrom } from 'rxjs/operators';
 
 import { ChannelsService, UserProfileService } from 'src/app/core';
 import { AuthError, Channel, User } from 'src/app/shared';
+
+import { Store } from '@ngrx/store';
+import { ChannelsState } from './channels.state';
+import { channelsSelectedSelector } from './channels.selectors';
+import { authUserSelector } from '../auth';
 
 @Injectable()
 export class ChannelsEffects {
@@ -15,16 +20,18 @@ export class ChannelsEffects {
     private actions$: Actions,
     private channelsService: ChannelsService,
     private userProfileService: UserProfileService,
+    private store: Store<ChannelsState>,
   ) {}
 
   add$ = createEffect(() => this.actions$.pipe(
     ofType(channelsActions.addChannel),
     pluck('channel'),
-    switchMap((channel: Channel) => {
+    withLatestFrom(this.store.select(authUserSelector)),
+    switchMap(([channel, user]) => {
       return this.channelsService
         .add(channel)
         .pipe(
-          map(() => channelsActions.addChannelSuccess()),
+          map((response: Channel) => channelsActions.addChannelSuccess({ channel: { ...response, createdBy: user } })),
           catchError((error: AuthError) => of(channelsActions.addChannelError({ error })))
         )
       }),
@@ -60,7 +67,15 @@ export class ChannelsEffects {
   getSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(channelsActions.getChannelsSuccess),
     pluck('channels'),
-    map((channels: Channel[]) => channelsActions.selectChannel({ channel: channels[0] }))),
+    withLatestFrom(this.store.select(channelsSelectedSelector)),
+    map(([channels, selected]) => {
+      const existed = channels.find((channel: Channel) => channel.id === selected?.id);
+
+      if (!selected || !existed) {
+        return channelsActions.selectChannel({ channel: channels[0] });
+      }
+      return channelsActions.selectChannelSuccess({ channel: selected });
+    })),
   );
 
   select$ = createEffect(() => this.actions$.pipe(
@@ -104,7 +119,7 @@ export class ChannelsEffects {
       return this.channelsService
         .remove(channel)
         .pipe(
-          map((channel: Channel) => channelsActions.removeChannelSuccess({ channel })),
+          map(() => channelsActions.removeChannelSuccess({ channel })),
           catchError((error: AuthError) => of(channelsActions.removeChannelError({ error })))
         )
       }),

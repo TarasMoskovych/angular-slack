@@ -27,8 +27,8 @@ describe('channelsReducer', () => {
 
   describe('addChannelSuccess', () => {
     it('should return correct state', () => {
-      const state = channelsReducer(initialChannelsState, ChannelsActions.addChannelSuccess());
-      expect(state).toEqual({ ...initialChannelsState, added: true, loading: false });
+      const state = channelsReducer(initialChannelsState, ChannelsActions.addChannelSuccess({ channel }));
+      expect(state).toEqual({ ...initialChannelsState, added: true, loading: false, selected: channel });
     });
   });
 
@@ -57,6 +57,18 @@ describe('channelsReducer', () => {
     it('should return correct state', () => {
       const state = channelsReducer(initialChannelsState, ChannelsActions.selectChannelSuccess({ channel }));
       expect(state).toEqual({ ...initialChannelsState, selected: channel });
+    });
+  });
+
+  describe('removeChannelSuccess', () => {
+    it('should return correct state and set selected channel to null', () => {
+      const state = channelsReducer({ ...initialChannelsState, selected: channel }, ChannelsActions.removeChannelSuccess({ channel }));
+      expect(state).toEqual({ ...initialChannelsState, selected: null });
+    });
+
+    it('should return correct state', () => {
+      const state = channelsReducer(initialChannelsState, ChannelsActions.removeChannelSuccess({ channel }));
+      expect(state).toEqual({ ...initialChannelsState, selected: null });
     });
   });
 });

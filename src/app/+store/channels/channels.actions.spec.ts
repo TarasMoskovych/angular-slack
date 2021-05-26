@@ -34,11 +34,15 @@ describe('ChannelsActions', () => {
     let result: any;
 
     beforeAll(() => {
-      result = ChannelsActions.addChannelSuccess();
+      result = ChannelsActions.addChannelSuccess({ channel });
     });
 
     it('should have correct type', () => {
       expect(result.type).toBe('[Channels] Add Channel Success');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.channel).toEqual(channel);
     });
   });
 

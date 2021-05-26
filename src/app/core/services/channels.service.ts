@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Store } from '@ngrx/store';
 import { from, Observable, of } from 'rxjs';
@@ -7,7 +7,7 @@ import { from, Observable, of } from 'rxjs';
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
 import { Collections, Channel, AuthError, FirestoreQuerySnapshot, User } from 'src/app/shared';
-import { catchError, exhaustMap, switchMap, take } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap, take } from 'rxjs/operators';
 import { authUserSelector } from 'src/app/+store/auth/auth.selectors';
 
 @Injectable({
@@ -21,14 +21,17 @@ export class ChannelsService {
     private store: Store,
   ) { }
 
-  add(channel: Channel): Observable<DocumentReference> {
+  add(payload: Channel): Observable<Channel> {
     return this.store.select(authUserSelector)
       .pipe(
         take(1),
         exhaustMap((user: User) => {
           const { uid } = user;
-          return from(this.afs.collection(Collections.Channels).add({ ...channel, id: String(Date.now()), uid }))
+          const channel = { ...payload, id: String(Date.now()), uid };
+
+          return from(this.afs.collection(Collections.Channels).add(channel))
             .pipe(
+              map(() => channel),
               catchError((err: AuthError) => this.notificationService.handleError(err)),
             );
         }),
