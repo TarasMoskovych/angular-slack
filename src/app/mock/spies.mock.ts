@@ -1,5 +1,6 @@
 import { ElementRef, Renderer2 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 export const mockStore = () => {
   return jasmine.createSpyObj('Store', ['dispatch', 'select']);
@@ -18,5 +19,15 @@ export const mockRenderer = () => {
 };
 
 export const mockElementRef = () => {
-  return jasmine.createSpyObj<ElementRef>('ElementRef', [], { nativeElement: { scrollIntoView: jasmine.createSpy() } });
+  return jasmine.createSpyObj<ElementRef>('ElementRef', [], {
+    nativeElement: {
+      scrollIntoView: jasmine.createSpy(),
+      querySelector: jasmine.createSpy(),
+      focus: jasmine.createSpy(),
+    },
+  });
+};
+
+export const mockRouter = () => {
+  return jasmine.createSpyObj<Router>('Router', ['navigate']);
 };
