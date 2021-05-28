@@ -1,25 +1,41 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
+import { AuthState, logout } from '../+store';
+import { mockStore, user } from '../mock';
+import { User } from '../shared';
 import { UserProfileComponent } from './user-profile.component';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
-  let fixture: ComponentFixture<UserProfileComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserProfileComponent ]
-    })
-    .compileComponents();
-  }));
+  let store: jasmine.SpyObj<Store<AuthState>>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserProfileComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    store = mockStore();
+    component = new UserProfileComponent(store);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      store.select.and.returnValue(of(user));
+    });
+
+    it('should get user from the store', () => {
+      component.ngOnInit();
+      component.user$.subscribe((response: User) => {
+        expect(response).toEqual(user);
+      });
+    });
+  });
+
+  describe('onLogout', () => {
+    it('should dispatch the correct action', () => {
+      component.onLogout();
+      expect(store.dispatch).toHaveBeenCalledOnceWith(logout());
+    });
   });
 });
