@@ -21,9 +21,20 @@
         </span>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
-        <span class="channel-detail__title">
-          Some deferred content
-        </span>
+        <ng-container *ngIf="posters$ | async as posters">
+          <ul *ngIf="posters.length" class="channel-detail__title channel-detail__title--posters">
+            <li *ngFor="let poster of posters" class="channel-detail__author">
+              <img
+                class="channel-detail__gravatar"
+                [src]="poster.photoURL"
+                alt=""
+            ><div>
+              <p class="channel-detail__name">{{ poster.displayName }}</p>
+              <p>{{ poster.length }} {{ poster.length > 1 ? 'posts' : 'post' }}</p>
+            </div>
+            </li>
+          </ul>
+        </ng-container>
       </ng-template>
     </mat-expansion-panel>
 

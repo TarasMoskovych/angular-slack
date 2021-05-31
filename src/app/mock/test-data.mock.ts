@@ -35,3 +35,11 @@ export const message: Message = {
   timestamp: Date.now() as any,
   user: { ...user },
 };
+
+export const message2: Message = {
+  id: Date.now(),
+  channelId: channel.id,
+  content: 'text',
+  timestamp: Date.now() as any,
+  user: { ...user, uid: '1234' },
+};

@@ -23,8 +23,8 @@ describe('ChannelDetailComponent', () => {
       component.ngOnInit();
     });
 
-    it('should call "select" twice', () => {
-      expect(store.select).toHaveBeenCalledTimes(2);
+    it('should call "select" 3 times', () => {
+      expect(store.select).toHaveBeenCalledTimes(3);
     });
   });
 

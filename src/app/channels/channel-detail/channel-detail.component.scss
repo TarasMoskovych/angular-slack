@@ -1,3 +1,5 @@
+@import 'variables';
+
 .channel-detail {
 
   &__header {
@@ -21,6 +23,24 @@
 
   &__title {
     margin: 0 10px;
+    padding: 0;
+
+    &--posters {
+      margin: 0;
+
+      li:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  &__name {
+    color: $blue;
+    font-weight: 600;
   }
 
   &__author {
