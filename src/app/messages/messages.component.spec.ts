@@ -10,7 +10,7 @@ import {
   starChannel,
   starredChannelsLengthSelector
 } from '../+store';
-import { channel, message, mockStore, user } from '../mock';
+import { channel, message, mockStore, user } from '../mocks';
 import { Channel, Message, User } from '../shared';
 import { MessagesComponent } from './messages.component';
 

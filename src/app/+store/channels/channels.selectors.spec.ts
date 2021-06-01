@@ -1,4 +1,4 @@
-import { channel, user } from 'src/app/mock';
+import { channel, user } from 'src/app/mocks';
 
 import * as ChannelsSelectors from './channels.selectors';
 import { initialChannelsState } from './channels.state';

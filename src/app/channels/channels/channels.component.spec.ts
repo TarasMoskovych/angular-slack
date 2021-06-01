@@ -2,7 +2,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 import { AppState, selectChannel } from 'src/app/+store';
-import { channel, mockDialog, mockStore } from 'src/app/mock';
+import { channel, mockDialog, mockStore } from 'src/app/mocks';
 import { ChannelsModalComponent } from '../components';
 import { ChannelsComponent } from './channels.component';
 

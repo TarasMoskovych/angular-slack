@@ -1,4 +1,4 @@
-import { channel } from 'src/app/mock';
+import { channel } from 'src/app/mocks';
 import { ChannelsBodyComponent } from './channels-body.component';
 
 describe('ChannelsBodyComponent', () => {

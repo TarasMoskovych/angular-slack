@@ -1,4 +1,4 @@
-import { user } from 'src/app/mock';
+import { user } from 'src/app/mocks';
 import * as authSelectors from './auth.selectors';
 import { initialAuthState } from './auth.state';
 

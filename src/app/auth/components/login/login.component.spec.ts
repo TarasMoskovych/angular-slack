@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import { mockStore, user } from 'src/app/mock';
+import { mockStore, user } from 'src/app/mocks';
 import { loginGoogle, login, AuthState } from 'src/app/+store';
 import { LoginComponent } from './login.component';
 

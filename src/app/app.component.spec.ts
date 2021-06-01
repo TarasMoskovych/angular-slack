@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 
 import { AuthState, stateChange } from './+store';
 import { AppComponent } from './app.component';
-import { mockStore } from './mock';
+import { mockStore } from './mocks';
 
 describe('AppComponent', () => {
   let component: AppComponent;

@@ -1,4 +1,4 @@
-import { error, user } from 'src/app/mock';
+import { error, user } from 'src/app/mocks';
 import * as authActions from './auth.actions';
 import { authReducer } from './auth.reducer';
 import { initialAuthState } from './auth.state';

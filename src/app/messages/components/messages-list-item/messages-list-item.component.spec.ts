@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { message, mockElementRef, user } from 'src/app/mock';
+import { message, mockElementRef, user } from 'src/app/mocks';
 
 import { MessagesListItemComponent } from './messages-list-item.component';
 

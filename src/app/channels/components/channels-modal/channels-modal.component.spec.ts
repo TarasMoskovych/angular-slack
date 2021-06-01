@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { addChannel, addChannelInit, AppState } from 'src/app/+store';
-import { channel, mockDialogRef, mockStore } from 'src/app/mock';
+import { channel, mockDialogRef, mockStore } from 'src/app/mocks';
 import { ChannelsModalComponent } from './channels-modal.component';
 
 describe('ChannelsModalComponent', () => {

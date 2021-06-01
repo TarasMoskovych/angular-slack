@@ -1,5 +1,5 @@
 import * as messagesActions from './messages.actions';
-import { message, error, channel } from 'src/app/mock';
+import { message, error, channel } from 'src/app/mocks';
 
 describe('MessagesActions', () => {
   describe('addMessage', () => {

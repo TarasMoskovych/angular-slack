@@ -1,5 +1,5 @@
 import * as ChannelsActions from './channels.actions';
-import { channel, error } from 'src/app/mock';
+import { channel, error } from 'src/app/mocks';
 
 describe('ChannelsActions', () => {
   describe('addChannelInit', () => {

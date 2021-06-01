@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 
 import { AppState, removeChannel, updateChannel } from 'src/app/+store';
-import { channel, mockStore } from 'src/app/mock';
+import { channel, mockStore } from 'src/app/mocks';
 import { Channel } from 'src/app/shared';
 import { ChannelDetailComponent } from './channel-detail.component';
 

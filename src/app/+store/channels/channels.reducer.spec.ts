@@ -1,4 +1,4 @@
-import { channel, error } from 'src/app/mock';
+import { channel, error } from 'src/app/mocks';
 import * as ChannelsActions from './channels.actions';
 import { channelsReducer } from './channels.reducer';
 import { initialChannelsState } from './channels.state';

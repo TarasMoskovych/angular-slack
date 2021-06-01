@@ -9,7 +9,7 @@ import {
   userProfilePhotoPreviewSelector,
   userProfileUpdatedSelector,
 } from 'src/app/+store';
-import { mockDialogRef, mockStore, user } from 'src/app/mock';
+import { mockDialogRef, mockStore, user } from 'src/app/mocks';
 import { UserProfileEditComponent } from './user-profile-edit.component';
 
 describe('UserProfileEditComponent', () => {

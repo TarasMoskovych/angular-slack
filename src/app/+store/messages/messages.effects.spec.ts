@@ -3,7 +3,7 @@ import { of, throwError } from 'rxjs';
 
 import * as messagesActions from './messages.actions';
 import { MessagesService } from 'src/app/core';
-import { channel, error, message } from 'src/app/mock';
+import { channel, error, message } from 'src/app/mocks';
 import { MessagesEffects } from './messages.effects';
 
 describe('MessagesEffects', () => {

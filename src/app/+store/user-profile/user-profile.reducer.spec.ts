@@ -1,4 +1,4 @@
-import { error, user } from 'src/app/mock';
+import { error, user } from 'src/app/mocks';
 import * as userProfileActions from './user-profile.actions';
 import { userProfileReducer } from './user-profile.reducer';
 import { initialUserProfileState } from './user-profile.state';

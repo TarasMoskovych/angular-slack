@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { AuthState, register } from 'src/app/+store';
-import { mockStore, user } from 'src/app/mock';
+import { mockStore, user } from 'src/app/mocks';
 import { RegistrationComponent } from './registration.component';
 
 describe('RegistrationComponent', () => {

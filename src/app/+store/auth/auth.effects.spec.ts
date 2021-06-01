@@ -2,7 +2,7 @@ import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 
 import { AuthService } from 'src/app/core';
-import { error, firebaseUser, user } from 'src/app/mock';
+import { error, firebaseUser, user } from 'src/app/mocks';
 import * as authActions from './auth.actions';
 import { AuthEffects } from './auth.effects';
 import * as routerActions from './../router';

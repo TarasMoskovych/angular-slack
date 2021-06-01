@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { AppState } from 'src/app/+store';
-import { mockRouter, mockStore, user } from 'src/app/mock';
+import { mockRouter, mockStore, user } from 'src/app/mocks';
 import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {

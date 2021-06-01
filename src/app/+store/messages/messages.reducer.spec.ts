@@ -1,4 +1,4 @@
-import { message } from 'src/app/mock';
+import { message } from 'src/app/mocks';
 import * as messagesActions from './messages.actions';
 import { messagesReducer } from './messages.reducer';
 import { initialMessagesState } from './messages.state';

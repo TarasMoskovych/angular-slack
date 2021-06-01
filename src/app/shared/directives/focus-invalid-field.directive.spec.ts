@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 
-import { mockElementRef } from 'src/app/mock';
+import { mockElementRef } from 'src/app/mocks';
 import { FocusInvalidFieldDirective } from './focus-invalid-field.directive';
 
 describe('FocusInvalidFieldDirective', () => {

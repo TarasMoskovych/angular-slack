@@ -1,6 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 
-import { mockDialog, user } from 'src/app/mock';
+import { mockDialog, user } from 'src/app/mocks';
 import { UserProfileEditComponent } from '../user-profile-edit/user-profile-edit.component';
 import { UserProfileViewComponent } from './user-profile-view.component';
 

@@ -1,6 +1,6 @@
 import { Renderer2 } from '@angular/core';
 
-import { mockRenderer } from 'src/app/mock';
+import { mockRenderer } from 'src/app/mocks';
 import { ButtonWithIconComponent } from './button-with-icon.component';
 
 describe('ButtonWithIconComponent', () => {

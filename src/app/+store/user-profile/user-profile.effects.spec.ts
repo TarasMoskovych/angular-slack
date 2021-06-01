@@ -2,7 +2,7 @@ import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 
 import { NotificationService, UserProfileService } from 'src/app/core';
-import { error, user } from 'src/app/mock';
+import { error, user } from 'src/app/mocks';
 import * as userProfileActions from './user-profile.actions';
 import { UserProfileEffects } from './user-profile.effects';
 

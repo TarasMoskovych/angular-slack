@@ -1,4 +1,4 @@
-import { error, user } from 'src/app/mock';
+import { error, user } from 'src/app/mocks';
 import * as authActions from './auth.actions';
 
 describe('AuthActions', () => {

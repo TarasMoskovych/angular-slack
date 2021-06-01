@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
 
 import { ChannelsService, UserProfileService } from 'src/app/core';
-import { channel, error, mockStore, user } from 'src/app/mock';
+import { channel, error, mockStore, user } from 'src/app/mocks';
 import * as ChannelsActions from './channels.actions';
 import { ChannelsEffects } from './channels.effects';
 import { ChannelsState } from './channels.state';

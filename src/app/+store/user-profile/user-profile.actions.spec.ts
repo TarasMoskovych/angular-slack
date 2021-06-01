@@ -1,4 +1,4 @@
-import { error, user } from 'src/app/mock';
+import { error, user } from 'src/app/mocks';
 import * as UserProfileActions from './user-profile.actions';
 
 describe('UserProfileActions', () => {

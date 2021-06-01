@@ -1,4 +1,4 @@
-import { message2, message, user } from 'src/app/mock';
+import { message2, message, user } from 'src/app/mocks';
 import { Poster } from 'src/app/shared';
 import * as messagesSelectors from './messages.selectors';
 import { initialMessagesState } from './messages.state';
