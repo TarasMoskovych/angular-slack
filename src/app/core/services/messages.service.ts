@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { AuthError, Collections, Message } from 'src/app/shared';
 import { NotificationService } from './notification.service';
@@ -16,9 +16,10 @@ export class MessagesService {
     private notificationService: NotificationService,
   ) { }
 
-  add(message: Message): Observable<DocumentReference> {
+  add(message: Message): Observable<Message> {
     return from(this.afs.collection<Message>(Collections.Messages).add(message))
       .pipe(
+        map(() => message),
         catchError((err: AuthError) => this.notificationService.handleError(err)),
       );
   }
