@@ -5,7 +5,10 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
+
 import { AuthService, NotificationService } from '../core';
+import { error, firebaseUser } from './test-data.mock';
 
 export const mockStore = () => {
   return jasmine.createSpyObj('Store', ['dispatch', 'select']);
@@ -42,7 +45,10 @@ export const mockSnackBar = () => {
 };
 
 export const mockNotificationService = () => {
-  return jasmine.createSpyObj<NotificationService>('NotificationService', ['show', 'handleError']);
+  return jasmine.createSpyObj<NotificationService>('NotificationService', {
+    show: undefined,
+    handleError: throwError(error),
+  });
 };
 
 export const mockAuthService = () => {
@@ -55,9 +61,9 @@ export const mockFireAuth = () => {
     'signInWithPopup',
     'signOut',
     'createUserWithEmailAndPassword',
-  ], [
-    'authState',
-  ]);
+  ], {
+    authState: of(firebaseUser),
+  });
 };
 
 export const mockFireStore = () => {
@@ -66,4 +72,33 @@ export const mockFireStore = () => {
 
 export const mockFireStorage = () => {
   return jasmine.createSpyObj<AngularFireStorage>('AngularFireStorage', ['upload']);
+};
+
+export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string) => {
+  firestoreRef.collection.and.callFake((path: any, queryFn: any) => {
+    if (key) {
+      expect(path).toBe(key);
+    }
+
+    if (typeof queryFn === 'function') {
+      queryFn({ where: () => null });
+    }
+
+    return {
+      add: (value: any) => Promise.resolve(value),
+      get: () => of(value === null ? null : { docs: [{ id: 1 }] }),
+      valueChanges: () => of(value),
+    } as any;
+  });
+};
+
+export const spyOnDoc = (firestoreRef: jasmine.SpyObj<AngularFirestore>, exists: boolean = false) => {
+  firestoreRef.doc.and.callFake(() => {
+    return {
+      get: () => of({ exists }),
+      set: () => Promise.resolve(),
+      delete: (value: any) => Promise.resolve(value),
+      update: (value: any) => Promise.resolve(value),
+    } as any;
+  });
 };
