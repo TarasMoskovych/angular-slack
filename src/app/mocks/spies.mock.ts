@@ -74,20 +74,34 @@ export const mockFireStorage = () => {
   return jasmine.createSpyObj<AngularFireStorage>('AngularFireStorage', ['upload']);
 };
 
-export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string) => {
+export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string, reject = false) => {
   firestoreRef.collection.and.callFake((path: any, queryFn: any) => {
+    const query = {
+      where: () => query,
+      orderBy: () => query,
+    };
+
     if (key) {
       expect(path).toBe(key);
     }
 
     if (typeof queryFn === 'function') {
-      queryFn({ where: () => null });
+      queryFn(query);
+    }
+
+    if (reject) {
+      return {
+        add: (value: any) => Promise.reject(value),
+        get: () => throwError(error),
+        doc: () => ({ valueChanges: () => throwError(value) }),
+      };
     }
 
     return {
       add: (value: any) => Promise.resolve(value),
-      get: () => of(value === null ? null : { docs: [{ id: 1 }] }),
+      get: () => of(value === null ? { empty: true } : { docs: [{ id: 1 }] }),
       valueChanges: () => of(value),
+      doc: () => ({ valueChanges: () => of(value) }),
     } as any;
   });
 };

@@ -1,4 +1,4 @@
-import { AuthError, AuthUserCredential, Channel, FirebaseUser, FirebaseUserInfo, Message, User } from '../shared';
+import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, User } from '../shared';
 
 export const channel: Channel = {
   description: 'Test description',
@@ -19,11 +19,12 @@ export const user: User = {
   uid: Date.now().toString(),
 };
 
-export const firebaseUser: FirebaseUser = {
+export const firebaseUser = {
   email: 'abc@gmail.com',
   displayName: 'Test',
   emailVerified: true,
-} as FirebaseUser;
+  updateProfile: jasmine.createSpy(),
+} as any;
 
 export const userCredential: AuthUserCredential = {
   credential: {

@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<User> {
-    return this.afauth.authState
+    return this.getFirebaseUser()
       .pipe(
         switchMap((firebaseUser: FirebaseUser) => {
           if (!firebaseUser) return of(null);
