@@ -69,7 +69,7 @@ export class ChannelsService {
     );
   }
 
-  remove(channel: Channel): Observable<Channel> {
+  remove(channel: Channel): Observable<void> {
     return this.getById(channel).pipe(
       switchMap((snapshot: FirestoreQuerySnapshot) => {
         if (!snapshot.empty) {

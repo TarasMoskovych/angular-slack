@@ -215,12 +215,11 @@ describe('ChannelsEffects', () => {
     });
 
     it('should return correct data when success', () => {
-      channelsServiceSpy.remove.and.returnValue(of(channel));
+      channelsServiceSpy.remove.and.returnValue(of(undefined));
       const effects = new ChannelsEffects(actions$, channelsServiceSpy, userServiceSpy, store);
 
       effects.remove$.subscribe((action: any) => {
         expect(action.type).toBe(ChannelsActions.removeChannelSuccess.type);
-        expect(action.channel).toEqual(channel);
       });
     });
 

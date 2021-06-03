@@ -21,11 +21,12 @@ describe('MessagesService', () => {
   });
 
   describe('add', () => {
-    it('should return added message', () => {
+    it('should return added message', (done: DoneFn) => {
       spyOnCollection(fireStore, message);
 
       service.add(message).subscribe((response: Message) => {
         expect(response).toEqual(message);
+        done();
       });
     });
 
