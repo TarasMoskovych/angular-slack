@@ -44,7 +44,7 @@ export class UserProfileService {
         map((user: User) => {
           const starredChannels = this.getStarredChannels(user, channel);
 
-          if (starredChannels.length === user.starredChannels?.length) return of(null);
+          if (starredChannels.length === user.starredChannels?.length) return null;
           return this.afs.doc(`${Collections.Users}/${user.uid}`).update({ starredChannels: this.getStarredChannels(user, channel) });
         }),
       );
