@@ -5,7 +5,9 @@ import {
   authUserSelector,
   channelsSelectedSelector,
   getMessages,
-  messagesSelector,
+  filteredMessagesSelector,
+  searchMessages,
+  searchSelector,
   selectedStarredSelector,
   starChannel,
   starredChannelsLengthSelector
@@ -17,6 +19,7 @@ import { MessagesComponent } from './messages.component';
 describe('MessagesComponent', () => {
   let component: MessagesComponent;
   let store: jasmine.SpyObj<any>;
+  const search = 'test';
 
   beforeEach(() => {
     store = mockStore();
@@ -32,7 +35,8 @@ describe('MessagesComponent', () => {
       store.select
         .withArgs(channelsSelectedSelector).and.returnValue(of(channel))
         .withArgs(selectedStarredSelector).and.returnValue(of(true))
-        .withArgs(messagesSelector).and.returnValue(of([message]))
+        .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
+        .withArgs(searchSelector).and.returnValue(of(search))
         .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
         .withArgs(authUserSelector).and.returnValue(of(user));
 
@@ -64,6 +68,12 @@ describe('MessagesComponent', () => {
       });
     });
 
+    it('should return search value on searchTerm$ subscribe', () => {
+      component.searchTerm$.subscribe((value: string) => {
+        expect(value).toBe(search);
+      });
+    });
+
     it('should return user on user$ subscribe', () => {
       component.user$.subscribe((value: User) => {
         expect(value).toEqual(user);
@@ -89,6 +99,13 @@ describe('MessagesComponent', () => {
     it('should update showEmoji based on the value', () => {
       component.onToggleEmoji(true);
       expect(component.showEmoji).toBeTrue();
+    });
+  });
+
+  describe('onSearch', () => {
+    it('should dispatch searchMessages with correct payload', () => {
+      component.onSearch('test');
+      expect(store.dispatch).toHaveBeenCalledOnceWith(searchMessages({ search }));
     });
   });
 });

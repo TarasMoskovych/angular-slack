@@ -55,7 +55,7 @@ export const error = {
 export const message: Message = {
   id: Date.now(),
   channelId: channel.id,
-  content: 'text',
+  content: 'text1',
   timestamp: Date.now() as any,
   user: { ...user },
 };
@@ -63,7 +63,7 @@ export const message: Message = {
 export const message2: Message = {
   id: Date.now(),
   channelId: channel.id,
-  content: 'text',
+  content: 'text2',
   timestamp: Date.now() as any,
   user: { ...user, uid: '1234' },
 };

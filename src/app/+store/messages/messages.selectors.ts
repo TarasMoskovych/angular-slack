@@ -4,9 +4,20 @@ import { Message, Poster } from 'src/app/shared';
 import { MessagesState } from './messages.state';
 
 const getMessages = (state: MessagesState) => state.messages;
+const getSearch = (state: MessagesState) => state.search;
 
 export const getMessagesState = createFeatureSelector<MessagesState>('messages');
 export const messagesSelector = createSelector(getMessagesState, getMessages);
+export const searchSelector = createSelector(getMessagesState, getSearch);
+export const filteredMessagesSelector = createSelector(
+  messagesSelector,
+  searchSelector,
+  (messages: Message[], search: string) => messages
+    .filter((message: Message) => {
+      if (search && message.content.search(new RegExp(search, 'i')) === -1) return false;
+      return true;
+    }),
+);
 export const topPostersSelector = createSelector(
   messagesSelector,
   (messages: Message[]) => {

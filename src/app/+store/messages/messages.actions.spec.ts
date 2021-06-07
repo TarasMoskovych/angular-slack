@@ -93,4 +93,20 @@ describe('MessagesActions', () => {
       expect(result.error).toEqual(error);
     });
   });
+
+  describe('searchMessages', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = messagesActions.searchMessages({ search: 'test' });
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Messages] Search Messages');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.search).toEqual('test');
+    });
+  });
 });

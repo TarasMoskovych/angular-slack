@@ -11,8 +11,10 @@ import { Channel, fontIcons } from 'src/app/shared';
 export class MessagesHeaderComponent {
   @Input() starredChannelsLength: number;
   @Input() channel: Channel;
+  @Input() searchTerm = '';
   @Input() starred: boolean;
   @Output() star = new EventEmitter<{ channel: Channel, starred: boolean }>();
+  @Output() search = new EventEmitter<string>();
 
   icons = fontIcons;
 
@@ -20,7 +22,20 @@ export class MessagesHeaderComponent {
     return this.starredChannelsLength < 5 || this.starred;
   }
 
+  get searchIcon(): string {
+    return this.searchTerm.length ? 'close' : 'search';
+  }
+
   onStar(): void {
     this.star.emit({ channel: this.channel, starred: !this.starred });
+  }
+
+  onClear(): void {
+    this.searchTerm = '';
+    this.onSearch();
+  }
+
+  onSearch(): void {
+    this.search.emit(this.searchTerm);
   }
 }

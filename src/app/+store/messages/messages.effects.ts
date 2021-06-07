@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { catchError, map, pluck, switchMap } from 'rxjs/operators';
 
 import * as messagesActions from './messages.actions';
+import * as channelsActions from 'src/app/+store/channels';
 import { MessagesService } from 'src/app/core';
 import { AuthError, Message } from 'src/app/shared';
 
@@ -40,5 +41,10 @@ export class MessagesEffects {
         )
       }),
     ),
+  );
+
+  selectChannelSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(channelsActions.selectChannelSuccess),
+    map(() => messagesActions.searchMessages({ search: '' }))),
   );
 }

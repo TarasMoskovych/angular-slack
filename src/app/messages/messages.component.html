@@ -2,9 +2,11 @@
   <ng-container *ngIf="obs$.channel">
     <app-messages-header
       [channel]="obs$.channel"
+      [searchTerm]="searchTerm$ | async"
       [starred]="isStarred$ | async"
       [starredChannelsLength]="starredChannelsLength$ | async"
       (star)="onStar($event)"
+      (search)="onSearch($event)"
     ></app-messages-header>
 
     <app-messages-list

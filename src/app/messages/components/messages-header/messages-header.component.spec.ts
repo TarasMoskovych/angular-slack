@@ -28,6 +28,18 @@ describe('MessagesHeaderComponent', () => {
     });
   });
 
+  describe('get searchIcon', () => {
+    it('should return close when searhTerm has value', () => {
+      component.searchTerm = 'Test';
+      expect(component.searchIcon).toBe('close');
+    });
+
+    it('should return search when searhTerm is empty', () => {
+      component.searchTerm = '';
+      expect(component.searchIcon).toBe('search');
+    });
+  });
+
   describe('onStar', () => {
     beforeEach(() => {
       spyOn(component.star, 'emit');
@@ -39,6 +51,36 @@ describe('MessagesHeaderComponent', () => {
     it('should emit event with correct data', () => {
       component.onStar();
       expect(component.star.emit).toHaveBeenCalledOnceWith({ channel: component.channel, starred: !component.starred });
+    });
+  });
+
+  describe('onClear', () => {
+    beforeEach(() => {
+      component.searchTerm = 'Test';
+      spyOn(component, 'onSearch');
+
+      component.onClear();
+    });
+
+    it('should reset search', () => {
+      expect(component.searchTerm).toBe('');
+    });
+
+    it('should call onSearch', () => {
+      expect(component.onSearch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('onSearch', () => {
+    beforeEach(() => {
+      spyOn(component.search, 'emit');
+    });
+
+    it('should emit search event with data', () => {
+      component.searchTerm = 'Test';
+      component.onSearch();
+
+      expect(component.search.emit).toHaveBeenCalledOnceWith('Test');
     });
   });
 });

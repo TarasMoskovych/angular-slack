@@ -33,3 +33,8 @@ export const getMessagesError = createAction(
   `${BASE} Get Messages Error`,
   props<{ error: AuthError }>(),
 );
+
+export const searchMessages = createAction(
+  `${BASE} Search Messages`,
+  props<{ search: string }>(),
+);

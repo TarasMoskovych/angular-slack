@@ -14,8 +14,8 @@
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Search Messages">
-      <mat-icon class="messages-header__search" matSuffix>search</mat-icon>
+      <input matInput placeholder="Search Messages" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+      <mat-icon (click)="searchTerm.length && onClear()" class="messages-header__search" matSuffix>{{ searchIcon }}</mat-icon>
     </mat-form-field>
   </div>
 </mat-card>

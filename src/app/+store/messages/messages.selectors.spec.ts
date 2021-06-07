@@ -10,6 +10,12 @@ describe('MessagesSelectors', () => {
     });
   });
 
+  describe('searchSelector', () => {
+    it('should return correct value', () => {
+      expect(messagesSelectors.searchSelector.projector({ ...initialMessagesState, search: 'test' })).toEqual('test');
+    });
+  });
+
   describe('topPostersSelector', () => {
     it('should return correct value', () => {
       const { displayName, photoURL } = user;
@@ -26,6 +32,12 @@ describe('MessagesSelectors', () => {
         }
       ];
       expect(messagesSelectors.topPostersSelector.projector([message2, message, message])).toEqual(expected);
+    });
+  });
+
+  describe('filteredMessagesSelector', () => {
+    it('should return correct value', () => {
+      expect(messagesSelectors.filteredMessagesSelector.projector([message, message2], '2')).toEqual([message2]);
     });
   });
 });

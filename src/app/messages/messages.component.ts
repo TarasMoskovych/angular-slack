@@ -9,10 +9,12 @@ import {
   authUserSelector,
   channelsSelectedSelector,
   getMessages,
-  messagesSelector,
+  filteredMessagesSelector,
   selectedStarredSelector,
   starChannel,
   starredChannelsLengthSelector,
+  searchMessages,
+  searchSelector,
 } from 'src/app/+store';
 
 @Component({
@@ -25,6 +27,7 @@ export class MessagesComponent implements OnInit {
   channel$: Observable<Channel>;
   isStarred$: Observable<boolean>;
   messages$: Observable<Message[]>;
+  searchTerm$: Observable<string>;
   starredChannelsLength$: Observable<number>;
   showEmoji = false;
   user$: Observable<User>;
@@ -40,7 +43,8 @@ export class MessagesComponent implements OnInit {
       }),
     );
     this.isStarred$ = this.store.select(selectedStarredSelector);
-    this.messages$ = this.store.select(messagesSelector);
+    this.messages$ = this.store.select(filteredMessagesSelector);
+    this.searchTerm$ = this.store.select(searchSelector);
     this.starredChannelsLength$ = this.store.select(starredChannelsLengthSelector);
     this.user$ = this.store.select(authUserSelector);
   }
@@ -62,5 +66,9 @@ export class MessagesComponent implements OnInit {
 
   onToggleEmoji(showEmoji: boolean): void {
     this.showEmoji = showEmoji;
+  }
+
+  onSearch(search: string): void {
+    this.store.dispatch(searchMessages({ search }));
   }
 }

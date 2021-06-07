@@ -17,4 +17,11 @@ describe('messagesReducer', () => {
       expect(state).toEqual({ ...initialMessagesState, messages: [message] });
     });
   });
+
+  describe('searchMessages', () => {
+    it('should return correct state', () => {
+      const state = messagesReducer(initialMessagesState, messagesActions.searchMessages({ search: 'test' }));
+      expect(state).toEqual({ ...initialMessagesState, search: 'test' });
+    });
+  });
 });
