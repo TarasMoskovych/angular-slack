@@ -51,6 +51,19 @@ export class ChannelsEffects {
     ),
   );
 
+  getPrivate$ = createEffect(() => this.actions$.pipe(
+    ofType(channelsActions.getPrivateChannels),
+    switchMap(() => {
+      return this.channelsService
+        .getPrivate()
+        .pipe(
+          map((channels: Channel[]) => channelsActions.getPrivateChannelsSuccess({ channels })),
+          catchError((error: AuthError) => of(channelsActions.getPrivateChannelsError({ error })))
+        )
+      }),
+    ),
+  );
+
   getStarred$ = createEffect(() => this.actions$.pipe(
     ofType(channelsActions.getStarredChannels),
     switchMap(() => {

@@ -14,6 +14,11 @@ export const channelsAddedSelector = createSelector(getChannelsState, getAdded);
 export const channelsLoadingSelector = createSelector(getChannelsState, getLoading);
 export const channelsSelector = createSelector(getChannelsState, getChannels);
 export const starredChannelsSelector = createSelector(getChannelsState, getStarredChannels);
+export const privateChannelsSelector = createSelector(
+  getChannelsState,
+  authUserSelector,
+  (state: ChannelsState, user: User) => state.privateChannels.filter((channel: Channel) => channel.uid !== user?.uid),
+);
 export const channelsSelectedSelector = createSelector(getChannelsState, getSelected);
 export const selectedStarredSelector = createSelector(
   authUserSelector,

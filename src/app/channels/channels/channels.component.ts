@@ -11,10 +11,12 @@ import { Channel } from 'src/app/shared';
 import {
   getChannels,
   getStarredChannels,
+  getPrivateChannels,
   selectChannel,
   channelsSelector,
   channelsSelectedSelector,
   starredChannelsSelector,
+  privateChannelsSelector,
 } from 'src/app/+store/channels';
 
 @Component({
@@ -25,6 +27,7 @@ import {
 })
 export class ChannelsComponent implements OnInit {
   channels$: Observable<Channel[]>;
+  privateChannels$: Observable<Channel[]>;
   starredChannels$: Observable<Channel[]>;
   selected$: Observable<Channel>;
 
@@ -47,8 +50,10 @@ export class ChannelsComponent implements OnInit {
 
   private getChannels() {
     this.store.dispatch(getChannels());
+    this.store.dispatch(getPrivateChannels());
     this.store.dispatch(getStarredChannels());
     this.channels$ = this.store.select(channelsSelector);
+    this.privateChannels$ = this.store.select(privateChannelsSelector);
     this.starredChannels$ = this.store.select(starredChannelsSelector);
     this.selected$ = this.store.select(channelsSelectedSelector);
   }

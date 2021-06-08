@@ -3,11 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Store } from '@ngrx/store';
 import { from, Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, switchMap, take } from 'rxjs/operators';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
 import { Collections, Channel, AuthError, FirestoreQuerySnapshot, User } from 'src/app/shared';
-import { catchError, exhaustMap, map, switchMap, take } from 'rxjs/operators';
 import { authUserSelector } from 'src/app/+store/auth/auth.selectors';
 
 @Injectable({
@@ -27,7 +27,7 @@ export class ChannelsService {
         take(1),
         exhaustMap((user: User) => {
           const { uid } = user;
-          const channel = { ...payload, id: String(Date.now()), uid };
+          const channel: Channel = { ...payload, id: String(Date.now()), uid, private: false };
 
           return from(this.afs.collection(Collections.Channels).add(channel))
             .pipe(
@@ -40,6 +40,11 @@ export class ChannelsService {
 
   get(): Observable<Channel[]> {
     return this.afs.collection<Channel>(Collections.Channels, ref => ref.orderBy('name')).valueChanges();
+  }
+
+  getPrivate(): Observable<Channel[]> {
+    return this.afs.collection<User>(Collections.Users).valueChanges()
+      .pipe(map((users: User[]) => users.map((user: User) => this.getPrivateChannel(user))));
   }
 
   getStarred(): Observable<Channel[]> {
@@ -83,5 +88,17 @@ export class ChannelsService {
 
   private getById(channel: Channel): Observable<FirestoreQuerySnapshot> {
     return from(this.afs.collection(Collections.Channels, ref => ref.where('id', '==', channel.id)).get());
+  }
+
+  private getPrivateChannel(user: User): Channel {
+    return {
+      id: user.uid,
+      name: user.displayName,
+      description: null,
+      uid: user.uid,
+      createdBy: user,
+      starred: false,
+      private: true,
+    };
   }
 }
