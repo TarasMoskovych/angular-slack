@@ -53,6 +53,20 @@ export const getStarredChannelsError = createAction(
   props<{ error: any }>(),
 );
 
+export const getPrivateChannels = createAction(
+  `${BASE} Get Private Channels`,
+);
+
+export const getPrivateChannelsSuccess = createAction(
+  `${BASE} Get Private Channels Success`,
+  props<{ channels: Channel[] }>(),
+);
+
+export const getPrivateChannelsError = createAction(
+  `${BASE} Get Private Channels Error`,
+  props<{ error: any }>(),
+);
+
 // select channel
 export const selectChannel = createAction(
   `${BASE} Select Channel`,

@@ -26,6 +26,10 @@ export class MessagesHeaderComponent {
     return this.searchTerm.length ? 'close' : 'search';
   }
 
+  get prefix(): string {
+    return this.channel.private ? '@' : '#';
+  }
+
   onStar(): void {
     this.star.emit({ channel: this.channel, starred: !this.starred });
   }

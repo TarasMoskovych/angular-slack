@@ -1,16 +1,16 @@
 <mat-card class="messages-header">
   <div>
     <h2 *ngIf="channel?.name" class="messages-header__title">
-      #{{ channel.name }}
+      {{ prefix }} {{ channel.name }}
       <fa-icon
-        *ngIf="showIcon"
+        *ngIf="showIcon && !channel.private"
         class="messages-header__star"
         [class.messages-header__star--starred]="starred"
         [icon]="icons[starred ? 'faStarSolid' : 'faStar']"
         (click)="onStar()"
       ></fa-icon>
     </h2>
-    <span>0 Users</span>
+    <span *ngIf="!channel.private">0 Users</span>
   </div>
   <div>
     <mat-form-field>

@@ -29,3 +29,19 @@
     (select)="onSelect($event, false)"
   ></app-channels-body>
 </ng-container>
+
+<app-channels-header
+  [count]="(privateChannels$ | async).length"
+  iconName="faMailBulk"
+  title="direct messages"
+></app-channels-header>
+
+<ng-container *ngIf="selected$ | async as selected">
+  <app-channels-body
+    prefix="@"
+    [channels]="privateChannels$ | async"
+    [selected]="selected"
+    [starred]="!selected.starred"
+    (select)="onSelect($event, false)"
+  ></app-channels-body>
+</ng-container>

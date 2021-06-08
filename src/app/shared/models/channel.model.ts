@@ -7,4 +7,5 @@ export interface Channel {
   uid: string;
   createdBy?: User;
   starred?: boolean;
+  private: boolean;
 }
