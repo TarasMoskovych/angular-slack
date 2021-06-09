@@ -150,6 +150,50 @@ describe('ChannelsActions', () => {
     });
   });
 
+  describe('getPrivateChannels', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = ChannelsActions.getPrivateChannels();
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Channels] Get Private Channels');
+    });
+  });
+
+  describe('getPrivateChannelsSuccess', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = ChannelsActions.getPrivateChannelsSuccess({ channels: [channel] });
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Channels] Get Private Channels Success');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.channels).toEqual([channel]);
+    });
+  });
+
+  describe('getPrivateChannelsError', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = ChannelsActions.getPrivateChannelsError({ error });
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Channels] Get Private Channels Error');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.error).toEqual(error);
+    });
+  });
+
   describe('selectChannel', () => {
     let result: any;
 

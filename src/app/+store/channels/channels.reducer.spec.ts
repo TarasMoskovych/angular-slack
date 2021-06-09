@@ -46,6 +46,13 @@ describe('channelsReducer', () => {
     });
   });
 
+  describe('getPrivateChannelsSuccess', () => {
+    it('should return correct state', () => {
+      const state = channelsReducer(initialChannelsState, ChannelsActions.getPrivateChannelsSuccess({ channels: [channel] }));
+      expect(state).toEqual({ ...initialChannelsState, privateChannels: [channel] });
+    });
+  });
+
   describe('getStarredChannelsSuccess', () => {
     it('should return correct state', () => {
       const state = channelsReducer(initialChannelsState, ChannelsActions.getStarredChannelsSuccess({ channels: [channel] }));

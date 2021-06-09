@@ -1,6 +1,7 @@
 import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, User } from '../shared';
 
 export const channel: Channel = {
+  private: false,
   description: 'Test description',
   id: '1234-5678',
   name: 'Test name',

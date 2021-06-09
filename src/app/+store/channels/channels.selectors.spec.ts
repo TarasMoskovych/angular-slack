@@ -28,6 +28,21 @@ describe('ChannelsSelectors', () => {
     });
   });
 
+  describe('privateChannelsSelector', () => {
+    it('should return correct value when user is defined', () => {
+      const channels = [
+        channel,
+        { ...channel, uid: user.uid, id: Date.now() },
+      ];
+
+      expect(ChannelsSelectors.privateChannelsSelector.projector({ ...initialChannelsState, privateChannels: channels }, user)).toEqual([channel]);
+    });
+
+    it('should return correct value when user is undefined', () => {
+      expect(ChannelsSelectors.privateChannelsSelector.projector({ ...initialChannelsState, privateChannels: [channel] }, null)).toEqual([channel]);
+    });
+  });
+
   describe('channelsSelectedSelector', () => {
     it('should return correct value', () => {
       expect(
