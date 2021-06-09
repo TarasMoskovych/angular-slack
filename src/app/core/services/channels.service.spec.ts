@@ -64,6 +64,25 @@ describe('ChannelsService', () => {
     });
   });
 
+  describe('getPrivate', () => {
+    it('should get private channels', (done: DoneFn) => {
+      spyOnCollection(fireStore, [user], Collections.Users);
+
+      service.getPrivate().subscribe((response: Channel[]) => {
+        expect(response).toEqual([{
+          id: user.uid,
+          name: user.displayName,
+          description: null,
+          uid: user.uid,
+          createdBy: user,
+          starred: false,
+          private: true,
+        }]);
+        done();
+      });
+    });
+  });
+
   describe('getStarred', () => {
     beforeEach(() => {
       spyOnCollection(fireStore, [channel], Collections.Channels);

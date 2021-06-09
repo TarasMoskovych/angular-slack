@@ -26,12 +26,12 @@ describe('ChannelsComponent', () => {
       component.ngOnInit();
     });
 
-    it('should call "dispatch" two times', () => {
-      expect(store.dispatch).toHaveBeenCalledTimes(2);
+    it('should call "dispatch" three times', () => {
+      expect(store.dispatch).toHaveBeenCalledTimes(3);
     });
 
-    it('should call "select" three times', () => {
-      expect(store.select).toHaveBeenCalledTimes(3);
+    it('should call "select" four times', () => {
+      expect(store.select).toHaveBeenCalledTimes(4);
     });
   });
 

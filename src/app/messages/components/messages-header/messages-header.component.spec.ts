@@ -40,6 +40,18 @@ describe('MessagesHeaderComponent', () => {
     });
   });
 
+  describe('get prefix', () => {
+    it('should return "@" when channel is private', () => {
+      component.channel = { ...channel, private: true };
+      expect(component.prefix).toBe('@');
+    });
+
+    it('should return "#" when channel is public', () => {
+      component.channel = { ...channel, private: false };
+      expect(component.prefix).toBe('#');
+    });
+  });
+
   describe('onStar', () => {
     beforeEach(() => {
       spyOn(component.star, 'emit');

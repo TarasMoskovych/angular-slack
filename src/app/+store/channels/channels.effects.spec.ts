@@ -12,6 +12,7 @@ describe('ChannelsEffects', () => {
   const channelsServiceSpy: jasmine.SpyObj<ChannelsService> = jasmine.createSpyObj('ChannelsService', [
     'add',
     'get',
+    'getPrivate',
     'getStarred',
     'update',
     'remove',
@@ -70,6 +71,33 @@ describe('ChannelsEffects', () => {
 
       effects.get$.subscribe((action: any) => {
         expect(action.type).toBe(ChannelsActions.getChannelsError.type);
+        expect(action.error).toEqual(error);
+      });
+    });
+  });
+
+  describe('getPrivate$', () => {
+    let actions$: Actions;
+
+    beforeAll(() => {
+      actions$ = new Actions(of(ChannelsActions.getPrivateChannels));
+    });
+
+    it('should return correct data when success', () => {
+      channelsServiceSpy.getPrivate.and.returnValue(of([channel]));
+      const effects = new ChannelsEffects(actions$, channelsServiceSpy, userServiceSpy, store);
+
+      effects.getPrivate$.subscribe(action => {
+        expect(action.type).toBe(ChannelsActions.getPrivateChannelsSuccess.type);
+      });
+    });
+
+    it('should return correct data when error', () => {
+      channelsServiceSpy.getPrivate.and.returnValue(throwError(error));
+      const effects = new ChannelsEffects(actions$, channelsServiceSpy, userServiceSpy, store);
+
+      effects.getPrivate$.subscribe((action: any) => {
+        expect(action.type).toBe(ChannelsActions.getPrivateChannelsError.type);
         expect(action.error).toEqual(error);
       });
     });
