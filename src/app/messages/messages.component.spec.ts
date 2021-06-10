@@ -10,7 +10,8 @@ import {
   searchSelector,
   selectedStarredSelector,
   starChannel,
-  starredChannelsLengthSelector
+  starredChannelsLengthSelector,
+  getPrivateMessages,
 } from '../+store';
 import { channel, message, mockStore, user } from '../mocks';
 import { Channel, Message, User } from '../shared';
@@ -31,52 +32,96 @@ describe('MessagesComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    beforeEach(() => {
-      store.select
-        .withArgs(channelsSelectedSelector).and.returnValue(of(channel))
-        .withArgs(selectedStarredSelector).and.returnValue(of(true))
-        .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
-        .withArgs(searchSelector).and.returnValue(of(search))
-        .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
-        .withArgs(authUserSelector).and.returnValue(of(user));
+    describe('public channel', () => {
+      beforeEach(() => {
+        store.select
+          .withArgs(channelsSelectedSelector).and.returnValue(of(channel))
+          .withArgs(selectedStarredSelector).and.returnValue(of(true))
+          .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
+          .withArgs(searchSelector).and.returnValue(of(search))
+          .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
+          .withArgs(authUserSelector).and.returnValue(of(user));
 
-      component.ngOnInit();
-    });
+        component.ngOnInit();
+      });
 
-    it('should return channel on channel$ subscribe and call getMessages', () => {
-      component.channel$.subscribe((value: Channel) => {
-        expect(value).toEqual(channel);
-        expect(store.dispatch).toHaveBeenCalledOnceWith(getMessages({ channelId: channel.id }));
+      it('should return channel on channel$ subscribe and call getMessages', () => {
+        component.channel$.subscribe((value: Channel) => {
+          expect(value).toEqual(channel);
+          expect(store.dispatch).toHaveBeenCalledOnceWith(getMessages({ channelId: channel.id }));
+        });
+      });
+
+      it('should return true on isStarred$ subscribe', () => {
+        component.isStarred$.subscribe((value: boolean) => {
+          expect(value).toBeTrue();
+        });
+      });
+
+      it('should return messages list on messages$ subscribe', () => {
+        component.messages$.subscribe((value: Message[]) => {
+          expect(value).toEqual([message]);
+        });
+      });
+
+      it('should return number of starred channels on starredChannelsLength$ subscribe', () => {
+        component.starredChannelsLength$.subscribe((value: number) => {
+          expect(value).toBe(10);
+        });
+      });
+
+      it('should return search value on searchTerm$ subscribe', () => {
+        component.searchTerm$.subscribe((value: string) => {
+          expect(value).toBe(search);
+        });
+      });
+
+      it('should return user on user$ subscribe', () => {
+        component.user$.subscribe((value: User) => {
+          expect(value).toEqual(user);
+        });
       });
     });
 
-    it('should return true on isStarred$ subscribe', () => {
-      component.isStarred$.subscribe((value: boolean) => {
-        expect(value).toBeTrue();
+    describe('private channel', () => {
+      beforeEach(() => {
+        store.select
+          .withArgs(channelsSelectedSelector).and.returnValue(of({ ...channel, private: true }))
+          .withArgs(selectedStarredSelector).and.returnValue(of(true))
+          .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
+          .withArgs(searchSelector).and.returnValue(of(search))
+          .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
+          .withArgs(authUserSelector).and.returnValue(of(user));
+
+        component.ngOnInit();
+      });
+
+      it('should return channel on channel$ subscribe and call getPrivateMessages', () => {
+        component.channel$.subscribe((value: Channel) => {
+          expect(value).toEqual({ ...channel, private: true });
+          expect(store.dispatch).toHaveBeenCalledOnceWith(getPrivateMessages({ channelId: channel.id }));
+        });
       });
     });
 
-    it('should return messages list on messages$ subscribe', () => {
-      component.messages$.subscribe((value: Message[]) => {
-        expect(value).toEqual([message]);
-      });
-    });
+    describe('undefined channel', () => {
+      beforeEach(() => {
+        store.select
+          .withArgs(channelsSelectedSelector).and.returnValue(of(undefined))
+          .withArgs(selectedStarredSelector).and.returnValue(of(true))
+          .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
+          .withArgs(searchSelector).and.returnValue(of(search))
+          .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
+          .withArgs(authUserSelector).and.returnValue(of(user));
 
-    it('should return number of starred channels on starredChannelsLength$ subscribe', () => {
-      component.starredChannelsLength$.subscribe((value: number) => {
-        expect(value).toBe(10);
+        component.ngOnInit();
       });
-    });
 
-    it('should return search value on searchTerm$ subscribe', () => {
-      component.searchTerm$.subscribe((value: string) => {
-        expect(value).toBe(search);
-      });
-    });
-
-    it('should return user on user$ subscribe', () => {
-      component.user$.subscribe((value: User) => {
-        expect(value).toEqual(user);
+      it('should not call get messages', () => {
+        component.channel$.subscribe(() => {
+          expect(store.dispatch).not.toHaveBeenCalledOnceWith(getMessages({ channelId: channel.id }));
+          expect(store.dispatch).not.toHaveBeenCalledOnceWith(getPrivateMessages({ channelId: channel.id }));
+        });
       });
     });
   });

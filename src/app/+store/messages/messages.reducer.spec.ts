@@ -18,6 +18,13 @@ describe('messagesReducer', () => {
     });
   });
 
+  describe('getPrivateMessagesSuccess', () => {
+    it('should return correct state', () => {
+      const state = messagesReducer(initialMessagesState, messagesActions.getPrivateMessagesSuccess({ messages: [message] }));
+      expect(state).toEqual({ ...initialMessagesState, messages: [message] });
+    });
+  });
+
   describe('searchMessages', () => {
     it('should return correct state', () => {
       const state = messagesReducer(initialMessagesState, messagesActions.searchMessages({ search: 'test' }));

@@ -34,6 +34,22 @@ export const getMessagesError = createAction(
   props<{ error: AuthError }>(),
 );
 
+// get private messages
+export const getPrivateMessages = createAction(
+  `${BASE} Get Private Messages`,
+  props<{ channelId: string }>(),
+);
+
+export const getPrivateMessagesSuccess = createAction(
+  `${BASE} Get Private Messages Success`,
+  props<{ messages: Message[] }>(),
+);
+
+export const getPrivateMessagesError = createAction(
+  `${BASE} Get Private Messages Error`,
+  props<{ error: AuthError }>(),
+);
+
 export const searchMessages = createAction(
   `${BASE} Search Messages`,
   props<{ search: string }>(),

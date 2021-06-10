@@ -15,6 +15,7 @@ import {
   starredChannelsLengthSelector,
   searchMessages,
   searchSelector,
+  getPrivateMessages,
 } from 'src/app/+store';
 
 @Component({
@@ -39,7 +40,10 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.channel$ = this.store.select(channelsSelectedSelector).pipe(
       tap((channel: Channel) => {
-        channel && this.store.dispatch(getMessages({ channelId: channel.id }));
+        if (!channel) return;
+
+        const action = channel.private ? getPrivateMessages : getMessages;
+        this.store.dispatch(action({ channelId: channel.id }));
       }),
     );
     this.isStarred$ = this.store.select(selectedStarredSelector);
@@ -56,6 +60,7 @@ export class MessagesComponent implements OnInit {
   onMessageAdd(data: { type: 'text' | 'photo', value: string }, channelId: string, user: User) {
     const message: Message = {
       id: Date.now(),
+      uid: user.uid,
       channelId,
       content: data.value,
       timestamp: serverTimestamp(),

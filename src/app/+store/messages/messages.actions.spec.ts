@@ -94,6 +94,54 @@ describe('MessagesActions', () => {
     });
   });
 
+  describe('getPrivateMessages', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = messagesActions.getPrivateMessages({ channelId: channel.id });
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Messages] Get Private Messages');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.channelId).toBe(channel.id);
+    });
+  });
+
+  describe('getPrivateMessagesSuccess', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = messagesActions.getPrivateMessagesSuccess({ messages: [message] });
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Messages] Get Private Messages Success');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.messages).toEqual([message]);
+    });
+  });
+
+  describe('getPrivateMessagesError', () => {
+    let result: any;
+
+    beforeAll(() => {
+      result = messagesActions.getPrivateMessagesError({ error });
+    });
+
+    it('should have correct type', () => {
+      expect(result.type).toBe('[Messages] Get Private Messages Error');
+    });
+
+    it('should have correct payload', () => {
+      expect(result.error).toEqual(error);
+    });
+  });
+
   describe('searchMessages', () => {
     let result: any;
 
