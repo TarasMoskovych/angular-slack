@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { AuthError, Collections, Message } from 'src/app/shared';
+import { AuthError, Collections, Message, User } from 'src/app/shared';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -26,5 +26,9 @@ export class MessagesService {
 
   getByChannelId(id: string): Observable<Message[]> {
     return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', id).orderBy('id')).valueChanges();
+  }
+
+  getPrivateByChannelId(id: string, user: User): Observable<Message[]> {
+    return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', id).where('uid', '==', user.uid).orderBy('id')).valueChanges();
   }
 }

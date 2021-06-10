@@ -1,6 +1,6 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { channel, error, message, message2, mockFireStore, mockNotificationService, spyOnCollection } from 'src/app/mocks';
+import { channel, error, message, message2, mockFireStore, mockNotificationService, spyOnCollection, user } from 'src/app/mocks';
 import { AuthError, Collections, Message } from 'src/app/shared';
 import { MessagesService } from './messages.service';
 import { NotificationService } from './notification.service';
@@ -50,6 +50,19 @@ describe('MessagesService', () => {
 
     it('should return all messages', (done: DoneFn) => {
       service.getByChannelId(channel.id).subscribe((response: Message[]) => {
+        expect(response).toEqual([message, message2]);
+        done();
+      });
+    });
+  });
+
+  describe('getPrivateByChannelId', () => {
+    beforeEach(() => {
+      spyOnCollection(fireStore, [message, message2], Collections.Messages);
+    });
+
+    it('should return all messages', (done: DoneFn) => {
+      service.getPrivateByChannelId(channel.id, user).subscribe((response: Message[]) => {
         expect(response).toEqual([message, message2]);
         done();
       });

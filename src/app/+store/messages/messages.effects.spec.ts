@@ -1,16 +1,20 @@
 import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import * as messagesActions from './messages.actions';
 import * as channelsActions from 'src/app/+store/channels';
 import { MessagesService } from 'src/app/core';
-import { channel, error, message } from 'src/app/mocks';
+import { channel, error, message, mockStore, user } from 'src/app/mocks';
 import { MessagesEffects } from './messages.effects';
+import { MessagesState } from './messages.state';
 
 describe('MessagesEffects', () => {
+  const store: jasmine.SpyObj<Store<MessagesState>> = mockStore();
   const messagesServiceSpy: jasmine.SpyObj<MessagesService> = jasmine.createSpyObj('ChannelsService', [
     'add',
     'getByChannelId',
+    'getPrivateByChannelId',
   ]);
 
   describe('add$', () => {
@@ -25,7 +29,7 @@ describe('MessagesEffects', () => {
 
     it('should return correct action type when success', () => {
       messagesServiceSpy.add.and.returnValue(of(undefined));
-      const effects = new MessagesEffects(actions$, messagesServiceSpy);
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
 
       effects.add$.subscribe(action => {
         expect(action.type).toBe(messagesActions.addMessageSuccess.type);
@@ -34,7 +38,7 @@ describe('MessagesEffects', () => {
 
     it('should return correct data when error', () => {
       messagesServiceSpy.add.and.returnValue(throwError(error));
-      const effects = new MessagesEffects(actions$, messagesServiceSpy);
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
 
       effects.add$.subscribe((action: any) => {
         expect(action.type).toBe(messagesActions.addMessageError.type);
@@ -55,7 +59,7 @@ describe('MessagesEffects', () => {
 
     it('should return correct action type when success', () => {
       messagesServiceSpy.getByChannelId.and.returnValue(of([message]));
-      const effects = new MessagesEffects(actions$, messagesServiceSpy);
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
 
       effects.get$.subscribe((action: any) => {
         expect(action.type).toBe(messagesActions.getMessagesSuccess.type);
@@ -65,10 +69,43 @@ describe('MessagesEffects', () => {
 
     it('should return correct data when error', () => {
       messagesServiceSpy.getByChannelId.and.returnValue(throwError(error));
-      const effects = new MessagesEffects(actions$, messagesServiceSpy);
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
 
       effects.get$.subscribe((action: any) => {
         expect(action.type).toBe(messagesActions.getMessagesError.type);
+        expect(action.error).toEqual(error);
+      });
+    });
+  });
+
+  describe('getPrivate$', () => {
+    let actions$: Actions;
+
+    beforeAll(() => {
+      store.select.and.returnValue(of(user));
+
+      actions$ = new Actions(of({
+        type: messagesActions.getPrivateMessages.type,
+        channelId: channel.id,
+      }));
+    });
+
+    it('should return correct action type when success', () => {
+      messagesServiceSpy.getPrivateByChannelId.and.returnValue(of([message]));
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
+
+      effects.getPrivate$.subscribe((action: any) => {
+        expect(action.type).toBe(messagesActions.getPrivateMessagesSuccess.type);
+        expect(action.messages).toEqual([message]);
+      });
+    });
+
+    it('should return correct data when error', () => {
+      messagesServiceSpy.getPrivateByChannelId.and.returnValue(throwError(error));
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
+
+      effects.getPrivate$.subscribe((action: any) => {
+        expect(action.type).toBe(messagesActions.getPrivateMessagesError.type);
         expect(action.error).toEqual(error);
       });
     });
@@ -82,7 +119,7 @@ describe('MessagesEffects', () => {
     });
 
     it('should return correct action type when success', () => {
-      const effects = new MessagesEffects(actions$, messagesServiceSpy);
+      const effects = new MessagesEffects(actions$, messagesServiceSpy, store);
 
       effects.selectChannelSuccess$.subscribe((action: any) => {
         expect(action.type).toBe(messagesActions.searchMessages.type);

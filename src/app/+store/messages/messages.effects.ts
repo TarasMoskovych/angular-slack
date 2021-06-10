@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, pluck, switchMap } from 'rxjs/operators';
+import { catchError, map, pluck, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import * as messagesActions from './messages.actions';
 import * as channelsActions from 'src/app/+store/channels';
 import { MessagesService } from 'src/app/core';
 import { AuthError, Message } from 'src/app/shared';
+import { MessagesState } from './messages.state';
+import { authUserSelector } from '../auth';
 
 @Injectable()
 export class MessagesEffects {
   constructor(
     private actions$: Actions,
     private messagesService: MessagesService,
+    private store: Store<MessagesState>,
   ) {}
 
   add$ = createEffect(() => this.actions$.pipe(
@@ -38,6 +42,21 @@ export class MessagesEffects {
         .pipe(
           map((messages: Message[]) => messagesActions.getMessagesSuccess({ messages })),
           catchError((error: AuthError) => of(messagesActions.getMessagesError({ error })))
+        )
+      }),
+    ),
+  );
+
+  getPrivate$ = createEffect(() => this.actions$.pipe(
+    ofType(messagesActions.getPrivateMessages),
+    pluck('channelId'),
+    withLatestFrom(this.store.select(authUserSelector)),
+    switchMap(([id, user]) => {
+      return this.messagesService
+        .getPrivateByChannelId(id, user)
+        .pipe(
+          map((messages: Message[]) => messagesActions.getPrivateMessagesSuccess({ messages })),
+          catchError((error: AuthError) => of(messagesActions.getPrivateMessagesError({ error })))
         )
       }),
     ),
