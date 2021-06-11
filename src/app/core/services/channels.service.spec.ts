@@ -77,6 +77,7 @@ describe('ChannelsService', () => {
           createdBy: user,
           starred: false,
           private: true,
+          status: user.status,
         }]);
         done();
       });

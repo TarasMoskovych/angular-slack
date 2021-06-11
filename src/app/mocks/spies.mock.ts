@@ -5,6 +5,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
 import { of, throwError } from 'rxjs';
 
 import { AuthService, NotificationService } from '../core';
@@ -72,6 +73,10 @@ export const mockFireStore = () => {
 
 export const mockFireStorage = () => {
   return jasmine.createSpyObj<AngularFireStorage>('AngularFireStorage', ['upload']);
+};
+
+export const mockSocket = () => {
+  return jasmine.createSpyObj<Socket>('Socket', ['emit']);
 };
 
 export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string, reject = false) => {

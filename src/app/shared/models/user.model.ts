@@ -8,5 +8,5 @@ export interface User {
   emailVerified?: boolean;
   uid?: string;
   starredChannels?: string[];
-  status: Status;
+  status?: Status;
 }

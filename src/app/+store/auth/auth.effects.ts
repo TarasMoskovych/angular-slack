@@ -1,20 +1,26 @@
 import { Injectable } from '@angular/core';
 
+import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as authActions from './auth.actions';
 import * as RouterActions from './../router';
 
+import { Socket } from 'ngx-socket-io';
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck } from 'rxjs/operators';
+import { switchMap, map, catchError, pluck, withLatestFrom } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/core/services';
 import { AuthError, FirebaseUser, Status, User } from 'src/app/shared/models';
+import { AuthState } from './auth.state';
+import { authUserSelector } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects {
   constructor(
     private actions$: Actions,
-    private authService: AuthService
+    private authService: AuthService,
+    private socket: Socket,
+    private store: Store<AuthState>,
   ) {}
 
   getUserData(user: FirebaseUser): User {
@@ -51,11 +57,15 @@ export class AuthEffects {
 
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.logout),
-    switchMap(() => {
+    withLatestFrom(this.store.select(authUserSelector)),
+    switchMap(([action, user]) => {
       return this.authService
         .logout()
         .pipe(
-          map(() => authActions.logoutSuccess()),
+          map(() => {
+            this.emitStatus(user.uid, Status.OFFLINE);
+            return authActions.logoutSuccess();
+          }),
           catchError((error: AuthError) => of(authActions.logoutError({ error })))
         )
       }),
@@ -84,6 +94,7 @@ export class AuthEffects {
         .pipe(
           map((user: User) => {
             if (user && user.emailVerified) {
+              this.emitStatus(user.uid, Status.ONLINE);
               return authActions.stateChangeSuccess({ user });
             }
             return authActions.stateChangeError();
@@ -108,4 +119,8 @@ export class AuthEffects {
     ),
     map(() => RouterActions.go({ payload: { path: ['/app'] } }))),
   );
+
+  private emitStatus(uid: string, status: Status) {
+    this.socket.emit('status', { uid, status });
+  }
 }
