@@ -9,7 +9,6 @@ export const channel: Channel = {
   createdBy: {
     email: 'abc@gmail.com',
     displayName: 'Name',
-    status: Status.OFFLINE,
   },
 };
 
@@ -18,7 +17,6 @@ export const user: User = {
   displayName: 'Test',
   password: '123456',
   starredChannels: [channel.id],
-  status: Status.OFFLINE,
   uid: Date.now().toString(),
 };
 

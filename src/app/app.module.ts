@@ -6,6 +6,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { SocketIoModule } from 'ngx-socket-io';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -34,6 +35,7 @@ import { firebaseConfigs } from './configs';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
+    SocketIoModule.forRoot({ url: environment.host, options: {} }),
     StoreModule.forRoot(routerReducers, {
       runtimeChecks: {
         strictActionImmutability: true,

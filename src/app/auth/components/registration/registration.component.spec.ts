@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 
 import { AuthState, register } from 'src/app/+store';
 import { mockStore, user } from 'src/app/mocks';
+import { Status } from 'src/app/shared';
 import { RegistrationComponent } from './registration.component';
 
 describe('RegistrationComponent', () => {
@@ -43,7 +44,7 @@ describe('RegistrationComponent', () => {
 
     it('should dispatch an action with correct type when form is valid', () => {
       const { displayName, email, password } = user;
-      const value = { displayName, email, password };
+      const value = { displayName, email, password, status: Status.OFFLINE };
 
       component.form.setValue({
         userName: displayName,
