@@ -5,7 +5,9 @@
   &__item {
     color: $brown2;
     cursor: pointer;
+    display: flex;
     font-size: .8em;
+    justify-content: space-between;
     padding: 5px;
     text-transform: capitalize;
     transition: .3s;
@@ -13,6 +15,15 @@
     &--selected,
     &:hover {
       background: $brown3;
+    }
+  }
+
+  fa-icon {
+    color: $red;
+    opacity: .9;
+
+    &.online {
+      color: $green;
     }
   }
 }

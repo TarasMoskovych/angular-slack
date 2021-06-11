@@ -6,7 +6,7 @@ import { AuthState, register, authSubmitSelector } from 'src/app/+store/auth';
 
 import { Observable } from 'rxjs';
 
-import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages, fontIcons } from 'src/app/shared';
+import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages, fontIcons, Status } from 'src/app/shared';
 
 @Component({
   selector: 'app-registration',
@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
     const { userName, email } = this.form.value;
     const { password } = this.form.value.passwordGroup;
 
-    this.store.dispatch(register({ user: { displayName: userName, email, password } }));
+    this.store.dispatch(register({ user: { displayName: userName, email, password, status: Status.OFFLINE } }));
   }
 
   private buildForm() {

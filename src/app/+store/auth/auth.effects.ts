@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { switchMap, map, catchError, pluck } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/core/services';
-import { AuthError, FirebaseUser, User } from 'src/app/shared/models';
+import { AuthError, FirebaseUser, Status, User } from 'src/app/shared/models';
 
 @Injectable()
 export class AuthEffects {
@@ -19,7 +19,7 @@ export class AuthEffects {
 
   getUserData(user: FirebaseUser): User {
     const { displayName, email, photoURL, emailVerified, uid } = user;
-    return { displayName, email, photoURL, emailVerified, uid };
+    return { displayName, email, photoURL, emailVerified, uid, status: Status.OFFLINE };
   }
 
   login$ = createEffect(() => this.actions$.pipe(
