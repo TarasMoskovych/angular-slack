@@ -1,3 +1,4 @@
+import { Status } from './status.model';
 import { User } from './user.model';
 
 export interface Channel {
@@ -8,4 +9,5 @@ export interface Channel {
   createdBy?: User;
   starred?: boolean;
   private: boolean;
+  status?: Status;
 }

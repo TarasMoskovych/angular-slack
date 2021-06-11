@@ -1,3 +1,5 @@
+import { Status } from './status.model';
+
 export interface User {
   displayName?: string;
   email: string;
@@ -6,4 +8,5 @@ export interface User {
   emailVerified?: boolean;
   uid?: string;
   starredChannels?: string[];
+  status: Status;
 }

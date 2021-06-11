@@ -18,6 +18,7 @@ import {
   faFileUpload,
   faTimes,
   faMailBulk,
+  faCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontIcons = {
@@ -40,4 +41,5 @@ export const fontIcons = {
   faFileUpload,
   faTimes,
   faMailBulk,
+  faCircle,
 };

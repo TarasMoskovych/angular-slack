@@ -4,5 +4,10 @@
     [class.channels-body__item--selected]="channel.id === selected?.id && starred"
     (click)="onSelect(channel)"
   >{{ prefix }} {{ channel.name }}
+  <fa-icon
+    *ngIf="channel.private"
+    [icon]="icons.faCircle"
+    [class.online]="channel.status === status.ONLINE"
+  ></fa-icon>
   </div>
 </div>
