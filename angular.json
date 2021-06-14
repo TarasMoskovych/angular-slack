@@ -1,7 +1,9 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "angular-slack",
   "projects": {
     "angular-slack": {
       "projectType": "application",
@@ -14,45 +16,41 @@
           "strict": true
         }
       },
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/angular-slack",
+      "sourceRoot": "apps/angular-slack/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-slack",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/apps/angular-slack",
+            "index": "apps/angular-slack/src/index.html",
+            "main": "apps/angular-slack/src/main.ts",
+            "polyfills": "apps/angular-slack/src/polyfills.ts",
+            "tsConfig": "apps/angular-slack/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/angular-slack/src/favicon.ico",
+              "apps/angular-slack/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/font-awesome/css/font-awesome.css",
               "./node_modules/@ctrl/ngx-emoji-mart/picker.css",
-              "src/styles.scss"
+              "apps/angular-slack/src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": [
-              "md5"
-            ],
+            "allowedCommonJsDependencies": ["md5", "socket.io-client"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/scss"
-              ]
+              "includePaths": ["apps/angular-slack/src/assets/scss"]
             }
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/angular-slack/src/environments/environment.ts",
+                  "with": "apps/angular-slack/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -98,25 +96,23 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "codeCoverage": true,
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "main": "apps/angular-slack/src/test.ts",
+            "polyfills": "apps/angular-slack/src/polyfills.ts",
+            "tsConfig": "apps/angular-slack/tsconfig.spec.json",
+            "karmaConfig": "apps/angular-slack/karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/angular-slack/src/favicon.ico",
+              "apps/angular-slack/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/font-awesome/css/font-awesome.css",
               "./node_modules/@ctrl/ngx-emoji-mart/picker.css",
-              "src/styles.scss"
+              "apps/angular-slack/src/styles.scss"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/scss"
-              ]
+              "includePaths": ["apps/angular-slack/src/assets/scss"]
             }
           }
         },
@@ -124,13 +120,10 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "apps/angular-slack/tsconfig.app.json",
+              "apps/angular-slack/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -146,7 +139,81 @@
           }
         }
       }
+    },
+    "angular-slack-e2e": {
+      "root": "apps/angular-slack-e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/angular-slack-e2e/protractor.conf.js",
+            "devServerTarget": "angular-slack:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "angular-slack:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/angular-slack-e2e/tsconfig.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api"],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
-  },
-  "defaultProject": "angular-slack"
+  }
 }
