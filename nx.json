@@ -1,0 +1,26 @@
+{
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*",
+    "tsconfig.base.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "angular-slack",
+  "projects": {
+    "angular-slack": {
+      "tags": []
+    },
+    "angular-slack-e2e": {
+      "tags": [],
+      "implicitDependencies": ["angular-slack"]
+    },
+    "api": {
+      "tags": []
+    }
+  }
+}
