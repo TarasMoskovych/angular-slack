@@ -7,7 +7,7 @@ import * as RouterActions from './../router';
 
 import { Socket } from 'ngx-socket-io';
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, pluck, withLatestFrom, takeWhile } from 'rxjs/operators';
 
 import { AuthService } from '@angular-slack/app/core/services';
 import { AuthError, FirebaseUser, Status, User } from '@angular-slack/app/shared/models';
@@ -16,12 +16,29 @@ import { authUserSelector } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects {
+  private init = false;
+
   constructor(
     private actions$: Actions,
     private authService: AuthService,
     private socket: Socket,
     private store: Store<AuthState>,
-  ) {}
+  ) {
+    this.onInit();
+  }
+
+  onInit() {
+    this.socket.once('init', () => {
+      this.store.select(authUserSelector)
+        .pipe(takeWhile(() => !this.init))
+        .subscribe((user: User) => {
+          if (user?.emailVerified) {
+            this.init = true;
+            this.emitStatus(user.uid, Status.ONLINE)
+          }
+        });
+    });
+  }
 
   getUserData(user: FirebaseUser): User {
     const { displayName, email, photoURL, emailVerified, uid } = user;
@@ -94,7 +111,6 @@ export class AuthEffects {
         .pipe(
           map((user: User) => {
             if (user && user.emailVerified) {
-              this.emitStatus(user.uid, Status.ONLINE);
               return authActions.stateChangeSuccess({ user });
             }
             return authActions.stateChangeError();

@@ -76,7 +76,7 @@ export const mockFireStorage = () => {
 };
 
 export const mockSocket = () => {
-  return jasmine.createSpyObj<Socket>('Socket', ['emit']);
+  return jasmine.createSpyObj<Socket>('Socket', ['emit', 'on', 'once']);
 };
 
 export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string, reject = false) => {
