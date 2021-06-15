@@ -26,6 +26,38 @@ describe('AuthEffects', () => {
     socket = mockSocket();
   });
 
+  describe('onInit', () => {
+    let effects: AuthEffects;
+
+    beforeEach(() => {
+      effects = new AuthEffects(of(undefined), authServiceSpy, socket, store);
+      store.select.and.returnValue(of({ ...user, emailVerified: true }));
+    });
+
+    it('should emit status when user is verified', () => {
+      socket.once.and.callFake((eventName, cb) => cb());
+      effects.onInit();
+
+      expect(socket.emit).toHaveBeenCalledOnceWith('status', { uid: user.uid, status: Status.ONLINE });
+    });
+
+    it('should not emit status when user is invalid', () => {
+      socket.once.and.callFake((eventName, cb) => cb());
+      store.select.and.returnValue(of({ ...user, emailVerified: false }));
+      effects.onInit();
+
+      expect(socket.emit).not.toHaveBeenCalled();
+    });
+
+    it('should not emit status when user is undefined', () => {
+      socket.once.and.callFake((eventName, cb) => cb());
+      store.select.and.returnValue(of(undefined));
+      effects.onInit();
+
+      expect(socket.emit).not.toHaveBeenCalled();
+    });
+  });
+
   describe('login$', () => {
     let actions$: Actions;
 
@@ -161,7 +193,6 @@ describe('AuthEffects', () => {
       effects.stateChange$.subscribe((action: any) => {
         expect(action.type).toBe(authActions.stateChangeSuccess.type);
         expect(action.user).toEqual({ ...user, emailVerified: true });
-        expect(socket.emit).toHaveBeenCalledOnceWith('status', { uid: user.uid, status: Status.ONLINE });
       });
     });
 

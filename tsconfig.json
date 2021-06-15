@@ -19,7 +19,7 @@
       "dom"
     ],
     "paths": {
-      "@angular-slack/*": ["apps/angular-slack/src/*"],
+      "@angular-slack/*": ["apps/angular-slack/src/*"]
     },
     "rootDir": "."
   },
