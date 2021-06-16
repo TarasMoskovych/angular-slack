@@ -1,4 +1,4 @@
-import { Status } from './status.model';
+import { Status } from '@libs/models';
 
 export interface User {
   displayName?: string;

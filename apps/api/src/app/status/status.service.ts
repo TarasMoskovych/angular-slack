@@ -1,24 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
+import { Collections, Events, Status } from '@libs/models';
 
 import * as fs from 'firebase-admin';
 
 @Injectable()
 export class StatusService {
 
-  @OnEvent('status.online')
+  @OnEvent(`${Events.Status}.${Status.ONLINE}`)
   setOnline(uid: string) {
-    this.setStatus(uid, 'ONLINE');
+    this.setStatus(uid, Status.ONLINE);
   }
 
-  @OnEvent('status.offline')
+  @OnEvent(`${Events.Status}.${Status.OFFLINE}`)
   setOffline(uid: string) {
-    this.setStatus(uid, 'OFFLINE');
+    this.setStatus(uid, Status.OFFLINE);
   }
 
   private setStatus(uid: string, status: string) {
     if (uid) {
-      fs.firestore().collection('users').doc(uid).update({ status });
+      fs.firestore().collection(Collections.Users).doc(uid).update({ status });
     }
   }
 }

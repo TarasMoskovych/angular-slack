@@ -7,7 +7,8 @@ import { Observable, from, of } from 'rxjs';
 import { switchMap, catchError, take, map } from 'rxjs/operators';
 
 import { CoreModule } from '../core.module';
-import { User, Collections, b64toBlob, AuthError, FirebaseUser } from '@angular-slack/app/shared';
+import { User, b64toBlob, AuthError, FirebaseUser } from '@angular-slack/app/shared';
+import { Collections } from '@libs/models';
 
 import { NotificationService } from './notification.service';
 import { AuthService } from './auth.service';
@@ -53,10 +54,10 @@ export class UserProfileService {
   getById(uid: string): Observable<User> {
     if (!uid) { return of(null); }
 
-    return <Observable<User>>this.afs.collection(Collections.Users).doc(uid).valueChanges().pipe(
+    return this.afs.collection(Collections.Users).doc(uid).valueChanges().pipe(
       switchMap((user: DocumentSnapshot<User>) => of(user)),
       catchError((err: AuthError) => this.notificationService.handleError(err))
-    );
+    ) as Observable<User>;
   }
 
   private updateProfile(user: User, photoURL: string): Observable<string> {

@@ -16,10 +16,11 @@ import {
   spyOnDoc,
   user,
 } from '@angular-slack/app/mocks';
-import { AuthError, Collections, User } from '@angular-slack/app/shared';
+import { AuthError, User } from '@angular-slack/app/shared';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
 import { UserProfileService } from './user-profile.service';
+import { Collections } from '@libs/models';
 
 describe('UserProfileService', () => {
   const photoURL = 'photo url';

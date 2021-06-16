@@ -7,8 +7,9 @@ import { catchError, exhaustMap, map, switchMap, take } from 'rxjs/operators';
 
 import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
-import { Collections, Channel, AuthError, FirestoreQuerySnapshot, User } from '@angular-slack/app/shared';
+import { Channel, AuthError, FirestoreQuerySnapshot, User } from '@angular-slack/app/shared';
 import { authUserSelector } from '@angular-slack/app/+store/auth/auth.selectors';
+import { Collections } from '@libs/models';
 
 @Injectable({
   providedIn: CoreModule

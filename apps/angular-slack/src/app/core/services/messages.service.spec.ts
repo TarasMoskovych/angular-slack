@@ -1,9 +1,10 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { channel, error, message, message2, mockFireStore, mockNotificationService, spyOnCollection, user } from '@angular-slack/app/mocks';
-import { AuthError, Collections, Message } from '@angular-slack/app/shared';
+import { AuthError, Message } from '@angular-slack/app/shared';
 import { MessagesService } from './messages.service';
 import { NotificationService } from './notification.service';
+import { Collections } from '@libs/models';
 
 describe('MessagesService', () => {
   let service: MessagesService;

@@ -1,6 +1,7 @@
 import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { EventEmitter2 } from 'eventemitter2';
+import { Events, Status } from '@libs/models';
 
 @WebSocketGateway()
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -11,7 +12,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private eventEmitter: EventEmitter2) { }
 
   async handleConnection(socket: Socket) {
-    this.server.emit('init');
+    this.server.emit(Events.Init);
     this.users.push({ id: socket.id });
   }
 
@@ -20,7 +21,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.users = this.users.filter((user) => user.id !== socket.id);
 
     if (user?.uid) {
-      this.eventEmitter.emit('status.offline', user.uid);
+      this.eventEmitter.emit(`${Events.Status}.${Status.OFFLINE}`, user.uid);
     }
   }
 
@@ -32,6 +33,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       }
     });
 
-    this.eventEmitter.emit(`status.${status.toLowerCase()}`, uid);
+    this.eventEmitter.emit(`${Events.Status}.${status}`, uid);
   }
 }

@@ -11,8 +11,8 @@ import { fontIcons } from '@angular-slack/app/shared';
 export class ChannelsHeaderComponent {
   @Input() title: string;
   @Input() iconName: string;
-  @Input() count: number = 0;
-  @Input() add: boolean = false;
+  @Input() count = 0;
+  @Input() add = false;
   @Output() addChannel = new EventEmitter<void>();
 
   icons = fontIcons;

@@ -4,9 +4,10 @@ import { of } from 'rxjs';
 
 import { AppState } from '@angular-slack/app/+store';
 import { channel, error, mockFireStore, mockNotificationService, mockStore, spyOnCollection, spyOnDoc, user } from '@angular-slack/app/mocks';
-import { AuthError, Channel, Collections } from '@angular-slack/app/shared';
+import { AuthError, Channel } from '@angular-slack/app/shared';
 import { ChannelsService } from './channels.service';
 import { NotificationService } from './notification.service';
+import { Collections } from '@libs/models';
 
 describe('ChannelsService', () => {
   let service: ChannelsService;

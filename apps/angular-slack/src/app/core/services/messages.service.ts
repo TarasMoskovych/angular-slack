@@ -3,7 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { AuthError, Collections, Message, User } from '@angular-slack/app/shared';
+import { AuthError, Message, User } from '@angular-slack/app/shared';
+import { Collections } from '@libs/models';
 import { NotificationService } from './notification.service';
 
 @Injectable({
