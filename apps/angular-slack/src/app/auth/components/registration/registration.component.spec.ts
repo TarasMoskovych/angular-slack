@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { AuthState, register } from '@angular-slack/app/+store';
 import { mockStore, user } from '@angular-slack/app/mocks';
-import { Status } from '@angular-slack/app/shared';
+import { Status } from '@libs/models';
 import { RegistrationComponent } from './registration.component';
 
 describe('RegistrationComponent', () => {

@@ -15,11 +15,10 @@
     "angular-slack": {
       "tags": []
     },
-    "angular-slack-e2e": {
-      "tags": [],
-      "implicitDependencies": ["angular-slack"]
-    },
     "api": {
+      "tags": []
+    },
+    "models": {
       "tags": []
     }
   }

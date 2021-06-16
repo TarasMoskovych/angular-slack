@@ -9,7 +9,7 @@ class TimestampMock {
 }
 
 describe('DateAgoPipe', () => {
-  let pipe = new DateAgoPipe();
+  const pipe = new DateAgoPipe();
   const todayMockDate = new Date('2021-05-24T06:00:00').getTime();
   const OriginalDate = Date;
 

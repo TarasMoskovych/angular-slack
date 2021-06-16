@@ -9,7 +9,7 @@ import * as authActions from './auth.actions';
 import { AuthEffects } from './auth.effects';
 import * as routerActions from './../router';
 import { AuthState } from './auth.state';
-import { Status } from '@angular-slack/app/shared';
+import { Status } from '@libs/models';
 
 describe('AuthEffects', () => {
   let socket: jasmine.SpyObj<Socket>;

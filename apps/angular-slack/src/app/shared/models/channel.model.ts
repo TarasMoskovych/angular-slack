@@ -1,4 +1,4 @@
-import { Status } from './status.model';
+import { Status } from '@libs/models';
 import { User } from './user.model';
 
 export interface Channel {

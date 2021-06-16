@@ -10,7 +10,8 @@ import { of } from 'rxjs';
 import { switchMap, map, catchError, pluck, withLatestFrom, takeWhile } from 'rxjs/operators';
 
 import { AuthService } from '@angular-slack/app/core/services';
-import { AuthError, FirebaseUser, Status, User } from '@angular-slack/app/shared/models';
+import { AuthError, FirebaseUser, User } from '@angular-slack/app/shared/models';
+import { Events, Status } from '@libs/models';
 import { AuthState } from './auth.state';
 import { authUserSelector } from './auth.selectors';
 
@@ -28,7 +29,7 @@ export class AuthEffects {
   }
 
   onInit() {
-    this.socket.once('init', () => {
+    this.socket.once(Events.Init, () => {
       this.store.select(authUserSelector)
         .pipe(takeWhile(() => !this.init))
         .subscribe((user: User) => {
@@ -137,6 +138,6 @@ export class AuthEffects {
   );
 
   private emitStatus(uid: string, status: Status) {
-    this.socket.emit('status', { uid, status });
+    this.socket.emit(Events.Status, { uid, status });
   }
 }

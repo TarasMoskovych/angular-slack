@@ -6,7 +6,8 @@ import { AuthState, register, authSubmitSelector } from '@angular-slack/app/+sto
 
 import { Observable } from 'rxjs';
 
-import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages, fontIcons, Status } from '@angular-slack/app/shared';
+import { CustomValidators, GlobalErrorStateMatcher, ParentErrorStateMatcher, errorMessages, fontIcons } from '@angular-slack/app/shared';
+import { Status } from '@libs/models';
 
 @Component({
   selector: 'app-registration',

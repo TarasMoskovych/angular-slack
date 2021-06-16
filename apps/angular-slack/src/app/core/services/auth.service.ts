@@ -11,7 +11,6 @@ import { NotificationService } from './notification.service';
 import {
   AuthError,
   AuthUserCredential,
-  Collections,
   FirebaseUser,
   FirebaseUserInfo,
   FirestoreCollectionReference,
@@ -19,6 +18,7 @@ import {
   googleAuthProvider,
   User
 } from '@angular-slack/app/shared';
+import { Collections } from '@libs/models';
 
 @Injectable({
   providedIn: CoreModule

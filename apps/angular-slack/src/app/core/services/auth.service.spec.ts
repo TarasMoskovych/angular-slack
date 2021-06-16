@@ -15,9 +15,10 @@ import {
   userCredential,
   userInfo,
 } from '@angular-slack/app/mocks';
-import { AuthError, Collections, FirebaseUser, FirebaseUserInfo, User } from '@angular-slack/app/shared';
+import { AuthError, FirebaseUser, FirebaseUserInfo, User } from '@angular-slack/app/shared';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
+import { Collections } from '@libs/models';
 
 describe('AuthService', () => {
   let service: AuthService;
