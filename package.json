@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "nx",
-    "start": "concurrently -p=\"{name}\" -n=\"Angular,NestJS\" -c=\"green,blue\" \"ng s angular-slack --port 4201\" \"ng s api\"",
+    "start": "node dist/apps/api/main",
+    "dev": "concurrently -p=\"{name}\" -n=\"Angular,NestJS\" -c=\"green,blue\" \"ng s angular-slack --port 4201\" \"ng s api\"",
     "build": "ng build",
-    "prod:api": "ng build api --prod && node dist/apps/api/main",
     "deploy": "firebase login && ng build --prod && firebase deploy",
     "test": "ng test",
     "test:prod": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
@@ -28,7 +28,12 @@
     "dep-graph": "nx dep-graph",
     "workspace-schematic": "nx workspace-schematic",
     "help": "nx help",
-    "postinstall": "node ./decorate-angular-cli.js"
+    "postinstall": "node ./decorate-angular-cli.js",
+    "heroku-postbuild": "cross-env npm ci && ng build api --prod"
+  },
+  "engines": {
+    "node": "14.17.1",
+    "npm": "6.14.13"
   },
   "private": true,
   "dependencies": {
@@ -94,6 +99,7 @@
     "@typescript-eslint/parser": "4.19.0",
     "codelyzer": "^6.0.0",
     "concurrently": "^6.2.0",
+    "cross-env": "^7.0.3",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "jasmine-core": "~3.6.0",
