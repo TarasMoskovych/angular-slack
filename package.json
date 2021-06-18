@@ -29,7 +29,7 @@
     "workspace-schematic": "nx workspace-schematic",
     "help": "nx help",
     "postinstall": "node ./decorate-angular-cli.js",
-    "heroku-postbuild": "cross-env npm ci && ng build api --prod"
+    "heroku-postbuild": "ng build api --prod"
   },
   "engines": {
     "node": "14.17.1",
@@ -99,7 +99,6 @@
     "@typescript-eslint/parser": "4.19.0",
     "codelyzer": "^6.0.0",
     "concurrently": "^6.2.0",
-    "cross-env": "^7.0.3",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "jasmine-core": "~3.6.0",

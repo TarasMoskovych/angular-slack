@@ -6,9 +6,7 @@ import { port } from '@libs/models';
 export const environment = {
   production: false,
   host: `http://localhost:${port}`,
-  firebase: {
-
-  },
+  firebase: {},
 };
 
 /*
