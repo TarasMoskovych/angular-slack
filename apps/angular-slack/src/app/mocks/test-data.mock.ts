@@ -1,4 +1,4 @@
-import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, Status, User } from '../shared';
+import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, User } from '../shared';
 
 export const channel: Channel = {
   private: false,
