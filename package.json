@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "nx",
-    "start": "node dist/apps/api/main",
-    "dev": "concurrently -p=\"{name}\" -n=\"Angular,NestJS\" -c=\"green,blue\" \"ng s angular-slack --port 4201\" \"ng s api\"",
+    "start": "concurrently -p=\"{name}\" -n=\"Angular,NestJS\" -c=\"green,blue\" \"ng s angular-slack --port 4201\" \"ng s api\"",
     "build": "ng build",
     "deploy": "firebase login && ng build --prod && firebase deploy",
     "test": "ng test",
@@ -32,8 +31,8 @@
     "heroku-postbuild": "ng build api --prod"
   },
   "engines": {
-    "node": "14.17.1",
-    "npm": "6.14.13"
+    "node": "12.20.1",
+    "npm": "6.14.10"
   },
   "private": true,
   "dependencies": {
