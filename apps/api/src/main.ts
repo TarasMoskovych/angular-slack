@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { IoAdapter } from '@nestjs/platform-socket.io';
-import { ServiceAccount, initializeApp, credential } from 'firebase-admin';
+import { initializeApp, credential } from 'firebase-admin';
 import { port as defaultPort } from '@libs/models'
 
 import { AppModule } from './app/app.module';
@@ -16,7 +16,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   initializeApp({
-    credential: credential.cert(environment.firebase as ServiceAccount),
+    credential: credential.cert(JSON.parse(Buffer.from(environment.firebase, 'base64').toString('ascii'))),
   });
 
   await app.listen(port, () => {
