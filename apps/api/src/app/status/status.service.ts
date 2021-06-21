@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { Collections, Events, Status } from '@libs/models';
-
-import * as fs from 'firebase-admin';
+import { firestore } from 'firebase-admin';
 
 @Injectable()
 export class StatusService {
@@ -19,7 +18,7 @@ export class StatusService {
 
   private setStatus(uid: string, status: string) {
     if (uid) {
-      fs.firestore().collection(Collections.Users).doc(uid).update({ status });
+      firestore().collection(Collections.Users).doc(uid).update({ status });
     }
   }
 }
