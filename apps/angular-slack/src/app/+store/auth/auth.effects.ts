@@ -35,7 +35,7 @@ export class AuthEffects {
         .subscribe((user: User) => {
           if (user?.emailVerified) {
             this.init = true;
-            this.emitStatus(user.uid, Status.ONLINE)
+            this.emitStatus(user.uid, Status.ONLINE);
           }
         });
     });

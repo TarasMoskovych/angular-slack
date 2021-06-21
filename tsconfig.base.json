@@ -15,8 +15,8 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "@angular-slack/*": ["apps/angular-slack/src/*"],
-      "@libs/models": ["libs/models/src/index.ts"],
-      "@angular-slack/rest": ["libs/rest/src/index.ts"]
+      "@api/*": ["apps/api/src/*"],
+      "@libs/models": ["libs/models/src/index.ts"]
     },
     "rootDir": "."
   },

@@ -1,7 +1,5 @@
 export const environment = {
   production: true,
-  host: 'http://localhost:3001',
-  firebase: {
-
-  },
+  host: 'https://api-slack-ng.herokuapp.com',
+  firebase: {},
 };

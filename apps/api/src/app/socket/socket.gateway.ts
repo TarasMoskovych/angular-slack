@@ -2,8 +2,9 @@ import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGa
 import { Socket, Server } from 'socket.io';
 import { EventEmitter2 } from 'eventemitter2';
 import { Events, Status } from '@libs/models';
+import { environment } from '@api/environments/environment';
 
-@WebSocketGateway()
+@WebSocketGateway({ origins: environment.origins.split(' ') })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
