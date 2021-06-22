@@ -3,4 +3,5 @@ export const environment = {
   production: false,
   firebase: '',
   origins: '*:*',
+  redirectURL: 'http://localhost:4201',
 };
