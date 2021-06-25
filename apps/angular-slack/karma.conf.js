@@ -16,7 +16,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/angular-slack'),
+      dir: require('path').join(__dirname, '../../coverage/apps/angular-slack'),
       subdir: '.',
       reporters: [
         { type: 'html' },
