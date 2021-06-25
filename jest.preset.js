@@ -1,3 +1,11 @@
 const nxPreset = require('@nrwl/jest/preset');
 
-module.exports = { ...nxPreset };
+module.exports = {
+  ...nxPreset,
+  coverageReporters: [
+    'text',
+    'text-summary',
+    'json-summary',
+    'html',
+  ],
+};

@@ -18,10 +18,16 @@ jobs:
       - name: Install node_modules
         run: npm ci
       - name: Run tests
-        run: npm run test:prod
-      - name: Test Coverage
+        run: npm run affected:test -- --base=origin/master
+      - name: Test Coverage angular-slack
         uses: AthleticNet/comment-test-coverage@1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: apps/angular-slack/coverage/angular-slack/coverage-summary.json
-          title: Karma Test Coverage
+          path: coverage/apps/angular-slack/coverage-summary.json
+          title: angular-slack coverage
+      - name: Test Coverage api
+        uses: AthleticNet/comment-test-coverage@1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: coverage/apps/api/coverage-summary.json
+          title: api coverage

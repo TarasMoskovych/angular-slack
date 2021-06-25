@@ -125,18 +125,6 @@
             ],
             "exclude": ["**/node_modules/**"]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-slack:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "angular-slack:serve:production"
-            }
-          }
         }
       }
     },
@@ -184,6 +172,7 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/api"],
           "options": {
+            "codeCoverage": true,
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
           }
