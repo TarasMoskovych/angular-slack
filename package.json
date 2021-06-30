@@ -1,11 +1,11 @@
 {
   "name": "angular-slack",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "nx",
     "start": "node dist/apps/api/main",
     "dev": "concurrently -p=\"{name}\" -n=\"Angular,NestJS\" -c=\"green,blue\" \"ng s angular-slack --port 4201\" \"ng s api\"",
-    "build": "ng build",
+    "build": "ng build --prod",
     "deploy": "firebase login && ng build --prod && firebase deploy",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
@@ -13,7 +13,7 @@
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
-    "affected:test": "nx affected:test --no-watch --no-progress --browsers=ChromeHeadlessCI",
+    "affected:test": "nx affected:test --no-watch --no-progress --browsers=ChromeHeadlessCI --base=origin/master",
     "affected:lint": "nx affected:lint",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",

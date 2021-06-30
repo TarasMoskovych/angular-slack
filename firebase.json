@@ -1,7 +1,7 @@
 {
   "hosting": {
     "target": "ng",
-    "public": "./dist/angular-slack",
+    "public": "./dist/apps/angular-slack",
     "ignore": [
       "firebase.json",
       "**/.*",
