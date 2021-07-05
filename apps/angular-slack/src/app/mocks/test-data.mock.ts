@@ -58,6 +58,7 @@ export const message: Message = {
   uid: user.uid,
   channelId: channel.id,
   content: 'text1',
+  media: false,
   timestamp: Date.now() as any,
   user: { ...user },
 };
@@ -67,6 +68,7 @@ export const message2: Message = {
   uid: '1234',
   channelId: channel.id,
   content: 'text2',
+  media: false,
   timestamp: Date.now() as any,
   user: { ...user, uid: '1234' },
 };

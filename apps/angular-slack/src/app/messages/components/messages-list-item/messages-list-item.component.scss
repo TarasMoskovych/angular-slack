@@ -39,4 +39,9 @@
   &__text {
     word-break: break-word;
   }
+
+  &__img {
+    max-width: 100%;
+    padding-right: 15px;
+  }
 }
