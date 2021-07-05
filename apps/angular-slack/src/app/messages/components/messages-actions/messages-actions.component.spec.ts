@@ -2,10 +2,15 @@ import { fontIcons } from '@angular-slack/app/shared';
 import { MessagesActionsComponent } from './messages-actions.component';
 
 describe('MessagesActionsComponent', () => {
+  const reader = {
+    readAsDataURL: () => reader.onload(),
+    onload: cb => cb(),
+    result: 'test',
+  } as any;
   let component: MessagesActionsComponent;
 
   beforeEach(() => {
-    component = new MessagesActionsComponent();
+    component = new MessagesActionsComponent(reader);
   });
 
   it('should create', () => {
@@ -33,13 +38,29 @@ describe('MessagesActionsComponent', () => {
       component.message = 'Test';
       component.onMessageAdd();
 
-      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ type: 'text', value: 'Test' });
+      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: false, value: 'Test' });
     });
 
     it('should not emit event when message is empty', () => {
       component.message = '   ';
       component.onMessageAdd();
 
+      expect(component.messageAdd.emit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onFileUpload', () => {
+    beforeEach(() => {
+      spyOn(component.messageAdd, 'emit');
+    });
+
+    it('should emit "messageAdd" event when file is defined', () => {
+      component.onFileUpload({ target: { files: [new File([new ArrayBuffer(2e+5)], 'test.jpg', { lastModified: null, type: 'image/jpeg' })] }} as any);
+      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result) });
+    });
+
+    it('should not emit "messageAdd" event when files are not defined', () => {
+      component.onFileUpload({ target: {}} as any);
       expect(component.messageAdd.emit).not.toHaveBeenCalled();
     });
   });

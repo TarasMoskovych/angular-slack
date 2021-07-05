@@ -6,6 +6,7 @@ export interface Message {
   uid: string;
   channelId: string;
   content: string;
+  media: boolean;
   timestamp: FirestoreFieldValue;
   user: User;
 }

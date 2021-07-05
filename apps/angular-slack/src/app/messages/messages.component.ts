@@ -57,13 +57,14 @@ export class MessagesComponent implements OnInit {
     this.store.dispatch(starChannel({ channel: { [channel.id]: starred } }));
   }
 
-  onMessageAdd(data: { type: 'text' | 'photo', value: string }, channelId: string, user: User) {
+  onMessageAdd(data: { media: boolean, value: string }, channelId: string, user: User) {
     const message: Message = {
       id: Date.now(),
       uid: user.uid,
       channelId,
       content: data.value,
       timestamp: serverTimestamp(),
+      media: data.media,
       user,
     };
     this.store.dispatch(addMessage({ message }));

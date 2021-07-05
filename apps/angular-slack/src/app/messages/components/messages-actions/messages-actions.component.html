@@ -33,6 +33,7 @@
       [icon]="icons.faEdit"
     ></app-button-with-icon>
     <app-button-with-icon
+      (click)="file.click()"
       color="#00B5AD"
       iconColor="#00A9A1"
       text="Upload Media"
@@ -41,3 +42,10 @@
     ></app-button-with-icon>
   </div>
 </mat-card>
+
+<input
+  #file
+  hidden
+  type="file"
+  (change)="onFileUpload($event)"
+/>

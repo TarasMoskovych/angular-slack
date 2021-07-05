@@ -1,13 +1,13 @@
 import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 
-import { NotificationService, UserProfileService } from '@angular-slack/app/core';
-import { error, user } from '@angular-slack/app/mocks';
+import { UserProfileService } from '@angular-slack/app/core';
+import { mockNotificationService, error, user } from '@angular-slack/app/mocks';
 import * as userProfileActions from './user-profile.actions';
 import { UserProfileEffects } from './user-profile.effects';
 
 describe('UserProfileEffects', () => {
-  const notificationServiceSpy: jasmine.SpyObj<NotificationService> = jasmine.createSpyObj('NotificationService', ['show']);
+  const notificationServiceSpy = mockNotificationService();
   const userServiceSpy: jasmine.SpyObj<UserProfileService> = jasmine.createSpyObj('UserProfileService', ['update', 'starChannel']);
 
   describe('update$', () => {

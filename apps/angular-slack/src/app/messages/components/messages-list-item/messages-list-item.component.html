@@ -11,8 +11,14 @@
         {{ message.timestamp | dateAgo }}
       </span>
     </div>
-    <span class="messages-list-item__text">
+    <span *ngIf="!message.media" class="messages-list-item__text">
       {{ message.content }}
     </span>
+    <img
+      *ngIf="message.media"
+      alt=""
+      class="messages-list-item__img"
+      [src]="message.content"
+    />
   </div>
 </li>

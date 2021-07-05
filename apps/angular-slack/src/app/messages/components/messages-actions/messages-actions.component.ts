@@ -5,16 +5,19 @@ import { fontIcons } from '@angular-slack/app/shared';
   selector: 'app-messages-actions',
   templateUrl: './messages-actions.component.html',
   styleUrls: ['./messages-actions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [FileReader],
 })
 export class MessagesActionsComponent {
   @Input() showEmoji = false;
-  @Output() messageAdd = new EventEmitter<{ type: 'text' | 'photo', value: string }>();
+  @Output() messageAdd = new EventEmitter<{ media: boolean, value: string }>();
   @Output() toggleEmoji = new EventEmitter<boolean>();
   @ViewChild('input') input: ElementRef<HTMLInputElement>;
 
   icons = fontIcons;
   message = '';
+
+  constructor(private reader: FileReader) { }
 
   get icon() {
     return this.icons[this.showEmoji ? 'faTimes' : 'faPlus'];
@@ -22,8 +25,17 @@ export class MessagesActionsComponent {
 
   onMessageAdd(): void {
     if (this.message.trim().length) {
-      this.messageAdd.emit({ type: 'text', value: this.message });
+      this.messageAdd.emit({ media: false, value: this.message });
       this.message = '';
+    }
+  }
+
+  onFileUpload(event: Event): void {
+    const target = event.target as HTMLInputElement;
+
+    if (target.files?.length) {
+      this.reader.onload = () => this.messageAdd.emit({ media: true, value: String(this.reader.result) });
+      this.reader.readAsDataURL(target.files[0]);
     }
   }
 

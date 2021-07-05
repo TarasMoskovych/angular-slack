@@ -135,7 +135,7 @@ describe('MessagesComponent', () => {
 
   describe('onMessageAdd', () => {
     it('should dispatch addMessage with correct payload', () => {
-      component.onMessageAdd({ type: 'text', value: message.content }, channel.id, user);
+      component.onMessageAdd({ media: false, value: message.content }, channel.id, user);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
