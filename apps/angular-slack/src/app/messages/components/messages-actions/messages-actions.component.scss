@@ -1,6 +1,8 @@
 @import 'variables';
 
 .messages-actions {
+  border: 2px solid transparent;
+  transition: .3s;
 
   &__input-wrapper {
     align-items: center;
@@ -47,5 +49,9 @@
     align-items: center;
     display: flex;
     margin-top: 10px;
+  }
+
+  &.fileover {
+    border-color: $green;
   }
 }

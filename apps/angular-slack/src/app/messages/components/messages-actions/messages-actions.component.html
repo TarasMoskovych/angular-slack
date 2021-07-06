@@ -1,4 +1,4 @@
-<mat-card class="messages-actions">
+<mat-card appDropFile (fileDropped)="onFileDropped($event)" class="messages-actions">
   <div class="messages-actions__input-wrapper">
     <emoji-mart
       [class.hidden]="!showEmoji"

@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MaterialModule } from '../material/material.module';
 
 import {
+  DropFileDirective,
   FocusInvalidFieldDirective,
 } from './directives';
 
@@ -18,6 +19,7 @@ import {
 
 @NgModule({
   declarations: [
+    DropFileDirective,
     FocusInvalidFieldDirective,
     ButtonWithIconComponent,
     DateAgoPipe,
@@ -35,6 +37,7 @@ import {
     ReactiveFormsModule,
     FontAwesomeModule,
     MaterialModule,
+    DropFileDirective,
     FocusInvalidFieldDirective,
     ButtonWithIconComponent,
     DateAgoPipe,
