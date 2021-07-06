@@ -30,12 +30,15 @@ export class MessagesActionsComponent {
     }
   }
 
+  onFileDropped(files: FileList) {
+    this.addMedia(files[0]);
+  }
+
   onFileUpload(event: Event): void {
     const target = event.target as HTMLInputElement;
 
     if (target.files?.length) {
-      this.reader.onload = () => this.messageAdd.emit({ media: true, value: String(this.reader.result) });
-      this.reader.readAsDataURL(target.files[0]);
+      this.addMedia(target.files[0]);
     }
   }
 
@@ -47,5 +50,10 @@ export class MessagesActionsComponent {
 
   onToggleEmoji(): void {
     this.toggleEmoji.emit(!this.showEmoji);
+  }
+
+  private addMedia(file: File): void {
+    this.reader.onload = () => this.messageAdd.emit({ media: true, value: String(this.reader.result) });
+    this.reader.readAsDataURL(file);
   }
 }

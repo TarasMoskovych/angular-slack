@@ -1,3 +1,4 @@
+import { file } from '@angular-slack/app/mocks';
 import { fontIcons } from '@angular-slack/app/shared';
 import { MessagesActionsComponent } from './messages-actions.component';
 
@@ -49,13 +50,24 @@ describe('MessagesActionsComponent', () => {
     });
   });
 
+  describe('onFileDropped', () => {
+    beforeEach(() => {
+      spyOn(component.messageAdd, 'emit');
+    });
+
+    it('should emit "messageAdd" event when file is defined', () => {
+      component.onFileDropped([file] as any);
+      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result) });
+    });
+  });
+
   describe('onFileUpload', () => {
     beforeEach(() => {
       spyOn(component.messageAdd, 'emit');
     });
 
     it('should emit "messageAdd" event when file is defined', () => {
-      component.onFileUpload({ target: { files: [new File([new ArrayBuffer(2e+5)], 'test.jpg', { lastModified: null, type: 'image/jpeg' })] }} as any);
+      component.onFileUpload({ target: { files: [file] }} as any);
       expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result) });
     });
 

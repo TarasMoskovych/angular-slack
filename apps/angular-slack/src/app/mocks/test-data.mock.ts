@@ -72,3 +72,5 @@ export const message2: Message = {
   timestamp: Date.now() as any,
   user: { ...user, uid: '1234' },
 };
+
+export const file = new File([new ArrayBuffer(2e+5)], 'test.png', { lastModified: null, type: 'image/png' });
