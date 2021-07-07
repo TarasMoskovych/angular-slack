@@ -53,7 +53,7 @@ export class MessagesActionsComponent {
   }
 
   private addMedia(file: File): void {
-    this.reader.onload = () => this.messageAdd.emit({ media: true, value: String(this.reader.result) });
+    this.reader.onload = () => this.messageAdd.emit({ media: true, value: String(this.reader.result).split(',')[1] });
     this.reader.readAsDataURL(file);
   }
 }

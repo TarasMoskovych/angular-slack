@@ -1,5 +1,4 @@
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Store } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
 
@@ -8,10 +7,11 @@ import {
   error,
   firebaseUser,
   mockAuthService,
-  mockFireStorage,
   mockFireStore,
   mockNotificationService,
+  mockStorageService,
   mockStore,
+  photoURL,
   spyOnCollection,
   spyOnDoc,
   user,
@@ -21,23 +21,23 @@ import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
 import { UserProfileService } from './user-profile.service';
 import { Collections } from '@libs/models';
+import { StorageService } from './storage.service';
 
 describe('UserProfileService', () => {
-  const photoURL = 'photo url';
   let service: UserProfileService;
   let fireStore: jasmine.SpyObj<AngularFirestore>;
-  let fireStorage: jasmine.SpyObj<AngularFireStorage>;
   let authService: jasmine.SpyObj<AuthService>;
+  let storageService: jasmine.SpyObj<StorageService>;
   let notificationService: jasmine.SpyObj<NotificationService>;
   let store: jasmine.SpyObj<Store<AppState>>;
 
   beforeEach(() => {
     fireStore = mockFireStore();
-    fireStorage = mockFireStorage();
     authService = mockAuthService();
+    storageService = mockStorageService();
     notificationService = mockNotificationService();
     store = mockStore();
-    service = new UserProfileService(fireStore, fireStorage, authService, notificationService, store);
+    service = new UserProfileService(fireStore, authService, storageService, notificationService, store);
   });
 
   it('should be created', () => {
@@ -61,7 +61,7 @@ describe('UserProfileService', () => {
 
     it('should return updated user with uploading a new photo', (done: DoneFn) => {
       authService.getFirebaseUser.and.returnValue(of(firebaseUser));
-      fireStorage.upload.and.resolveTo({ ref: { getDownloadURL: () => Promise.resolve(photoURL) }} as any);
+      storageService.uploadPhoto.and.returnValue(of(photoURL));
 
       service.update(user, photoURL).subscribe((response: User) => {
         expect(response.photoURL).toEqual(photoURL);
@@ -83,7 +83,7 @@ describe('UserProfileService', () => {
 
     it('should handle an error when upload is rejected', (done: DoneFn) => {
       authService.getFirebaseUser.and.returnValue(of(firebaseUser));
-      fireStorage.upload.and.resolveTo({ ref: { getDownloadURL: () => Promise.reject(error) }} as any);
+      storageService.uploadPhoto.and.returnValue(throwError(error));
 
       service.update(user, photoURL).subscribe(
         () => fail(),
