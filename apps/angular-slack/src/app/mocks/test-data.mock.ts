@@ -74,3 +74,5 @@ export const message2: Message = {
 };
 
 export const file = new File([new ArrayBuffer(2e+5)], 'test.png', { lastModified: null, type: 'image/png' });
+export const b64Data = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+export const photoURL = 'https://firebasestorage.googleapis.com/v0/some-url';

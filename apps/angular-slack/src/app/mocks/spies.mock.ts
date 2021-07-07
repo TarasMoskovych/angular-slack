@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { of, throwError } from 'rxjs';
 
-import { AuthService, NotificationService } from '../core';
+import { AuthService, NotificationService, StorageService } from '../core';
 import { error, firebaseUser } from './test-data.mock';
 
 export const mockStore = () => {
@@ -50,6 +50,10 @@ export const mockNotificationService = () => {
     show: undefined,
     handleError: throwError(error),
   });
+};
+
+export const mockStorageService = () => {
+  return jasmine.createSpyObj<StorageService>('StorageService', ['uploadPhoto']);
 };
 
 export const mockAuthService = () => {

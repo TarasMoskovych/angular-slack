@@ -57,7 +57,7 @@ describe('MessagesActionsComponent', () => {
 
     it('should emit "messageAdd" event when file is defined', () => {
       component.onFileDropped([file] as any);
-      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result) });
+      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result).split(',')[1] });
     });
   });
 
@@ -68,7 +68,7 @@ describe('MessagesActionsComponent', () => {
 
     it('should emit "messageAdd" event when file is defined', () => {
       component.onFileUpload({ target: { files: [file] }} as any);
-      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result) });
+      expect(component.messageAdd.emit).toHaveBeenCalledOnceWith({ media: true, value: String(reader.result).split(',')[1] });
     });
 
     it('should not emit "messageAdd" event when files are not defined', () => {

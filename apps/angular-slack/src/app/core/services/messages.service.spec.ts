@@ -1,20 +1,35 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { channel, error, message, message2, mockFireStore, mockNotificationService, spyOnCollection, user } from '@angular-slack/app/mocks';
+import {
+  channel,
+  error,
+  message,
+  message2,
+  mockFireStore,
+  mockNotificationService,
+  mockStorageService,
+  photoURL,
+  spyOnCollection,
+  user,
+} from '@angular-slack/app/mocks';
 import { AuthError, Message } from '@angular-slack/app/shared';
+import { Collections } from '@libs/models';
 import { MessagesService } from './messages.service';
 import { NotificationService } from './notification.service';
-import { Collections } from '@libs/models';
+import { StorageService } from './storage.service';
+import { of } from 'rxjs';
 
 describe('MessagesService', () => {
   let service: MessagesService;
   let fireStore: jasmine.SpyObj<AngularFirestore>;
   let notificationService: jasmine.SpyObj<NotificationService>;
+  let storageService: jasmine.SpyObj<StorageService>;
 
   beforeEach(() => {
     fireStore = mockFireStore();
     notificationService = mockNotificationService();
-    service = new MessagesService(fireStore, notificationService);
+    storageService = mockStorageService();
+    service = new MessagesService(fireStore, notificationService, storageService);
   });
 
   it('should be created', () => {
@@ -22,11 +37,23 @@ describe('MessagesService', () => {
   });
 
   describe('add', () => {
-    it('should return added message', (done: DoneFn) => {
+    it('should return added text message', (done: DoneFn) => {
       spyOnCollection(fireStore, message);
 
       service.add(message).subscribe((response: Message) => {
         expect(response).toEqual(message);
+        expect(storageService.uploadPhoto).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should return added media message', (done: DoneFn) => {
+      spyOnCollection(fireStore, message);
+      storageService.uploadPhoto.and.returnValue(of(photoURL));
+
+      service.add({ ...message, media: true }).subscribe((response: Message) => {
+        expect(response).toEqual({ ...message, media: true });
+        expect(storageService.uploadPhoto).toHaveBeenCalled();
         done();
       });
     });
