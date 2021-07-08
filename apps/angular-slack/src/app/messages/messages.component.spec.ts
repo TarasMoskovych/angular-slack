@@ -13,18 +13,21 @@ import {
   starredChannelsLengthSelector,
   getPrivateMessages,
 } from '../+store';
-import { channel, message, mockStore, user } from '../mocks';
+import { StorageService } from '../core';
+import { channel, message, mockStorageService, mockStore, user } from '../mocks';
 import { Channel, Message, User } from '../shared';
 import { MessagesComponent } from './messages.component';
 
 describe('MessagesComponent', () => {
   let component: MessagesComponent;
   let store: jasmine.SpyObj<any>;
+  let storageService: jasmine.SpyObj<StorageService>;
   const search = 'test';
 
   beforeEach(() => {
     store = mockStore();
-    component = new MessagesComponent(store);
+    storageService = mockStorageService();
+    component = new MessagesComponent(store, storageService);
   });
 
   it('should create', () => {
@@ -73,6 +76,12 @@ describe('MessagesComponent', () => {
       it('should return search value on searchTerm$ subscribe', () => {
         component.searchTerm$.subscribe((value: string) => {
           expect(value).toBe(search);
+        });
+      });
+
+      it('should return progress on progress$ subscribe', () => {
+        component.progress$.subscribe((value: number) => {
+          expect(value).toEqual(50);
         });
       });
 
