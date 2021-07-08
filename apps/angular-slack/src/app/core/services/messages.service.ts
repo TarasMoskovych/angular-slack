@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { AuthError, Message, User } from '@angular-slack/app/shared';
 import { Collections } from '@libs/models';
@@ -20,12 +20,13 @@ export class MessagesService {
   ) { }
 
   add(message: Message): Observable<Message> {
-    const obs$ = () => message.media ? this.storageService.uploadPhoto(`public/user-${message.uid}/${Date.now()}`, message.content) : of(undefined);
+    const obs$ = () => message.media ? this.storageService.uploadPhoto(`public/user-${message.uid}/${Date.now()}`, message.content, true) : of(undefined);
 
     return obs$().pipe(
       switchMap((photoURL: string) => {
         return from(this.afs.collection<Message>(Collections.Messages).add({ ...message, content: message.media ? photoURL : message.content }))
           .pipe(
+            tap(() => this.storageService.progress$.next(null)),
             map(() => message),
             catchError((err: AuthError) => this.notificationService.handleError(err)),
           );

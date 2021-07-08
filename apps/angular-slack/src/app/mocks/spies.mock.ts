@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { AuthService, NotificationService, StorageService } from '../core';
 import { error, firebaseUser } from './test-data.mock';
@@ -53,7 +53,9 @@ export const mockNotificationService = () => {
 };
 
 export const mockStorageService = () => {
-  return jasmine.createSpyObj<StorageService>('StorageService', ['uploadPhoto']);
+  return jasmine.createSpyObj<StorageService>('StorageService', ['uploadPhoto'], {
+    progress$: new BehaviorSubject(50),
+  });
 };
 
 export const mockAuthService = () => {

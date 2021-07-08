@@ -42,6 +42,11 @@
     ></app-button-with-icon>
   </div>
 </mat-card>
+<mat-progress-bar
+  [style.visibility]="progress !== null ? 'visible' : 'hidden'"
+  [value]="progress"
+  mode="determinate"
+></mat-progress-bar>
 
 <input
   #file

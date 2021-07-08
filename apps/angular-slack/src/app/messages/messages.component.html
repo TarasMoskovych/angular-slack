@@ -15,6 +15,7 @@
     ></app-messages-list>
 
     <app-messages-actions
+      [progress]="progress$ | async"
       [showEmoji]="showEmoji"
       (messageAdd)="onMessageAdd($event, obs$.channel.id, obs$.user)"
       (toggleEmoji)="onToggleEmoji($event)"

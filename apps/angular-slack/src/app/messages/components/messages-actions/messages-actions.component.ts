@@ -10,6 +10,7 @@ import { fontIcons } from '@angular-slack/app/shared';
 })
 export class MessagesActionsComponent {
   @Input() showEmoji = false;
+  @Input() progress: number;
   @Output() messageAdd = new EventEmitter<{ media: boolean, value: string }>();
   @Output() toggleEmoji = new EventEmitter<boolean>();
   @ViewChild('input') input: ElementRef<HTMLInputElement>;
