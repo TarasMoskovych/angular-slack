@@ -19,7 +19,7 @@ jobs:
       - name: Install node_modules
         run: npm ci
       - name: Run tests
-        run: npm run affected:test
+        run: npm run test:prod
       - name: Test Coverage angular-slack
         uses: AthleticNet/comment-test-coverage@1.1
         with:
