@@ -8,6 +8,7 @@
     "build": "ng build --prod",
     "deploy": "firebase login && ng build --prod && firebase deploy",
     "test": "ng test",
+    "test:prod": "npm run test api && npm run test angular-slack -- --no-watch --browsers=ChromeHeadlessCI",
     "lint": "nx workspace-lint && ng lint",
     "nx": "nx",
     "affected:apps": "nx affected:apps",
