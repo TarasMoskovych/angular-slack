@@ -12,6 +12,7 @@ import {
   starChannel,
   starredChannelsLengthSelector,
   getPrivateMessages,
+  numberOfUsersSelector,
 } from '../+store';
 import { StorageService } from '../core';
 import { channel, message, mockStorageService, mockStore, user } from '../mocks';
@@ -23,6 +24,16 @@ describe('MessagesComponent', () => {
   let store: jasmine.SpyObj<any>;
   let storageService: jasmine.SpyObj<StorageService>;
   const search = 'test';
+  const mockStoreSelect = (store: jasmine.SpyObj<any>, ch: Channel) => {
+    store.select
+      .withArgs(channelsSelectedSelector).and.returnValue(of(ch))
+      .withArgs(selectedStarredSelector).and.returnValue(of(true))
+      .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
+      .withArgs(searchSelector).and.returnValue(of(search))
+      .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
+      .withArgs(authUserSelector).and.returnValue(of(user))
+      .withArgs(numberOfUsersSelector).and.returnValue(of(2));
+  };
 
   beforeEach(() => {
     store = mockStore();
@@ -37,14 +48,7 @@ describe('MessagesComponent', () => {
   describe('ngOnInit', () => {
     describe('public channel', () => {
       beforeEach(() => {
-        store.select
-          .withArgs(channelsSelectedSelector).and.returnValue(of(channel))
-          .withArgs(selectedStarredSelector).and.returnValue(of(true))
-          .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
-          .withArgs(searchSelector).and.returnValue(of(search))
-          .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
-          .withArgs(authUserSelector).and.returnValue(of(user));
-
+        mockStoreSelect(store, channel);
         component.ngOnInit();
       });
 
@@ -90,18 +94,17 @@ describe('MessagesComponent', () => {
           expect(value).toEqual(user);
         });
       });
+
+      it('should return number of users on users$ subscribe', () => {
+        component.users$.subscribe((value: number) => {
+          expect(value).toBe(2);
+        });
+      });
     });
 
     describe('private channel', () => {
       beforeEach(() => {
-        store.select
-          .withArgs(channelsSelectedSelector).and.returnValue(of({ ...channel, private: true }))
-          .withArgs(selectedStarredSelector).and.returnValue(of(true))
-          .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
-          .withArgs(searchSelector).and.returnValue(of(search))
-          .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
-          .withArgs(authUserSelector).and.returnValue(of(user));
-
+        mockStoreSelect(store, { ...channel, private: true });
         component.ngOnInit();
       });
 
@@ -115,14 +118,7 @@ describe('MessagesComponent', () => {
 
     describe('undefined channel', () => {
       beforeEach(() => {
-        store.select
-          .withArgs(channelsSelectedSelector).and.returnValue(of(undefined))
-          .withArgs(selectedStarredSelector).and.returnValue(of(true))
-          .withArgs(filteredMessagesSelector).and.returnValue(of([message]))
-          .withArgs(searchSelector).and.returnValue(of(search))
-          .withArgs(starredChannelsLengthSelector).and.returnValue(of(10))
-          .withArgs(authUserSelector).and.returnValue(of(user));
-
+        mockStoreSelect(store, undefined);
         component.ngOnInit();
       });
 

@@ -16,6 +16,12 @@ describe('MessagesSelectors', () => {
     });
   });
 
+  describe('numberOfUsersSelector', () => {
+    it('should return correct value', () => {
+      expect(messagesSelectors.numberOfUsersSelector.projector([message2, message])).toBe(2);
+    });
+  });
+
   describe('topPostersSelector', () => {
     it('should return correct value', () => {
       const { displayName, photoURL } = user;

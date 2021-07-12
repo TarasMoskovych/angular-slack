@@ -18,6 +18,16 @@ export const filteredMessagesSelector = createSelector(
       return true;
     }),
 );
+export const numberOfUsersSelector = createSelector(
+  messagesSelector,
+  (messages: Message[]) => {
+    return [...new Set(messages.reduce((acc: string[], message: Message) => {
+      const { uid } = message.user;
+      acc.push(uid);
+      return acc;
+    }, []))].length;
+  },
+);
 export const topPostersSelector = createSelector(
   messagesSelector,
   (messages: Message[]) => {

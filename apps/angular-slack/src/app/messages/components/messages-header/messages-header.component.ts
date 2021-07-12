@@ -13,6 +13,7 @@ export class MessagesHeaderComponent {
   @Input() channel: Channel;
   @Input() searchTerm = '';
   @Input() starred: boolean;
+  @Input() users = 0;
   @Output() star = new EventEmitter<{ channel: Channel, starred: boolean }>();
   @Output() search = new EventEmitter<string>();
 
@@ -28,6 +29,10 @@ export class MessagesHeaderComponent {
 
   get prefix(): string {
     return this.channel.private ? '@' : '#';
+  }
+
+  get numberOfUsers(): string {
+    return this.users === 1 ? `${this.users} User` : `${this.users} Users`;
   }
 
   onStar(): void {

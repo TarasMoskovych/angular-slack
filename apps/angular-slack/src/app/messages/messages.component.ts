@@ -16,6 +16,7 @@ import {
   searchMessages,
   searchSelector,
   getPrivateMessages,
+  numberOfUsersSelector,
 } from '@angular-slack/app/+store';
 import { StorageService } from '../core';
 
@@ -34,6 +35,7 @@ export class MessagesComponent implements OnInit {
   showEmoji = false;
   progress$: Observable<number>;
   user$: Observable<User>;
+  users$: Observable<number>;
 
   constructor(
     private store: Store,
@@ -55,6 +57,7 @@ export class MessagesComponent implements OnInit {
     this.starredChannelsLength$ = this.store.select(starredChannelsLengthSelector);
     this.progress$ = this.storageService.progress$;
     this.user$ = this.store.select(authUserSelector);
+    this.users$ = this.store.select(numberOfUsersSelector);
   }
 
   onStar({ channel, starred }: { channel: Channel, starred: boolean }): void {

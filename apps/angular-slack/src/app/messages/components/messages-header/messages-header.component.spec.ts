@@ -52,6 +52,18 @@ describe('MessagesHeaderComponent', () => {
     });
   });
 
+  describe('numberOfUsers', () => {
+    it('should return "1 User"', () => {
+      component.users = 1;
+      expect(component.numberOfUsers).toBe('1 User');
+    });
+
+    it('should return "10 Users"', () => {
+      component.users = 10;
+      expect(component.numberOfUsers).toBe('10 Users');
+    });
+  });
+
   describe('onStar', () => {
     beforeEach(() => {
       spyOn(component.star, 'emit');

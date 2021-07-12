@@ -5,6 +5,7 @@
       [searchTerm]="searchTerm$ | async"
       [starred]="isStarred$ | async"
       [starredChannelsLength]="starredChannelsLength$ | async"
+      [users]="users$ | async"
       (star)="onStar($event)"
       (search)="onSearch($event)"
     ></app-messages-header>
