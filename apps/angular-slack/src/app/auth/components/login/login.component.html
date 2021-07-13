@@ -58,8 +58,8 @@
       </ng-template>
     </button>
     <div class="auth__divider"></div>
-    <button (click)="onLoginWithGoogle()" [disabled]="loading$ | async" type="button" mat-raised-button>
-      Login with <fa-icon [icon]="icons.faGoogle"></fa-icon>oogle
+    <button (click)="onLoginWithGoogle()" class="auth__google-button" [disabled]="loading$ | async" type="button" mat-raised-button>
+      Login with&nbsp; <fa-icon [icon]="icons.faGoogle"></fa-icon>oogle
     </button>
   </form>
   <mat-card class="auth__footer">
