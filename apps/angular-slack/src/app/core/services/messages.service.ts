@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
-import { AuthError, Message, User } from '@angular-slack/app/shared';
+import { AuthError, FirestoreQuerySnapshot, Message, User } from '@angular-slack/app/shared';
 import { Collections } from '@libs/models';
 import { NotificationService } from './notification.service';
 import { StorageService } from './storage.service';
@@ -41,5 +41,10 @@ export class MessagesService {
 
   getPrivateByChannelId(id: string, user: User): Observable<Message[]> {
     return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', id).where('uid', '==', user.uid).orderBy('id')).valueChanges();
+  }
+
+  async removeAll(channelId: string): Promise<void> {
+    const columnsSnapshot: FirestoreQuerySnapshot = await this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', channelId)).get().toPromise();
+    columnsSnapshot.forEach(doc => doc.ref.delete());
   }
 }

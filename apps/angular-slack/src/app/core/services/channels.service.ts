@@ -6,6 +6,7 @@ import { from, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, take } from 'rxjs/operators';
 
 import { CoreModule } from '../core.module';
+import { MessagesService } from './messages.service';
 import { NotificationService } from './notification.service';
 import { Channel, AuthError, FirestoreQuerySnapshot, User } from '@angular-slack/app/shared';
 import { authUserSelector } from '@angular-slack/app/+store/auth/auth.selectors';
@@ -18,6 +19,7 @@ export class ChannelsService {
 
   constructor(
     private afs: AngularFirestore,
+    private messagesService: MessagesService,
     private notificationService: NotificationService,
     private store: Store,
   ) { }
@@ -79,6 +81,7 @@ export class ChannelsService {
     return this.getById(channel).pipe(
       switchMap((snapshot: FirestoreQuerySnapshot) => {
         if (!snapshot.empty) {
+          this.messagesService.removeAll(channel.id);
           return this.afs.doc(`${Collections.Channels}/${snapshot.docs[0].id}`).delete();
         }
         return of(null);
