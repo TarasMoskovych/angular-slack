@@ -3,23 +3,36 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { AppState } from '@angular-slack/app/+store';
-import { channel, error, mockFireStore, mockNotificationService, mockStore, spyOnCollection, spyOnDoc, user } from '@angular-slack/app/mocks';
 import { AuthError, Channel } from '@angular-slack/app/shared';
+import { Collections } from '@libs/models';
 import { ChannelsService } from './channels.service';
 import { NotificationService } from './notification.service';
-import { Collections } from '@libs/models';
+import { MessagesService } from './messages.service';
+import {
+  channel,
+  error,
+  mockFireStore,
+  mockMessagesService,
+  mockNotificationService,
+  mockStore,
+  spyOnCollection,
+  spyOnDoc,
+  user,
+} from '@angular-slack/app/mocks';
 
 describe('ChannelsService', () => {
   let service: ChannelsService;
   let fireStore: jasmine.SpyObj<AngularFirestore>;
   let store: jasmine.SpyObj<Store<AppState>>;
+  let messagesService: jasmine.SpyObj<MessagesService>;
   let notificationService: jasmine.SpyObj<NotificationService>;
 
   beforeEach(() => {
     fireStore = mockFireStore();
+    messagesService = mockMessagesService();
     notificationService = mockNotificationService();
     store = mockStore();
-    service = new ChannelsService(fireStore, notificationService, store);
+    service = new ChannelsService(fireStore, messagesService, notificationService, store);
   });
 
   it('should be created', () => {
@@ -151,6 +164,7 @@ describe('ChannelsService', () => {
 
       service.remove(channel).subscribe(() => {
         expect(fireStore.doc).toHaveBeenCalledTimes(1);
+        expect(messagesService.removeAll).toHaveBeenCalledOnceWith(channel.id);
         done();
       });
     });
@@ -161,6 +175,7 @@ describe('ChannelsService', () => {
 
       service.remove(channel).subscribe((response: any) => {
         expect(response).toBeNull();
+        expect(messagesService.removeAll).not.toHaveBeenCalled();
         done();
       });
     });

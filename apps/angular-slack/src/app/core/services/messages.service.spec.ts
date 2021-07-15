@@ -96,4 +96,13 @@ describe('MessagesService', () => {
       });
     });
   });
+
+  describe('removeAll', () => {
+    it('should remove all documents', async() => {
+      const spy = spyOnCollection(fireStore, undefined, Collections.Messages, false, true);
+      await service.removeAll(channel.id);
+
+      expect(spy.ref.delete).toHaveBeenCalledTimes(2);
+    });
+  });
 });

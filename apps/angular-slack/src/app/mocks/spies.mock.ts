@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 
-import { AuthService, NotificationService, StorageService } from '../core';
+import { AuthService, MessagesService, NotificationService, StorageService } from '../core';
 import { error, firebaseUser } from './test-data.mock';
 
 export const mockStore = () => {
@@ -62,6 +62,10 @@ export const mockAuthService = () => {
   return jasmine.createSpyObj<AuthService>('AuthService', ['getFirebaseUser']);
 };
 
+export const mockMessagesService = () => {
+  return jasmine.createSpyObj<MessagesService>('MessagesService', ['removeAll']);
+};
+
 export const mockFireAuth = () => {
   return jasmine.createSpyObj<AngularFireAuth>('AngularFireAuth', [
     'signInWithEmailAndPassword',
@@ -85,7 +89,18 @@ export const mockSocket = () => {
   return jasmine.createSpyObj<Socket>('Socket', ['emit', 'on', 'once']);
 };
 
-export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string, reject = false) => {
+export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string, reject = false, remove = false) => {
+  let spy: any;
+  const document = {
+    ref: {
+      delete: jasmine.createSpy(),
+    },
+  };
+
+  if (remove) {
+    spy = document;
+  }
+
   firestoreRef.collection.and.callFake((path: any, queryFn: any) => {
     const query = {
       where: () => query,
@@ -108,6 +123,12 @@ export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, 
       };
     }
 
+    if (remove) {
+      return {
+        get: () => of([document, document]),
+      };
+    }
+
     return {
       add: (value: any) => Promise.resolve(value),
       get: () => of(value === null ? { empty: true } : { docs: [{ id: 1 }] }),
@@ -115,6 +136,8 @@ export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, 
       doc: () => ({ valueChanges: () => of(value) }),
     } as any;
   });
+
+  return spy;
 };
 
 export const spyOnDoc = (firestoreRef: jasmine.SpyObj<AngularFirestore>, exists: boolean = false) => {
