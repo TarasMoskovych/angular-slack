@@ -10,7 +10,7 @@
         (click)="onStar()"
       ></fa-icon>
     </h2>
-    <span *ngIf="!channel.private">{{ numberOfUsers }}</span>
+    <span *ngIf="!channel.private" class="messages-header__users">{{ numberOfUsers }}</span>
   </div>
   <div>
     <mat-form-field>

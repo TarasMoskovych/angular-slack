@@ -6,8 +6,14 @@
   justify-content: space-between;
 
   &__title {
+    font-size: 1.5rem;
+    font-weight: $bold;
     padding: 0;
     margin: 0;
+  }
+
+  &__users {
+    color: rgba(0, 0, 0, 0.6);
   }
 
   &__star {

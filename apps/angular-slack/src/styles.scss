@@ -1,4 +1,5 @@
 @import 'global';
+@import 'variables';
 
 html,
 body {
@@ -45,4 +46,8 @@ body ::-webkit-scrollbar {
 
 .hidden {
   display: none;
+}
+
+.user-profile-view .mat-button-wrapper {
+  font-weight: $bold;
 }

@@ -43,6 +43,10 @@
       border-color: $blue;
       outline: none;
     }
+
+    &::placeholder {
+      color: rgba(191, 191, 191, 0.87);
+    }
   }
 
   &__buttons-wrapper {
