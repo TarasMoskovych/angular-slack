@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '@angular-slack/app/shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
 import { ThemeComponent } from './theme.component';
+import { themesReducer } from '../+store';
 
 @NgModule({
   declarations: [
     ThemeComponent,
   ],
   imports: [
-    CommonModule,
+    SharedModule,
+    StoreModule.forFeature('themes', themesReducer),
   ],
   exports: [
     ThemeComponent,
