@@ -129,7 +129,7 @@ describe('ChannelsService', () => {
       spyOnDoc(fireStore);
 
       service.update(channel).subscribe((response: Channel) => {
-        expect(response).toEqual(payload);
+        expect(response).toEqual(channel);
         done();
       });
     });

@@ -46,6 +46,13 @@ describe('channelsReducer', () => {
     });
   });
 
+  describe('updateChannel', () => {
+    it('should return correct state', () => {
+      const state = channelsReducer(initialChannelsState, ChannelsActions.updateChannel({ channel }));
+      expect(state).toEqual({ ...initialChannelsState, selected: channel });
+    });
+  });
+
   describe('getPrivateChannelsSuccess', () => {
     it('should return correct state', () => {
       const state = channelsReducer(initialChannelsState, ChannelsActions.getPrivateChannelsSuccess({ channels: [channel] }));

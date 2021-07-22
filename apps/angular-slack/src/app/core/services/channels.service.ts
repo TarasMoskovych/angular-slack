@@ -69,7 +69,7 @@ export class ChannelsService {
           return this.afs.doc(`${Collections.Channels}/${snapshot.docs[0].id}`).update({
             name: channel.name,
             description: channel.description
-          });
+          }).then(() => channel);
         }
         return of(null);
       }),

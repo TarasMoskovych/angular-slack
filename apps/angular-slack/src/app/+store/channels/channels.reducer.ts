@@ -9,6 +9,7 @@ export const channelsReducer = createReducer(
   on(channelsActions.addChannel, state => ({ ...state, added: false, loading: true })),
   on(channelsActions.addChannelSuccess, (state, action) => ({ ...state, added: true, loading: false, selected: { ...action.channel } })),
   on(channelsActions.addChannelError, state => ({ ...state, loading: false })),
+  on(channelsActions.updateChannel, (state, action) => ({ ...state, selected: { ...action.channel } })),
   on(channelsActions.getChannelsSuccess, (state, action) => ({ ...state, channels: [...action.channels] })),
   on(channelsActions.getStarredChannelsSuccess, (state, action) => ({ ...state, starredChannels: [...action.channels] })),
   on(channelsActions.getPrivateChannelsSuccess, (state, action) => ({ ...state, privateChannels: [...action.channels] })),
