@@ -1,0 +1,13 @@
+@import 'variables';
+
+.themes {
+  background-color: $black2;
+  height: 100%;
+  padding: 0 10px;
+
+  &__add {
+    margin-top: 20px;
+    min-width: 40px;
+    padding: 0;
+  }
+}

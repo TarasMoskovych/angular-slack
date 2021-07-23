@@ -1,6 +1,6 @@
 import { Theme } from '@angular-slack/app/shared';
 
-const defaultTheme: Theme = {
+export const defaultTheme: Theme = {
   primary: '#4C3C4C',
   secondary: '#EEEEEE',
   edit: false,

@@ -8,8 +8,10 @@ import { Collections } from '@libs/models';
 import { NotificationService } from './notification.service';
 import { StorageService } from './storage.service';
 
+import { CoreModule } from '../core.module';
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class MessagesService {
 
