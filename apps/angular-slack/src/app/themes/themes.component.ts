@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { getThemes, themesSelector, ThemesState } from '../+store/themes';
+import { Theme } from '../shared';
 
 @Component({
   selector: 'app-themes',
@@ -6,4 +11,17 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./themes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ThemesComponent {}
+export class ThemesComponent implements OnInit {
+  themes$: Observable<Theme[]>;
+
+  constructor(private store: Store<ThemesState>) { }
+
+  ngOnInit(): void {
+    this.themes$ = this.store.select(themesSelector);
+    this.store.dispatch(getThemes());
+  }
+
+  onAdd(): void {
+    console.log('on add');
+  }
+}

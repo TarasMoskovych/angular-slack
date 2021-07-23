@@ -5,10 +5,11 @@ import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
+import { CoreModule } from '../core.module';
 import { NotificationService } from './notification.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class StorageService {
   progress$ = new BehaviorSubject<number>(null);

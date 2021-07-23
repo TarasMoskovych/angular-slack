@@ -1,1 +1,14 @@
-themes component works!
+<div class="themes">
+  <button
+    (click)="onAdd()"
+    class="themes__add"
+    color="primary"
+    mat-raised-button
+  ><mat-icon>add</mat-icon>
+  </button>
+
+  <app-theme
+    *ngFor="let theme of themes$ | async"
+    [theme]="theme"
+  ></app-theme>
+</div>
