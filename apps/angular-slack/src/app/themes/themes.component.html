@@ -7,8 +7,8 @@
   ><mat-icon>add</mat-icon>
   </button>
 
-  <app-theme
-    *ngFor="let theme of themes$ | async"
-    [theme]="theme"
-  ></app-theme>
+  <ng-container *ngFor="let theme of themes$ | async">
+    <div class="themes__divider"></div>
+    <app-theme [theme]="theme"></app-theme>
+  </ng-container>
 </div>
