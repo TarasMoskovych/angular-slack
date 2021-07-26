@@ -1,0 +1,60 @@
+@import 'variables';
+
+.theme {
+  cursor: pointer;
+  position: relative;
+  width: 40px;
+
+  &:hover {
+    .theme {
+      &__close {
+        display: block;
+      }
+    }
+  }
+
+  &__container {
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  &__close {
+    cursor: pointer;
+    display: none;
+    height: 10px;
+    opacity: .9;
+    position: absolute;
+    right: 2px;
+    top: -7px;
+    width: 10px;
+    z-index: 1;
+
+    &::after,
+    &::before {
+      background-color: $white;
+      content: " ";
+      height: 15px;
+      left: 10px;
+      position: absolute;
+      width: 2px;
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+  }
+
+  &__overlay {
+    height: 40px;
+  }
+
+  &__block {
+    height: 40px;
+    transform: rotate(225deg);
+    width: 95px;
+  }
+}

@@ -1,3 +1,8 @@
-<div style="color: white;">
-  {{ theme | json }}
+<div class="theme">
+  <div *ngIf="theme.edit" class="theme__close"></div>
+  <div class="theme__container">
+    <div [style.background-color]="theme.primary" class="theme__overlay">
+      <div [style.background-color]="theme.secondary" class="theme__block"></div>
+    </div>
+  </div>
 </div>
