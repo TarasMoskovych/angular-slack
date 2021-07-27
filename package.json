@@ -67,6 +67,7 @@
     "firebase-admin": "^9.11.0",
     "font-awesome": "^4.7.0",
     "md5": "^2.3.0",
+    "ngx-color": "^7.2.0",
     "ngx-socket-io": "^3.3.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.2.0",

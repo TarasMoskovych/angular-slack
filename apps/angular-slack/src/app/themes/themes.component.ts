@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { ColorEvent } from 'ngx-color';
 import { Observable } from 'rxjs';
 
 import { getThemes, themesSelector, ThemesState } from '../+store/themes';
@@ -23,5 +24,9 @@ export class ThemesComponent implements OnInit {
 
   onAdd(): void {
     console.log('on add');
+  }
+
+  onHandleChange(data: ColorEvent): void {
+    console.log(data.color);
   }
 }
