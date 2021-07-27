@@ -11,4 +11,7 @@
     <div class="themes__divider"></div>
     <app-theme [theme]="theme"></app-theme>
   </ng-container>
+
+  <color-sketch (onChange)="onHandleChange($event)"></color-sketch>
+
 </div>
