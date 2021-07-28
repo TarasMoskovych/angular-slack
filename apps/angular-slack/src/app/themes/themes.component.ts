@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { ColorEvent } from 'ngx-color';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
-import { getThemes, themesSelector, ThemesState } from '../+store/themes';
+import { defaultTheme, getThemes, themesSelector, ThemesState } from '../+store/themes';
 import { Theme } from '../shared';
+import { ThemePickerComponent } from './components';
 
 @Component({
   selector: 'app-themes',
@@ -15,7 +16,10 @@ import { Theme } from '../shared';
 export class ThemesComponent implements OnInit {
   themes$: Observable<Theme[]>;
 
-  constructor(private store: Store<ThemesState>) { }
+  constructor(
+    private dialog: MatDialog,
+    private store: Store<ThemesState>,
+  ) { }
 
   ngOnInit(): void {
     this.themes$ = this.store.select(themesSelector);
@@ -23,10 +27,14 @@ export class ThemesComponent implements OnInit {
   }
 
   onAdd(): void {
-    console.log('on add');
-  }
+    const dialog = this.dialog.open(ThemePickerComponent, {
+      backdropClass: 'themes-overlay',
+      panelClass: 'themes-wrapper',
+      data: { ...defaultTheme },
+    });
 
-  onHandleChange(data: ColorEvent): void {
-    console.log(data.color);
+    dialog.afterClosed()
+      .pipe(take(1))
+      .subscribe((theme: Theme) => console.log(theme));
   }
 }

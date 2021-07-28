@@ -51,3 +51,11 @@ body ::-webkit-scrollbar {
 .user-profile-view .mat-button-wrapper {
   font-weight: $bold;
 }
+
+.themes-overlay {
+  background-color: rgba(0, 0, 0, .85);
+}
+
+.themes-wrapper .mat-dialog-container {
+  background-color: transparent;
+}

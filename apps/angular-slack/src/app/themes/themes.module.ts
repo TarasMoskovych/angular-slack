@@ -4,14 +4,18 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ColorSketchModule } from 'ngx-color/sketch';
 
-import { ThemesComponent } from './themes.component';
 import { ThemesEffects, themesReducer } from '../+store';
-import { ThemeComponent } from './components/theme/theme.component';
+import { ThemesComponent } from './themes.component';
+import {
+  ThemeComponent,
+  ThemePickerComponent,
+} from './components';
 
 @NgModule({
   declarations: [
     ThemesComponent,
     ThemeComponent,
+    ThemePickerComponent,
   ],
   imports: [
     SharedModule,

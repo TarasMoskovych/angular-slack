@@ -1,0 +1,23 @@
+<div class="theme-picker">
+  <h1 class="theme-picker__title" mat-dialog-title>Choose App Colors</h1>
+  <div class="theme-picker__content" mat-dialog-content>
+    <div class="theme-picker__item">
+      <div class="theme-picker__label">Primary Color</div>
+      <color-sketch [color]="theme.primary" (onChange)="theme.primary = $event.color.hex"></color-sketch>
+    </div>
+    <div class="theme-picker__item">
+      <div class="theme-picker__label">Secondary Color</div>
+      <color-sketch [color]="theme.secondary" (onChange)="theme.secondary = $event.color.hex"></color-sketch>
+    </div>
+  </div>
+  <div class="theme-picker__buttons" mat-dialog-actions>
+    <button class="theme-picker__button theme-picker__button--green" [mat-dialog-close]="theme">
+      <fa-icon [icon]="icons.faCheck"></fa-icon>
+      Save Colors
+    </button>
+    <button class="theme-picker__button theme-picker__button--red" cdkFocusInitial mat-dialog-close>
+      <fa-icon [icon]="icons.faTimes"></fa-icon>
+      Cancel
+    </button>
+  </div>
+</div>
