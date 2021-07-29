@@ -3,6 +3,22 @@ import { Theme } from '@angular-slack/app/shared';
 
 const BASE = '[Themes]';
 
+// add theme
+export const addTheme = createAction(
+  `${BASE} Add Theme`,
+  props<{ theme: Theme }>(),
+);
+
+export const addThemeSuccess = createAction(
+  `${BASE} Add Theme Success`,
+  props<{ theme: Theme }>(),
+);
+
+export const addThemeError = createAction(
+  `${BASE} Add Theme Error`,
+  props<{ error: any }>(),
+);
+
 // get themes
 export const getThemes = createAction(
   `${BASE} Get Themes`,

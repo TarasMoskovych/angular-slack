@@ -2,9 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
+  providers: [
+    {
+      provide: 'LocalStorage',
+      useValue: window.localStorage,
+    },
+  ],
 })
 export class CoreModule { }
