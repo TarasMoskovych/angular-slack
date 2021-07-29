@@ -1,6 +1,6 @@
 import { defaultTheme } from '@angular-slack/app/+store/themes';
 import { Theme } from '@angular-slack/app/shared';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { CoreModule } from '../core.module';
@@ -9,10 +9,24 @@ import { CoreModule } from '../core.module';
   providedIn: CoreModule
 })
 export class ThemesService {
+  private key = 'themes';
 
-  constructor() { }
+  constructor(@Inject('LocalStorage') private localStorage: Storage) { }
+
+  add(theme: Theme): Observable<Theme> {
+    this.saveTheme(theme);
+    return of(theme);
+  }
 
   get(): Observable<Theme[]> {
-    return of([defaultTheme]);
+    return of([defaultTheme, ...this.getThemes()]);
+  }
+
+  private getThemes(): Theme[] {
+    return JSON.parse(this.localStorage.getItem(this.key) || '[]');
+  }
+
+  private saveTheme(theme: Theme): void {
+    this.localStorage.setItem(this.key, JSON.stringify([...this.getThemes(), theme]));
   }
 }

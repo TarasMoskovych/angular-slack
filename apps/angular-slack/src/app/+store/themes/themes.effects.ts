@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ThemesService } from '@angular-slack/app/core';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, pluck, switchMap } from 'rxjs';
 
 import * as themesActions from './themes.actions';
 import { Theme } from '@angular-slack/app/shared';
@@ -13,6 +13,20 @@ export class ThemesEffects {
     private actions$: Actions,
     private themesService: ThemesService,
   ) {}
+
+  add$ = createEffect(() => this.actions$.pipe(
+    ofType(themesActions.addTheme),
+    pluck('theme'),
+    switchMap((theme: Theme) => {
+      return this.themesService
+        .add(theme)
+        .pipe(
+          map((theme: Theme) => themesActions.addThemeSuccess({ theme })),
+          catchError((error: any) => of(themesActions.addThemeError({ error })))
+        )
+      }),
+    ),
+  );
 
   get$ = createEffect(() => this.actions$.pipe(
     ofType(themesActions.getThemes),
