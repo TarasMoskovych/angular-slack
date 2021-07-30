@@ -40,4 +40,18 @@ export class ThemesEffects {
       }),
     ),
   );
+
+  remove$ = createEffect(() => this.actions$.pipe(
+    ofType(themesActions.removeTheme),
+    pluck('theme'),
+    switchMap((theme: Theme) => {
+      return this.themesService
+        .remove(theme)
+        .pipe(
+          map((theme: Theme) => themesActions.removeThemeSuccess({ theme })),
+          catchError((error: any) => of(themesActions.removeThemeError({ error })))
+        )
+      }),
+    ),
+  );
 }

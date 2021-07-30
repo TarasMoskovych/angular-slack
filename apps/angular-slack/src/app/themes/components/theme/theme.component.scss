@@ -7,7 +7,7 @@
 
   &:hover {
     .theme {
-      &__close {
+      &__remove {
         display: block;
       }
     }
@@ -18,7 +18,7 @@
     overflow: hidden;
   }
 
-  &__close {
+  &__remove {
     cursor: pointer;
     display: none;
     height: 10px;

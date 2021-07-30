@@ -22,11 +22,20 @@ export class ThemesService {
     return of([defaultTheme, ...this.getThemes()]);
   }
 
+  remove(theme: Theme): Observable<Theme> {
+    this.removeTheme(theme);
+    return of(theme);
+  }
+
   private getThemes(): Theme[] {
     return JSON.parse(this.localStorage.getItem(this.key) || '[]');
   }
 
   private saveTheme(theme: Theme): void {
     this.localStorage.setItem(this.key, JSON.stringify([...this.getThemes(), theme]));
+  }
+
+  private removeTheme(theme: Theme): void {
+    this.localStorage.setItem(this.key, JSON.stringify(this.getThemes().filter((item: Theme) => item.id !== theme.id)));
   }
 }
