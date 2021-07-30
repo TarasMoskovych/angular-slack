@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
-import { addTheme, defaultTheme, getThemes, themesSelector, ThemesState } from '../+store/themes';
+import { addTheme, defaultTheme, getThemes, removeTheme, themesSelector, ThemesState } from '../+store/themes';
 import { Theme } from '../shared';
 import { ThemePickerComponent } from './components';
 
@@ -35,6 +35,10 @@ export class ThemesComponent implements OnInit {
 
     dialog.afterClosed()
       .pipe(take(1))
-      .subscribe((theme: Theme) => theme && this.store.dispatch(addTheme({ theme })));
+      .subscribe((theme: Theme) => theme && this.store.dispatch(addTheme({ theme: { ...theme, id: Date.now() } })));
+  }
+
+  onRemove(theme: Theme): void {
+    this.store.dispatch(removeTheme({ theme }));
   }
 }

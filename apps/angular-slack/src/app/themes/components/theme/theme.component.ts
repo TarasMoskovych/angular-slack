@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Theme } from '@angular-slack/app/shared';
 
 @Component({
@@ -9,4 +9,9 @@ import { Theme } from '@angular-slack/app/shared';
 })
 export class ThemeComponent {
   @Input() theme: Theme;
+  @Output() remove = new EventEmitter<Theme>();
+
+  onRemove(): void {
+    this.remove.emit(this.theme);
+  }
 }

@@ -9,6 +9,6 @@
 
   <ng-container *ngFor="let theme of themes$ | async">
     <div class="themes__divider"></div>
-    <app-theme [theme]="theme"></app-theme>
+    <app-theme [theme]="theme" (remove)="onRemove($event)"></app-theme>
   </ng-container>
 </div>

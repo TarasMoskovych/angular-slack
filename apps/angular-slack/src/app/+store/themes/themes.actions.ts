@@ -33,3 +33,19 @@ export const getThemesError = createAction(
   `${BASE} Get Themes Error`,
   props<{ error: any }>(),
 );
+
+// remove theme
+export const removeTheme = createAction(
+  `${BASE} Remove Theme`,
+  props<{ theme: Theme }>(),
+);
+
+export const removeThemeSuccess = createAction(
+  `${BASE} Remove Theme Success`,
+  props<{ theme: Theme }>(),
+);
+
+export const removeThemeError = createAction(
+  `${BASE} Remove Theme Error`,
+  props<{ error: any }>(),
+);
