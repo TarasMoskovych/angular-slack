@@ -34,7 +34,6 @@ export class ThemesComponent implements OnInit {
   ngOnInit(): void {
     this.selected$ = this.store.select(themesSelectedSelector);
     this.themes$ = this.store.select(themesSelector);
-    this.store.dispatch(getThemes());
   }
 
   onAdd(): void {

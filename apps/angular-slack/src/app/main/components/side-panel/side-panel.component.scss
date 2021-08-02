@@ -1,11 +1,11 @@
 @import 'variables';
 
 :host {
-  background: $brown;
   color: $white;
   height: 100vh;
   max-width: 250px;
   padding: 0 1em;
+  transition: .3s;
   width: 100%;
 }
 
