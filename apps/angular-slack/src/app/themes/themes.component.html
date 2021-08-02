@@ -1,14 +1,21 @@
-<div class="themes">
-  <button
-    (click)="onAdd()"
-    class="themes__add"
-    color="primary"
-    mat-raised-button
-  ><mat-icon>add</mat-icon>
-  </button>
+<ng-container *ngIf="{ themes: themes$ | async, selected: selected$ | async } as obs$">
+  <div class="themes">
+    <button
+      (click)="onAdd()"
+      class="themes__add"
+      color="primary"
+      mat-raised-button
+    ><mat-icon>add</mat-icon>
+    </button>
 
-  <ng-container *ngFor="let theme of themes$ | async">
-    <div class="themes__divider"></div>
-    <app-theme [theme]="theme" (remove)="onRemove($event)"></app-theme>
-  </ng-container>
-</div>
+    <ng-container *ngFor="let theme of obs$.themes">
+      <div class="themes__divider"></div>
+      <app-theme
+        [selected]="theme.id === obs$.selected.id"
+        [theme]="theme"
+        (click)="theme.id !== obs$.selected.id && onSelect(theme)"
+        (remove)="onRemove($event)"
+      ></app-theme>
+    </ng-container>
+  </div>
+</ng-container>

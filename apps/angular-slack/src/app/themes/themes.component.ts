@@ -3,7 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
-import { addTheme, defaultTheme, getThemes, removeTheme, themesSelector, ThemesState } from '../+store/themes';
+import {
+  DEFAULT_THEME,
+  addTheme,
+  getThemes,
+  removeTheme,
+  selectTheme,
+  themesSelectedSelector,
+  themesSelector,
+  ThemesState,
+} from '../+store/themes';
 import { Theme } from '../shared';
 import { ThemePickerComponent } from './components';
 
@@ -14,6 +23,7 @@ import { ThemePickerComponent } from './components';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemesComponent implements OnInit {
+  selected$: Observable<Theme>;
   themes$: Observable<Theme[]>;
 
   constructor(
@@ -22,6 +32,7 @@ export class ThemesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.selected$ = this.store.select(themesSelectedSelector);
     this.themes$ = this.store.select(themesSelector);
     this.store.dispatch(getThemes());
   }
@@ -30,12 +41,16 @@ export class ThemesComponent implements OnInit {
     const dialog = this.dialog.open(ThemePickerComponent, {
       backdropClass: 'themes-overlay',
       panelClass: 'themes-wrapper',
-      data: { ...defaultTheme, edit: true },
+      data: { ...DEFAULT_THEME, edit: true },
     });
 
     dialog.afterClosed()
       .pipe(take(1))
       .subscribe((theme: Theme) => theme && this.store.dispatch(addTheme({ theme: { ...theme, id: Date.now() } })));
+  }
+
+  onSelect(theme: Theme): void {
+    this.store.dispatch(selectTheme({ theme }));
   }
 
   onRemove(theme: Theme): void {

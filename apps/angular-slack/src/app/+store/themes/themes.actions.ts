@@ -26,11 +26,27 @@ export const getThemes = createAction(
 
 export const getThemesSuccess = createAction(
   `${BASE} Get Themes Success`,
-  props<{ themes: Theme[] }>(),
+  props<{ themes: Theme[], selected: Theme }>(),
 );
 
 export const getThemesError = createAction(
   `${BASE} Get Themes Error`,
+  props<{ error: any }>(),
+);
+
+// select theme
+export const selectTheme = createAction(
+  `${BASE} Select Theme`,
+  props<{ theme: Theme }>(),
+);
+
+export const selectThemeSuccess = createAction(
+  `${BASE} Select Theme Success`,
+  props<{ theme: Theme }>(),
+);
+
+export const selectThemeError = createAction(
+  `${BASE} Select Theme Error`,
   props<{ error: any }>(),
 );
 

@@ -5,6 +5,12 @@
   position: relative;
   width: 40px;
 
+  &--selected {
+    .theme__container {
+      border-color: $white;
+    }
+  }
+
   &:hover {
     .theme {
       &__remove {
@@ -14,8 +20,10 @@
   }
 
   &__container {
+    border: 1px solid transparent;
     border-radius: 3px;
     overflow: hidden;
+    transition: .3s;
   }
 
   &__remove {
