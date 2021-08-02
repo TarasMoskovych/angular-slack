@@ -1,6 +1,6 @@
 import { Theme } from '@angular-slack/app/shared';
 
-export const defaultTheme: Theme = {
+export const DEFAULT_THEME: Theme = {
   id: 1,
   primary: '#4C3C4C',
   secondary: '#EEEEEE',
@@ -13,6 +13,6 @@ export interface ThemesState {
 }
 
 export const initialThemesState: ThemesState = {
-  selected: defaultTheme,
-  themes: [defaultTheme],
+  selected: null,
+  themes: [],
 };

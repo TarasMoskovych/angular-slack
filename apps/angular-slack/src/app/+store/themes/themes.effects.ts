@@ -34,8 +34,22 @@ export class ThemesEffects {
       return this.themesService
         .get()
         .pipe(
-          map((themes: Theme[]) => themesActions.getThemesSuccess({ themes })),
+          map(({ themes, selected }) => themesActions.getThemesSuccess({ themes, selected })),
           catchError((error: any) => of(themesActions.getThemesError({ error })))
+        )
+      }),
+    ),
+  );
+
+  select$ = createEffect(() => this.actions$.pipe(
+    ofType(themesActions.selectTheme),
+    pluck('theme'),
+    switchMap((theme: Theme) => {
+      return this.themesService
+        .select(theme)
+        .pipe(
+          map((theme: Theme) => themesActions.selectThemeSuccess({ theme })),
+          catchError((error: any) => of(themesActions.selectThemeError({ error })))
         )
       }),
     ),

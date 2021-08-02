@@ -9,6 +9,7 @@ import { Theme } from '@angular-slack/app/shared';
 })
 export class ThemeComponent {
   @Input() theme: Theme;
+  @Input() selected: boolean;
   @Output() remove = new EventEmitter<Theme>();
 
   onRemove(): void {
