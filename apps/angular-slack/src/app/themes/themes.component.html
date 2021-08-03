@@ -8,12 +8,13 @@
     ><mat-icon>add</mat-icon>
     </button>
 
-    <ng-container *ngFor="let theme of obs$.themes">
+    <ng-container *ngFor="let theme of obs$.themes; let idx = index">
       <div class="themes__divider"></div>
       <app-theme
         [selected]="theme.id === obs$.selected.id"
         [theme]="theme"
         (click)="theme.id !== obs$.selected.id && onSelect(theme)"
+        (dblclick)="idx !== 0 && onEdit(theme)"
         (remove)="onRemove($event)"
       ></app-theme>
     </ng-container>

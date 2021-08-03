@@ -5,6 +5,7 @@
   position: relative;
   width: 40px;
 
+  &:hover,
   &--selected {
     .theme__container {
       border-color: $white;

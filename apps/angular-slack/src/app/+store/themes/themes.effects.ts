@@ -14,6 +14,19 @@ export class ThemesEffects {
     private themesService: ThemesService,
   ) {}
 
+  get$ = createEffect(() => this.actions$.pipe(
+    ofType(themesActions.getThemes),
+    switchMap(() => {
+      return this.themesService
+        .get()
+        .pipe(
+          map(({ themes, selected }) => themesActions.getThemesSuccess({ themes, selected })),
+          catchError((error: any) => of(themesActions.getThemesError({ error })))
+        )
+      }),
+    ),
+  );
+
   add$ = createEffect(() => this.actions$.pipe(
     ofType(themesActions.addTheme),
     pluck('theme'),
@@ -28,14 +41,15 @@ export class ThemesEffects {
     ),
   );
 
-  get$ = createEffect(() => this.actions$.pipe(
-    ofType(themesActions.getThemes),
-    switchMap(() => {
+  edit$ = createEffect(() => this.actions$.pipe(
+    ofType(themesActions.editTheme),
+    pluck('theme'),
+    switchMap((theme: Theme) => {
       return this.themesService
-        .get()
+        .edit(theme)
         .pipe(
-          map(({ themes, selected }) => themesActions.getThemesSuccess({ themes, selected })),
-          catchError((error: any) => of(themesActions.getThemesError({ error })))
+          map((theme: Theme) => themesActions.editThemeSuccess({ theme })),
+          catchError((error: any) => of(themesActions.editThemeError({ error })))
         )
       }),
     ),

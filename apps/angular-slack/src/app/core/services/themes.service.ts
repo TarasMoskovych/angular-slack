@@ -27,11 +27,22 @@ export class ThemesService {
   add(theme: Theme): Observable<Theme> {
     this._set(this.themesKey, [...this.getThemes(), theme]);
     this.select(theme);
+
+    return of(theme);
+  }
+
+  edit(theme: Theme): Observable<Theme> {
+    const themes = [...this.getThemes()];
+    themes.splice(themes.findIndex((item: Theme) => theme.id === item.id), 1, theme);
+    this._set(this.themesKey, themes);
+    this.select(theme);
+
     return of(theme);
   }
 
   select(theme: Theme): Observable<Theme> {
     this._set(this.selectedKey, { id: theme.id });
+
     return of(theme);
   }
 
