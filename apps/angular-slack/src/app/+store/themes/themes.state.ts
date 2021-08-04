@@ -1,3 +1,4 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Theme } from '@angular-slack/app/shared';
 
 export const DEFAULT_THEME: Theme = {
@@ -7,12 +8,12 @@ export const DEFAULT_THEME: Theme = {
   edit: false,
 };
 
-export interface ThemesState {
-  selected: Theme;
-  themes: Theme[];
+export const themeAdapter: EntityAdapter<Theme> = createEntityAdapter<Theme>();
+
+export interface ThemesState extends EntityState<Theme> {
+  readonly selected: Theme;
 }
 
-export const initialThemesState: ThemesState = {
+export const initialThemesState: ThemesState = themeAdapter.getInitialState({
   selected: null,
-  themes: [],
-};
+});
