@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ThemesService } from '@angular-slack/app/core';
-import { catchError, map, of, pluck, switchMap } from 'rxjs';
+import { of } from 'rxjs';
+import { catchError, map, pluck, switchMap } from 'rxjs/operators';
 
 import * as themesActions from './themes.actions';
 import { Theme } from '@angular-slack/app/shared';

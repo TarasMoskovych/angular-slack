@@ -1,10 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ThemesState } from './themes.state';
+import { themeAdapter, ThemesState } from './themes.state';
 
-const getThemes = (state: ThemesState) => state.themes;
 const getSelected = (state: ThemesState) => state.selected;
 
 export const getThemesState = createFeatureSelector<ThemesState>('themes');
-export const themesSelector = createSelector(getThemesState, getThemes);
+export const { selectAll: themesSelector } = themeAdapter.getSelectors(getThemesState);
 export const themesSelectedSelector = createSelector(getThemesState, getSelected);
