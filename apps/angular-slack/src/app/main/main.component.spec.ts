@@ -1,8 +1,8 @@
 import { of } from 'rxjs';
 
-import { channelsSelectedSelector } from '../+store';
-import { channel, mockStore } from '../mocks';
-import { Channel } from '../shared';
+import { channelsSelectedSelector, getThemes, themesSelectedSelector } from '../+store';
+import { channel, mockStore, theme } from '../mocks';
+import { Channel, Theme } from '../shared';
 import { MainComponent } from './main.component';
 
 describe('MainComponent', () => {
@@ -21,7 +21,8 @@ describe('MainComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       store.select
-        .withArgs(channelsSelectedSelector).and.returnValue(of(channel));
+        .withArgs(channelsSelectedSelector).and.returnValue(of(channel))
+        .withArgs(themesSelectedSelector).and.returnValue(of(theme));
 
       component.ngOnInit();
     });
@@ -30,6 +31,16 @@ describe('MainComponent', () => {
       component.channel$.subscribe((value: Channel) => {
         expect(value).toEqual(channel);
       });
+    });
+
+    it('should return theme on theme$ subscribe', () => {
+      component.theme$.subscribe((value: Theme) => {
+        expect(value).toEqual(theme);
+      });
+    });
+
+    it('should dispatch "getThemes" action', () => {
+      expect(store.dispatch).toHaveBeenCalledWith(getThemes());
     });
   });
 });

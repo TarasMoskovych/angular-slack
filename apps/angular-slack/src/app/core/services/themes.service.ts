@@ -58,7 +58,7 @@ export class ThemesService {
     return of(theme);
   }
 
-  private getThemes(): Theme[] {
+  getThemes(): Theme[] {
     return this._get(this.themesKey) || [];
   }
 

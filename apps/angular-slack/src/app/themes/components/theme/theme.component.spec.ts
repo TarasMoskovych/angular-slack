@@ -1,25 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { theme } from '@angular-slack/app/mocks';
 import { ThemeComponent } from './theme.component';
 
 describe('ThemeComponent', () => {
   let component: ThemeComponent;
-  let fixture: ComponentFixture<ThemeComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ThemeComponent ]
-    })
-    .compileComponents();
-  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThemeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new ThemeComponent();
+    component.theme = theme;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onRemove', () => {
+    beforeEach(() => {
+      spyOn(component.remove, 'emit');
+    });
+
+    it('should emit "remove" event', () => {
+      component.onRemove();
+      expect(component.remove.emit).toHaveBeenCalledOnceWith(component.theme);
+    });
   });
 });
