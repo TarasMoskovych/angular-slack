@@ -1,4 +1,5 @@
-import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, User } from '../shared';
+import { DEFAULT_THEME } from '../+store';
+import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, Theme, User } from '../shared';
 
 export const channel: Channel = {
   private: false,
@@ -72,6 +73,9 @@ export const message2: Message = {
   timestamp: Date.now() as any,
   user: { ...user, uid: '1234' },
 };
+
+export const theme: Theme = { ...DEFAULT_THEME };
+export const theme2: Theme = { ...DEFAULT_THEME, id: 2 };
 
 export const file = new File([new ArrayBuffer(2e+5)], 'test.png', { lastModified: null, type: 'image/png' });
 export const b64Data = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
