@@ -14,7 +14,7 @@ describe('DateAgoPipe', () => {
   const OriginalDate = Date;
 
   beforeEach(() => {
-    spyOn(window, 'Date').and.callFake(function(date: string) {
+    spyOn(window, 'Date').and.callFake(function(date: string) { // tslint:disable-line
       return {
         getTime: () => date ? new OriginalDate(date).getTime() : todayMockDate,
       };

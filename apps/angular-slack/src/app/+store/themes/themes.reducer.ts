@@ -8,6 +8,12 @@ export const themesReducer = createReducer(
   on(themesActions.getThemesSuccess, (state, action) => themeAdapter.setAll(action.themes, { ...state, selected: action.selected })),
   on(themesActions.addThemeSuccess, (state, action) => themeAdapter.addOne(action.theme, { ...state, selected: action.theme })),
   on(themesActions.selectThemeSuccess, (state, action) => ({ ...state, selected: action.theme })),
-  on(themesActions.editThemeSuccess, (state, action) => themeAdapter.updateOne({ id: action.theme.id, changes: action.theme }, { ...state, selected: action.theme })),
-  on(themesActions.removeThemeSuccess, (state, action) => themeAdapter.removeOne(action.theme.id, { ...state, selected: state.selected.id === action.theme.id ? DEFAULT_THEME : state.selected })),
+  on(themesActions.editThemeSuccess, (state, action) => {
+    return themeAdapter.updateOne({ id: action.theme.id, changes: action.theme }, { ...state, selected: action.theme });
+  }),
+  on(themesActions.removeThemeSuccess, (state, action) => {
+    return themeAdapter.removeOne(
+      action.theme.id, { ...state, selected: state.selected.id === action.theme.id ? DEFAULT_THEME : state.selected },
+    );
+  }),
 );

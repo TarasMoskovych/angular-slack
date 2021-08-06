@@ -35,7 +35,7 @@ export class ThemesEffects {
       return this.themesService
         .add(theme)
         .pipe(
-          map((theme: Theme) => themesActions.addThemeSuccess({ theme })),
+          map((response: Theme) => themesActions.addThemeSuccess({ theme: response })),
           catchError((error: any) => of(themesActions.addThemeError({ error })))
         )
       }),
@@ -49,7 +49,7 @@ export class ThemesEffects {
       return this.themesService
         .edit(theme)
         .pipe(
-          map((theme: Theme) => themesActions.editThemeSuccess({ theme })),
+          map((response: Theme) => themesActions.editThemeSuccess({ theme: response })),
           catchError((error: any) => of(themesActions.editThemeError({ error })))
         )
       }),
@@ -63,7 +63,7 @@ export class ThemesEffects {
       return this.themesService
         .select(theme)
         .pipe(
-          map((theme: Theme) => themesActions.selectThemeSuccess({ theme })),
+          map((response: Theme) => themesActions.selectThemeSuccess({ theme: response })),
           catchError((error: any) => of(themesActions.selectThemeError({ error })))
         )
       }),
@@ -77,7 +77,7 @@ export class ThemesEffects {
       return this.themesService
         .remove(theme)
         .pipe(
-          map((theme: Theme) => themesActions.removeThemeSuccess({ theme })),
+          map((response: Theme) => themesActions.removeThemeSuccess({ theme: response })),
           catchError((error: any) => of(themesActions.removeThemeError({ error })))
         )
       }),

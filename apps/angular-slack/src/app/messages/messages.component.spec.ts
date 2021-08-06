@@ -24,8 +24,8 @@ describe('MessagesComponent', () => {
   let store: jasmine.SpyObj<any>;
   let storageService: jasmine.SpyObj<StorageService>;
   const search = 'test';
-  const mockStoreSelect = (store: jasmine.SpyObj<any>, ch: Channel) => {
-    store.select
+  const mockStoreSelect = (storeArg: jasmine.SpyObj<any>, ch: Channel) => {
+    storeArg.select
       .withArgs(channelsSelectedSelector).and.returnValue(of(ch))
       .withArgs(selectedStarredSelector).and.returnValue(of(true))
       .withArgs(filteredMessagesSelector).and.returnValue(of([message]))

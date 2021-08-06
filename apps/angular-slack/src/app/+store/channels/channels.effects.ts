@@ -118,7 +118,7 @@ export class ChannelsEffects {
       return this.channelsService
         .update(channel)
         .pipe(
-          map((channel: Channel) => channelsActions.updateChannelSuccess({ channel })),
+          map((response: Channel) => channelsActions.updateChannelSuccess({ channel: response })),
           catchError((error: AuthError) => of(channelsActions.updateChannelError({ error })))
         )
       }),

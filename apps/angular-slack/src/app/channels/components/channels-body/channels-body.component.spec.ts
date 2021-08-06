@@ -14,12 +14,12 @@ describe('ChannelsBodyComponent', () => {
 
   describe('onSelect', () => {
     beforeEach(() => {
-      spyOn(component.select, 'emit');
+      spyOn(component.selectChannel, 'emit');
       component.onSelect(channel);
     });
 
     it('should emit "select" event', () => {
-      expect(component.select.emit).toHaveBeenCalledOnceWith(channel);
+      expect(component.selectChannel.emit).toHaveBeenCalledOnceWith(channel);
     });
   });
 });

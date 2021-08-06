@@ -14,13 +14,13 @@ export class ChannelsBodyComponent extends TrackByUtil<Channel> {
   @Input() channels: Channel[];
   @Input() prefix = '#';
   @Input() selected: Channel;
-  @Output() select = new EventEmitter<Channel>();
+  @Output() selectChannel = new EventEmitter<Channel>();
 
   icons = fontIcons;
   status = Status;
 
   onSelect(channel: Channel) {
-    this.select.emit(channel);
+    this.selectChannel.emit(channel);
   }
 
 }

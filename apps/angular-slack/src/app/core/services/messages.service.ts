@@ -22,12 +22,16 @@ export class MessagesService {
   ) { }
 
   add(message: Message): Observable<Message> {
-    const obs$ = () => message.media ? this.storageService.uploadPhoto(`public/user-${message.uid}/${Date.now()}`, message.content, true) : of(undefined);
+    const obs$ = () => message.media ? this.storageService.uploadPhoto(
+      `public/user-${message.uid}/${Date.now()}`, message.content, true
+    ) : of(undefined);
 
     return obs$().pipe(
       switchMap((photoURL: string) => {
-        return from(this.afs.collection<Message>(Collections.Messages).add({ ...message, content: message.media ? photoURL : message.content }))
-          .pipe(
+        return from(this.afs.collection<Message>(Collections.Messages).add({
+          ...message,
+          content: message.media ? photoURL : message.content })
+        ).pipe(
             tap(() => this.storageService.progress$.next(null)),
             map(() => message),
             catchError((err: AuthError) => this.notificationService.handleError(err)),

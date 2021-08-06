@@ -25,7 +25,7 @@ export class UserProfileEffects {
       return this.userProfileService
         .update(user, photoURL)
         .pipe(
-          map((user: User) => userProfileActions.updateProfileSuccess({ user })),
+          map((response: User) => userProfileActions.updateProfileSuccess({ user: response })),
           catchError((error: AuthError) => of(userProfileActions.updateProfileError({ error })))
         )
       }),

@@ -104,7 +104,9 @@ export class AuthService {
 
     return this.afs.doc(`${Collections.Users}/${uid}`).get()
       .pipe(
-        switchMap(snapshot => from(this.afs.doc(`${Collections.Users}/${uid}`)[snapshot.exists ? 'update' : 'set']({ displayName, email, photoURL, uid }))),
+        switchMap(snapshot => from(
+          this.afs.doc(`${Collections.Users}/${uid}`)[snapshot.exists ? 'update' : 'set']({ displayName, email, photoURL, uid }))
+        ),
         switchMap(() => of(user)),
       );
   }
