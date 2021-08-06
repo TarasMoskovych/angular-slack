@@ -19,7 +19,8 @@ export class GlobalErrorStateMatcher implements ErrorStateMatcher {
 export class ParentErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return (control && control.parent.invalid || control && control.invalid) && (control.pristine && control.dirty || control.touched || isSubmitted);
+    return (control && control.parent.invalid || control && control.invalid) &&
+           (control.pristine && control.dirty || control.touched || isSubmitted);
   }
 }
 

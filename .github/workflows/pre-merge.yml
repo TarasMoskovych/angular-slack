@@ -18,6 +18,8 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install node_modules
         run: npm ci
+      - name: Linting
+        run: npm run affected:lint
       - name: Run tests
         run: npm run test:prod
       - name: Test Coverage angular-slack

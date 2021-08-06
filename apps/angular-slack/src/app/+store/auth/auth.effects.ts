@@ -28,24 +28,6 @@ export class AuthEffects {
     this.onInit();
   }
 
-  onInit() {
-    this.socket.once(Events.Init, () => {
-      this.store.select(authUserSelector)
-        .pipe(takeWhile(() => !this.init))
-        .subscribe((user: User) => {
-          if (user?.emailVerified) {
-            this.init = true;
-            this.emitStatus(user.uid, Status.ONLINE);
-          }
-        });
-    });
-  }
-
-  getUserData(user: FirebaseUser): User {
-    const { displayName, email, photoURL, emailVerified, uid } = user;
-    return { displayName, email, photoURL, emailVerified, uid, status: Status.OFFLINE };
-  }
-
   login$ = createEffect(() => this.actions$.pipe(
     ofType(authActions.login),
     pluck('user'),
@@ -53,7 +35,7 @@ export class AuthEffects {
       return this.authService
         .login(user)
         .pipe(
-          map((user: FirebaseUser) => authActions.loginSuccess({ user: this.getUserData(user) })),
+          map((firebaseUser: FirebaseUser) => authActions.loginSuccess({ user: this.getUserData(firebaseUser) })),
           catchError((error: AuthError) => of(authActions.loginError({ error })))
         )
       }),
@@ -136,6 +118,24 @@ export class AuthEffects {
     ),
     map(() => RouterActions.go({ payload: { path: ['/app'] } }))),
   );
+
+  onInit() {
+    this.socket.once(Events.Init, () => {
+      this.store.select(authUserSelector)
+        .pipe(takeWhile(() => !this.init))
+        .subscribe((user: User) => {
+          if (user?.emailVerified) {
+            this.init = true;
+            this.emitStatus(user.uid, Status.ONLINE);
+          }
+        });
+    });
+  }
+
+  getUserData(user: FirebaseUser): User {
+    const { displayName, email, photoURL, emailVerified, uid } = user;
+    return { displayName, email, photoURL, emailVerified, uid, status: Status.OFFLINE };
+  }
 
   private emitStatus(uid: string, status: Status) {
     this.socket.emit(Events.Status, { uid, status });

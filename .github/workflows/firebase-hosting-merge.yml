@@ -17,6 +17,8 @@ jobs:
         run: npm ci
       - name: Set env
         run: node set-env ${{ secrets.FIREBASE_KEY }}
+      - name: Linting
+        run: npm run affected:lint
       - name: Run tests
         run: npm run affected:test
       - name: Build

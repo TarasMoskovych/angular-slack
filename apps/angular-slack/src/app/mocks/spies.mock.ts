@@ -89,7 +89,13 @@ export const mockSocket = () => {
   return jasmine.createSpyObj<Socket>('Socket', ['emit', 'on', 'once']);
 };
 
-export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, value?: any, key?: string, reject = false, remove = false) => {
+export const spyOnCollection = (
+  firestoreRef: jasmine.SpyObj<AngularFirestore>,
+  value?: any,
+  key?: string,
+  reject = false,
+  remove = false,
+) => {
   let spy: any;
   const document = {
     ref: {
@@ -117,7 +123,7 @@ export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, 
 
     if (reject) {
       return {
-        add: (value: any) => Promise.reject(value),
+        add: (data: any) => Promise.reject(data),
         get: () => throwError(error),
         doc: () => ({ valueChanges: () => throwError(value) }),
       };
@@ -130,7 +136,7 @@ export const spyOnCollection = (firestoreRef: jasmine.SpyObj<AngularFirestore>, 
     }
 
     return {
-      add: (value: any) => Promise.resolve(value),
+      add: (data: any) => Promise.resolve(data),
       get: () => of(value === null ? { empty: true } : { docs: [{ id: 1 }] }),
       valueChanges: () => of(value),
       doc: () => ({ valueChanges: () => of(value) }),

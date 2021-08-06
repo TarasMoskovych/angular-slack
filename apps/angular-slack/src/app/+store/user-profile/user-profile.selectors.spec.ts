@@ -16,7 +16,8 @@ describe('UserProfileSelectors', () => {
 
   describe('userProfileUpdatedSelector', () => {
     it('should return correct value', () => {
-      expect(userProfileSelectors.userProfileUpdatedSelector.projector({ ...initialUserProfileState })).toBe(initialUserProfileState.updated);
+      expect(userProfileSelectors.userProfileUpdatedSelector
+        .projector({ ...initialUserProfileState })).toBe(initialUserProfileState.updated);
     });
   });
 });

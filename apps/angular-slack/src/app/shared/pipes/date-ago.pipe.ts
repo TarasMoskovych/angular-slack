@@ -15,7 +15,7 @@ export class DateAgoPipe implements PipeTransform {
 
     if (seconds < 29) return 'Just now';
 
-    for (const interval in this.intervals) {
+    for (const interval in this.intervals) { // tslint:disable-line
       counter = Math.floor(seconds / this.intervals[interval]);
       if (counter > 0) {
         return `${counter} ${interval}${counter === 1 ? '' : 's' } ago`;

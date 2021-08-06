@@ -15,7 +15,7 @@
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
     "affected:test": "nx affected:test --no-watch --no-progress --browsers=ChromeHeadlessCI --base=origin/master",
-    "affected:lint": "nx affected:lint",
+    "affected:lint": "nx affected:lint --base=origin/master",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
     "format": "nx format:write",
