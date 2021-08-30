@@ -1,6 +1,8 @@
 import { fontIcons, Theme } from '@angular-slack/app/shared';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { SharedModule } from '@angular-slack/app/shared/shared.module';
+import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ColorSketchModule } from 'ngx-color/sketch';
 
 @Component({
   selector: 'app-theme-picker',
@@ -13,3 +15,12 @@ export class ThemePickerComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public theme: Theme) { }
 }
+
+@NgModule({
+  declarations: [ThemePickerComponent],
+  imports: [
+    SharedModule,
+    ColorSketchModule,
+  ],
+})
+class ThemePickerModule {}

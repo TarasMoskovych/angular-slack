@@ -48,32 +48,32 @@ describe('ThemesComponent', () => {
       spyOn(Date, 'now').and.returnValue(1);
     });
 
-    it('should dispatch "addTheme" on modal submit', () => {
+    it('should dispatch "addTheme" on modal submit', async() => {
       dialog.open.and.returnValue({ afterClosed: () => of(theme) } as MatDialogRef<typeof component>);
-      component.onAdd();
+      await component.onAdd();
 
       expect(store.dispatch).toHaveBeenCalledOnceWith(addTheme({ theme: { ...theme, id: 1 } }));
     });
 
-    it('should not dispatch "addTheme" on modal cancel', () => {
+    it('should not dispatch "addTheme" on modal cancel', async() => {
       dialog.open.and.returnValue({ afterClosed: () => of(undefined) } as MatDialogRef<typeof component>);
-      component.onAdd();
+      await component.onAdd();
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 
   describe('onEdit', () => {
-    it('should dispatch "editTheme" on modal submit', () => {
+    it('should dispatch "editTheme" on modal submit', async() => {
       dialog.open.and.returnValue({ afterClosed: () => of(theme) } as MatDialogRef<typeof component>);
-      component.onEdit(theme);
+      await component.onEdit(theme);
 
       expect(store.dispatch).toHaveBeenCalledOnceWith(editTheme({ theme }));
     });
 
-    it('should not dispatch "editTheme" on modal cancel', () => {
+    it('should not dispatch "editTheme" on modal cancel', async() => {
       dialog.open.and.returnValue({ afterClosed: () => of(undefined) } as MatDialogRef<typeof component>);
-      component.onEdit(theme);
+      await component.onEdit(theme);
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });

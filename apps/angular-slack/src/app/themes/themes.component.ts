@@ -15,7 +15,6 @@ import {
   editTheme,
 } from '../+store/themes';
 import { Theme } from '../shared';
-import { ThemePickerComponent } from './components';
 
 @Component({
   selector: 'app-themes',
@@ -37,14 +36,18 @@ export class ThemesComponent implements OnInit {
     this.themes$ = this.store.select(themesSelector);
   }
 
-  onAdd(): void {
-    this.openDialog({ ...DEFAULT_THEME, edit: true }).afterClosed()
+  async onAdd(): Promise<void> {
+    const dialog = await this.openDialog({ ...DEFAULT_THEME, edit: true });
+
+    dialog.afterClosed()
       .pipe(take(1))
       .subscribe((theme: Theme) => theme && this.store.dispatch(addTheme({ theme: { ...theme, id: Date.now() } })));
   }
 
-  onEdit(data: Theme): void {
-    this.openDialog({ ...data }).afterClosed()
+  async onEdit(data: Theme): Promise<void> {
+    const dialog = await this.openDialog({ ...data });
+
+    dialog.afterClosed()
       .pipe(take(1))
       .subscribe((theme: Theme) => theme && this.store.dispatch(editTheme({ theme })));
   }
@@ -57,7 +60,9 @@ export class ThemesComponent implements OnInit {
     this.store.dispatch(removeTheme({ theme }));
   }
 
-  private openDialog(data: Theme): MatDialogRef<ThemePickerComponent> {
+  private async openDialog(data: Theme): Promise<MatDialogRef<any>> {
+    const { ThemePickerComponent } = await import('./components/theme-picker/theme-picker.component');
+
     return this.dialog.open(ThemePickerComponent, {
       backdropClass: 'themes-overlay',
       panelClass: 'themes-wrapper',
