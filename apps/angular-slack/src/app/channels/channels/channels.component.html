@@ -1,47 +1,46 @@
-<app-channels-header
-  [count]="(starredChannels$ | async).length"
-  iconName="faStarSolid"
-  title="starred"
-></app-channels-header>
+<ng-container *ngIf="{ selected: selected$ | async } as obs$">
 
-<ng-container *ngIf="selected$ | async as selected">
+  <app-channels-header
+    [count]="(starredChannels$ | async).length"
+    iconName="faStarSolid"
+    title="starred"
+  ></app-channels-header>
+
   <app-channels-body
+    *ngIf="obs$.selected"
     [channels]="starredChannels$ | async"
-    [selected]="selected"
-    [starred]="selected.starred"
+    [selected]="obs$.selected"
+    [starred]="obs$.selected.starred"
     (selectChannel)="onSelect($event, true)"
   ></app-channels-body>
-</ng-container>
 
-<app-channels-header
-  [add]="true"
-  [count]="(channels$ | async).length"
-  iconName="faExchangeAlt"
-  title="channels"
-  (addChannel)="onAddChannel()"
-></app-channels-header>
+  <app-channels-header
+    [add]="true"
+    [count]="(channels$ | async).length"
+    iconName="faExchangeAlt"
+    title="channels"
+    (addChannel)="onAddChannel()"
+  ></app-channels-header>
 
-<ng-container *ngIf="selected$ | async as selected">
   <app-channels-body
+    *ngIf="obs$.selected"
     [channels]="channels$ | async"
-    [selected]="selected"
-    [starred]="!selected.starred"
+    [selected]="obs$.selected"
+    [starred]="!obs$.selected.starred"
     (selectChannel)="onSelect($event, false)"
   ></app-channels-body>
-</ng-container>
 
-<app-channels-header
-  [count]="(privateChannels$ | async).length"
-  iconName="faMailBulk"
-  title="direct messages"
-></app-channels-header>
+  <app-channels-header
+    [count]="(privateChannels$ | async).length"
+    iconName="faMailBulk"
+    title="direct messages"
+  ></app-channels-header>
 
-<ng-container *ngIf="selected$ | async as selected">
   <app-channels-body
     prefix="@"
     [channels]="privateChannels$ | async"
-    [selected]="selected"
-    [starred]="!selected.starred"
+    [selected]="obs$.selected"
+    [starred]="!obs$.selected?.starred"
     (selectChannel)="onSelect($event, false)"
   ></app-channels-body>
 </ng-container>
