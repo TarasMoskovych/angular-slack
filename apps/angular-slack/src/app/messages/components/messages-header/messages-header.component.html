@@ -9,6 +9,12 @@
         [icon]="icons[starred ? 'faStarSolid' : 'faStar']"
         (click)="onStar()"
       ></fa-icon>
+      <fa-icon
+        *ngIf="channel.private"
+        class="messages-header__phone"
+        [icon]="icons.faPhone"
+        (click)="onCall()"
+      ></fa-icon>
     </h2>
     <span *ngIf="!channel.private" class="messages-header__users">{{ numberOfUsers }}</span>
   </div>

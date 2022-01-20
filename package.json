@@ -70,6 +70,7 @@
     "md5": "^2.3.0",
     "ngx-color": "^7.2.0",
     "ngx-socket-io": "^3.3.0",
+    "ngx-webrtc-lib": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

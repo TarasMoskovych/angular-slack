@@ -8,6 +8,7 @@
       [users]="users$ | async"
       (star)="onStar($event)"
       (search)="onSearch($event)"
+      (call)="onCall($event)"
     ></app-messages-header>
 
     <app-messages-list

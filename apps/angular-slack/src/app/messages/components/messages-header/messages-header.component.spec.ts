@@ -107,4 +107,17 @@ describe('MessagesHeaderComponent', () => {
       expect(component.search.emit).toHaveBeenCalledOnceWith('Test');
     });
   });
+
+  describe('onCall', () => {
+    beforeEach(() => {
+      spyOn(component.call, 'emit');
+    });
+
+    it('should emit call event with data', () => {
+      component.channel = channel;
+      component.onCall();
+
+      expect(component.call.emit).toHaveBeenCalledOnceWith(channel);
+    });
+  });
 });

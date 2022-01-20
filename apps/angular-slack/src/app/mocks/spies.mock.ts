@@ -66,6 +66,14 @@ export const mockMessagesService = () => {
   return jasmine.createSpyObj<MessagesService>('MessagesService', ['removeAll']);
 };
 
+export const mockVideoCallService = () => {
+  return jasmine.createSpyObj('VideoCallService', ['onCall', 'call', 'openVideoCallDialog']);
+};
+
+export const mockVideoCallDialogService = () => {
+  return jasmine.createSpyObj('VideoCallDialogService', ['open', 'afterConfirmation', 'acceptCall', 'close', 'afterCallEnd']);
+};
+
 export const mockFireAuth = () => {
   return jasmine.createSpyObj<AngularFireAuth>('AngularFireAuth', [
     'signInWithEmailAndPassword',
