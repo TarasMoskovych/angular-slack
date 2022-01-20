@@ -14,8 +14,8 @@ import {
   getPrivateMessages,
   numberOfUsersSelector,
 } from '../+store';
-import { StorageService } from '../core';
-import { channel, message, mockStorageService, mockStore, user } from '../mocks';
+import { StorageService, VideoCallService } from '../core';
+import { channel, message, mockStorageService, mockStore, mockVideoCallService, user } from '../mocks';
 import { Channel, Message, User } from '../shared';
 import { MessagesComponent } from './messages.component';
 
@@ -23,6 +23,7 @@ describe('MessagesComponent', () => {
   let component: MessagesComponent;
   let store: jasmine.SpyObj<any>;
   let storageService: jasmine.SpyObj<StorageService>;
+  let videoCallService: jasmine.SpyObj<VideoCallService>;
   const search = 'test';
   const mockStoreSelect = (storeArg: jasmine.SpyObj<any>, ch: Channel) => {
     storeArg.select
@@ -38,7 +39,8 @@ describe('MessagesComponent', () => {
   beforeEach(() => {
     store = mockStore();
     storageService = mockStorageService();
-    component = new MessagesComponent(store, storageService);
+    videoCallService = mockVideoCallService();
+    component = new MessagesComponent(store, storageService, videoCallService);
   });
 
   it('should create', () => {
@@ -156,6 +158,13 @@ describe('MessagesComponent', () => {
     it('should dispatch searchMessages with correct payload', () => {
       component.onSearch('test');
       expect(store.dispatch).toHaveBeenCalledOnceWith(searchMessages({ search }));
+    });
+  });
+
+  describe('onCall', () => {
+    it('should invoke "call" method with channel', () => {
+      component.onCall(channel);
+      expect(videoCallService.call).toHaveBeenCalledWith(channel);
     });
   });
 });

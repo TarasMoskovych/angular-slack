@@ -18,7 +18,7 @@ import {
   getPrivateMessages,
   numberOfUsersSelector,
 } from '@angular-slack/app/+store';
-import { StorageService } from '../core';
+import { StorageService, VideoCallService } from '../core';
 
 @Component({
   selector: 'app-messages',
@@ -40,6 +40,7 @@ export class MessagesComponent implements OnInit {
   constructor(
     private store: Store,
     private storageService: StorageService,
+    private videoCallService: VideoCallService,
   ) { }
 
   ngOnInit(): void {
@@ -83,5 +84,9 @@ export class MessagesComponent implements OnInit {
 
   onSearch(search: string): void {
     this.store.dispatch(searchMessages({ search }));
+  }
+
+  onCall(channel: Channel): void {
+    this.videoCallService.call(channel);
   }
 }

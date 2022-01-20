@@ -16,6 +16,7 @@ export class MessagesHeaderComponent {
   @Input() users = 0;
   @Output() star = new EventEmitter<{ channel: Channel, starred: boolean }>();
   @Output() search = new EventEmitter<string>();
+  @Output() call = new EventEmitter<Channel>();
 
   icons = fontIcons;
 
@@ -46,5 +47,9 @@ export class MessagesHeaderComponent {
 
   onSearch(): void {
     this.search.emit(this.searchTerm);
+  }
+
+  onCall(): void {
+    this.call.emit(this.channel);
   }
 }

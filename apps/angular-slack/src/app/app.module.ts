@@ -6,7 +6,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+
 import { SocketIoModule } from 'ngx-socket-io';
+import { WebRtcModule } from 'ngx-webrtc-lib'
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -33,6 +35,7 @@ import { AppComponent } from './app.component';
     AngularFireStorageModule,
     AngularFireAuthModule,
     SocketIoModule.forRoot({ url: environment.host, options: {} }),
+    WebRtcModule.forRoot(environment.webRtc),
     StoreModule.forRoot(routerReducers, {
       runtimeChecks: {
         strictActionImmutability: true,

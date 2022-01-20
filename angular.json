@@ -30,7 +30,12 @@
             "tsConfig": "apps/angular-slack/tsconfig.app.json",
             "assets": [
               "apps/angular-slack/src/favicon.ico",
-              "apps/angular-slack/src/assets"
+              "apps/angular-slack/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ngx-webrtc-lib/src/assets/",
+                "output": "./assets/"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -108,7 +113,12 @@
             "karmaConfig": "apps/angular-slack/karma.conf.js",
             "assets": [
               "apps/angular-slack/src/favicon.ico",
-              "apps/angular-slack/src/assets"
+              "apps/angular-slack/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/ngx-webrtc-lib/src/assets/",
+                "output": "./assets/"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

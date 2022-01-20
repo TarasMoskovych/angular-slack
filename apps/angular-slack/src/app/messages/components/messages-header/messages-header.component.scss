@@ -24,6 +24,14 @@
     }
   }
 
+  &__phone {
+    color: $green;
+    cursor: pointer;
+    left: 3px;
+    position: relative;
+    top: 3px;
+  }
+
   &__search {
     cursor: pointer;
     position: relative;
