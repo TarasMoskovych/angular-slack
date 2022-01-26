@@ -7,6 +7,9 @@ export const environment = {
   production: false,
   host: `http://localhost:${port}`,
   firebase: {},
+  webRtc: {
+    AppID: '',
+  },
 };
 
 /*
