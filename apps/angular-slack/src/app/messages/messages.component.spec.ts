@@ -13,10 +13,11 @@ import {
   starredChannelsLengthSelector,
   getPrivateMessages,
   numberOfUsersSelector,
+  addMessage,
 } from '../+store';
 import { StorageService, VideoCallService } from '../core';
 import { channel, message, mockStorageService, mockStore, mockVideoCallService, user } from '../mocks';
-import { Channel, Message, User } from '../shared';
+import { Channel, Message, serverTimestamp, User } from '../shared';
 import { MessagesComponent } from './messages.component';
 
 describe('MessagesComponent', () => {
@@ -141,9 +142,36 @@ describe('MessagesComponent', () => {
   });
 
   describe('onMessageAdd', () => {
-    it('should dispatch addMessage with correct payload', () => {
-      component.onMessageAdd({ media: false, value: message.content }, channel.id, user);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+    beforeEach(() => {
+      spyOn(Date, 'now').and.returnValue(12345);
+    });
+
+    it('should dispatch addMessage with correct payload when channel is public', () => {
+      const payload: Message = {
+        id: 12345,
+        uid: user.uid,
+        channelId: channel.id,
+        content: message.content,
+        timestamp: serverTimestamp(),
+        media: message.media,
+        user,
+      };
+      component.onMessageAdd({ media: false, value: message.content }, { ...channel, private: false }, user);
+      expect(store.dispatch).toHaveBeenCalledWith(addMessage({ message: payload }));
+    });
+
+    it('should dispatch addMessage with correct payload when channel is private', () => {
+      const payload: Message = {
+        id: 12345,
+        uid: user.uid,
+        channelId: `${user.uid}-${channel.id}`,
+        content: message.content,
+        timestamp: serverTimestamp(),
+        media: message.media,
+        user,
+      };
+      component.onMessageAdd({ media: false, value: message.content }, { ...channel, private: true }, user);
+      expect(store.dispatch).toHaveBeenCalledWith(addMessage({ message: payload }));
     });
   });
 

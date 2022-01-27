@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { from, Observable, of } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { combineLatest, from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { AuthError, FirestoreQuerySnapshot, Message, User } from '@angular-slack/app/shared';
@@ -46,11 +46,20 @@ export class MessagesService {
   }
 
   getPrivateByChannelId(id: string, user: User): Observable<Message[]> {
-    return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', id).where('uid', '==', user.uid).orderBy('id')).valueChanges();
+    const myMessages$ = this.getMessagesCollection(`${user.uid}-${id}`).valueChanges() as Observable<Message[]>;
+    const userMessages$ = this.getMessagesCollection(`${id}-${user.uid}`).valueChanges() as Observable<Message[]>;
+
+    return combineLatest([myMessages$, userMessages$]).pipe(
+      map(([arr1, arr2]) => [...arr1, ...arr2].sort((a, b) => a.id - b.id)),
+    );
   }
 
   async removeAll(channelId: string): Promise<void> {
-    const columnsSnapshot: FirestoreQuerySnapshot = await this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', channelId)).get().toPromise();
+    const columnsSnapshot: FirestoreQuerySnapshot = await this.getMessagesCollection(channelId).get().toPromise();
     columnsSnapshot.forEach(doc => doc.ref.delete());
+  }
+
+  private getMessagesCollection(channelId: string): AngularFirestoreCollection {
+    return this.afs.collection<Message>(Collections.Messages, ref => ref.where('channelId', '==', channelId));
   }
 }
