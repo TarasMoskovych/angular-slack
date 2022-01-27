@@ -1,4 +1,6 @@
 import { Events, Status } from '@libs/models';
+import { Socket } from 'socket.io';
+
 import { SocketGateway } from './socket.gateway';
 import { mockEventEmitter } from '../mocks';
 
@@ -8,11 +10,13 @@ describe('SocketGateway', () => {
   let gateway: SocketGateway;
 
   beforeEach(() => {
+    jest.spyOn(console, 'log').mockImplementation(() => undefined);
+
     gateway = new SocketGateway(emitter as any);
     gateway.server = {
       emit: jest.fn(),
       to: jest.fn().mockReturnThis(),
-    };
+    } as any;
   });
 
   it('should be created', () => {
@@ -21,7 +25,7 @@ describe('SocketGateway', () => {
 
   describe('handleConnection', () => {
     it('should emit "Init" event', () => {
-      gateway.handleConnection({ id: '1' });
+      gateway.handleConnection({ id: '1' } as Socket);
       expect(gateway.server.emit).toHaveBeenCalledWith(Events.Init);
     });
   });
@@ -38,7 +42,7 @@ describe('SocketGateway', () => {
           uid,
         },
       ];
-      gateway.handleDisconnect({ id: '1' });
+      gateway.handleDisconnect({ id: '1' } as Socket);
 
       expect(emitter.emit).toHaveBeenCalledWith(`${Events.Status}.${Status.OFFLINE}`, uid);
       expect(gateway['users']).toEqual([{ id: '2', uid }]);
@@ -50,14 +54,14 @@ describe('SocketGateway', () => {
           id: '1',
         },
       ];
-      gateway.handleDisconnect({ id: '1' });
+      gateway.handleDisconnect({ id: '1' } as Socket);
 
       expect(emitter.emit).not.toHaveBeenCalledWith();
       expect(gateway['users']).toEqual([]);
     });
 
     it('should not emit status changed event when user is undefined', () => {
-      gateway.handleDisconnect({ id: '1' });
+      gateway.handleDisconnect({ id: '1' } as Socket);
       expect(emitter.emit).not.toHaveBeenCalledWith();
     });
   });
@@ -72,12 +76,12 @@ describe('SocketGateway', () => {
     });
 
     it('should emit status changed event with existing user', () => {
-      gateway.onStatus({ id: '1' }, { uid, status: Status.ONLINE });
+      gateway.onStatus({ id: '1' } as Socket, { uid, status: Status.ONLINE });
       expect(emitter.emit).toHaveBeenCalledWith(`${Events.Status}.${Status.ONLINE}`, uid);
     });
 
     it('should emit status changed event with new user', () => {
-      gateway.onStatus({ id: '2' }, { uid, status: Status.ONLINE });
+      gateway.onStatus({ id: '2' } as Socket, { uid, status: Status.ONLINE });
       expect(emitter.emit).toHaveBeenCalledWith(`${Events.Status}.${Status.ONLINE}`, uid);
     });
   });
@@ -101,7 +105,7 @@ describe('SocketGateway', () => {
         },
       ];
 
-      gateway.onCall({}, data);
+      gateway.onCall(null, data);
 
       expect(gateway.server.to).toHaveBeenCalledWith('socket-10');
       expect(gateway.server.emit).toHaveBeenCalledWith(`${Events.Call}-${data.receiver.uid}`, data);
@@ -115,7 +119,7 @@ describe('SocketGateway', () => {
         },
       ];
 
-      gateway.onCall({}, data);
+      gateway.onCall(null, data);
       expect(gateway.server.emit).not.toHaveBeenCalled();
     });
   });
@@ -139,7 +143,7 @@ describe('SocketGateway', () => {
         },
       ];
 
-      gateway.onCallAccept({}, data);
+      gateway.onCallAccept(null, data);
 
       expect(gateway.server.to).toHaveBeenCalledWith('socket-10');
       expect(gateway.server.emit).toHaveBeenCalledWith(`${Events.CallAccept}-${data.receiver.uid}`, data);
@@ -153,7 +157,7 @@ describe('SocketGateway', () => {
         },
       ];
 
-      gateway.onCallAccept({}, data);
+      gateway.onCallAccept(null, data);
       expect(gateway.server.emit).not.toHaveBeenCalled();
     });
   });
@@ -177,14 +181,14 @@ describe('SocketGateway', () => {
         },
       ];
 
-      gateway.onCallDecline({}, data);
+      gateway.onCallDecline(null, data);
 
       expect(gateway.server.to).toHaveBeenCalledWith('socket-10');
       expect(gateway.server.emit).toHaveBeenCalledWith(`${Events.CallDecline}-${data.receiver.uid}`, data);
     });
 
     it('should not emit "Events.CallDecline" event when socket is undefined', () => {
-      gateway.onCallDecline({}, data);
+      gateway.onCallDecline(null, data);
       expect(gateway.server.emit).not.toHaveBeenCalled();
     });
   });
