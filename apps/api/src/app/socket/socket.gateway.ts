@@ -7,7 +7,12 @@ import { User } from '../models';
 
 const origins = environment.origins.split(' ');
 
-@WebSocketGateway({ origins })
+@WebSocketGateway({
+  cors: {
+    origin: origins,
+    credentials: true,
+  },
+})
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 

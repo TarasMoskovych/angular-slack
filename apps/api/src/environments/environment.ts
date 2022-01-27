@@ -2,6 +2,6 @@
 export const environment = {
   production: false,
   firebase: '',
-  origins: '*:*',
+  origins: 'http://localhost:4201',
   redirectURL: 'http://localhost:4201',
 };
