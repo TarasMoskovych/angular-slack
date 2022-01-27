@@ -19,7 +19,7 @@
     <app-messages-actions
       [progress]="progress$ | async"
       [showEmoji]="showEmoji"
-      (messageAdd)="onMessageAdd($event, obs$.channel.id, obs$.user)"
+      (messageAdd)="onMessageAdd($event, obs$.channel, obs$.user)"
       (toggleEmoji)="onToggleEmoji($event)"
     ></app-messages-actions>
   </ng-container>

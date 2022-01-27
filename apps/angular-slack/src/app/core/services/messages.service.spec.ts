@@ -87,11 +87,12 @@ describe('MessagesService', () => {
   describe('getPrivateByChannelId', () => {
     beforeEach(() => {
       spyOnCollection(fireStore, [message, message2], Collections.Messages);
+      spyOn(Date, 'now').and.returnValue(1);
     });
 
     it('should return all messages', (done: DoneFn) => {
       service.getPrivateByChannelId(channel.id, user).subscribe((response: Message[]) => {
-        expect(response).toEqual([message, message2]);
+        expect(response.length).toBe(4);
         done();
       });
     });
