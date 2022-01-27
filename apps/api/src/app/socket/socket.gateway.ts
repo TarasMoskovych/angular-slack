@@ -5,13 +5,17 @@ import { Socket, Server } from 'socket.io';
 import { EventEmitter2 } from 'eventemitter2';
 import { User } from '../models';
 
-@WebSocketGateway({ origins: environment.origins.split(' ') })
+const origins = environment.origins.split(' ');
+
+@WebSocketGateway({ origins })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
   private users: User[] = [];
 
-  constructor(private eventEmitter: EventEmitter2) { }
+  constructor(private eventEmitter: EventEmitter2) {
+    console.log('Allowed origins: ', origins);
+  }
 
   async handleConnection(socket: Socket) {
     this.server.emit(Events.Init);
