@@ -7,13 +7,13 @@ import { Events } from '@libs/models';
 import { Socket } from 'ngx-socket-io';
 import { VideoCallDialogService, VideoCallDialog, VideoCallDialogData } from 'ngx-webrtc-lib';
 
-import { of } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideoCallService {
+  private available = true;
   private dialog: VideoCallDialog;
 
   constructor(
@@ -35,6 +35,8 @@ export class VideoCallService {
         this.dialog.afterConfirmation().subscribe((data: VideoCallDialogData) => {
           this.emitEvent(Events[data ? 'CallAccept' : 'CallDecline'], { channel, caller: receiver, receiver: caller });
         });
+
+        this.onAfterCallEnd();
       });
 
       this.socket.on(`${Events.CallAccept}-${uid}`, () => {
@@ -57,27 +59,32 @@ export class VideoCallService {
 
     this.store.select(authUserSelector)
       .pipe(
+        filter(() => this.available),
         switchMap((user: User) => {
           caller = user;
           channel = `${caller.uid}-${receiver.uid}`;
 
           this.dialog = this.openVideoCallDialog(receiver, channel, true);
+          this.available = false;
+          this.onAfterCallEnd();
           this.emitEvent(Events.Call, { channel, caller, receiver });
 
           return this.dialog.afterConfirmation();
         }),
-        switchMap((data: VideoCallDialogData) => {
+        tap((data: VideoCallDialogData) => {
           if (data === null) {
             this.emitEvent(Events.CallDecline, { channel, caller, receiver });
-            return of(false);
           }
-
-          return this.dialog.afterCallEnd();
         }),
         take(1),
-        filter((end: boolean) => !!end)
       )
-      .subscribe(() => this.dialog = null);
+      .subscribe();
+  }
+
+  private onAfterCallEnd(): void {
+    if (this.dialog) {
+      this.dialog.afterCallEnd().subscribe(() => this.available = true);
+    }
   }
 
   private openVideoCallDialog(user: User, channel: string, outcome: boolean): VideoCallDialog {
