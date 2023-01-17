@@ -25,7 +25,7 @@ jobs:
       - name: Install node_modules
         run: npm ci
       - name: Set env
-        run: node set-env ${{ secrets.FIREBASE_KEY }} ${{ secrets.AGORA_KEY }} ${{ secrets.HOST }}
+        run: node set-env ${{ secrets }}
       - name: Run tests
         run: npm run affected:test
       - name: Build
