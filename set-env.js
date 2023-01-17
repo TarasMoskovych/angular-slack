@@ -9,7 +9,7 @@ const writeFileUsingFS = (targetPath, environmentFileContent) => {
     }
   });
 };
-const { FIREBASE_KEY, AGORA_KEY, HOST } = process.argv[2];
+const { FIREBASE_KEY, AGORA_KEY, HOST } = process.env;
 const firebase = JSON.parse(Buffer.from(FIREBASE_KEY, 'base64').toString('ascii'));
 const target = './apps/angular-slack/src/environments/environment.prod.ts';
 const environmentFileContent = `
@@ -32,9 +32,5 @@ const environmentFileContent = `
     },
   };
 `;
-
-if (!FIREBASE_KEY || !AGORA_KEY || !HOST) {
-  throw new Error('Env variables are missed');
-}
 
 writeFileUsingFS(target, environmentFileContent);
