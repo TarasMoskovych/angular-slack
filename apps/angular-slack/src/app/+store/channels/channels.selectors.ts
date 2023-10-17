@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Channel, User } from '@angular-slack/app/shared';
 import { authUserSelector } from '../auth';
 import { ChannelsState } from './channels.state';
+import { Status } from '@libs/models';
 
 const getAdded = (state: ChannelsState) => state.added;
 const getLoading = (state: ChannelsState) => state.loading;
@@ -17,7 +18,17 @@ export const starredChannelsSelector = createSelector(getChannelsState, getStarr
 export const privateChannelsSelector = createSelector(
   getChannelsState,
   authUserSelector,
-  (state: ChannelsState, user: User) => state.privateChannels.filter((channel: Channel) => channel.uid !== user?.uid),
+  (state: ChannelsState, user: User) => state.privateChannels
+    .filter((channel: Channel) => channel.uid !== user?.uid)
+    .sort((a: Channel, b: Channel) => {
+      if (a.status === Status.ONLINE && b.status !== Status.ONLINE) {
+        return -1;
+      } else if (a.status !== Status.ONLINE && b.status === Status.ONLINE) {
+        return 1;
+      }
+
+      return a.name.localeCompare(b.name);
+    }),
 );
 export const channelsSelectedSelector = createSelector(getChannelsState, getSelected);
 export const selectedStarredSelector = createSelector(
