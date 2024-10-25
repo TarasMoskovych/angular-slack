@@ -1,23 +1,24 @@
 
 import { of } from 'rxjs';
 
+import { User } from '@libs/models';
 import {
+  addMessage,
   authUserSelector,
   channelsSelectedSelector,
-  getMessages,
   filteredMessagesSelector,
+  getMessages,
+  getPrivateMessages,
+  numberOfUsersSelector,
   searchMessages,
   searchSelector,
   selectedStarredSelector,
   starChannel,
   starredChannelsLengthSelector,
-  getPrivateMessages,
-  numberOfUsersSelector,
-  addMessage,
 } from '../+store';
 import { StorageService, VideoCallService } from '../core';
 import { channel, message, mockStorageService, mockStore, mockVideoCallService, user } from '../mocks';
-import { Channel, Message, serverTimestamp, User } from '../shared';
+import { Channel, Message, serverTimestamp } from '../shared';
 import { MessagesComponent } from './messages.component';
 
 describe('MessagesComponent', () => {

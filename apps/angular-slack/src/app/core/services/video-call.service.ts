@@ -1,13 +1,14 @@
-import { Channel, User } from '@angular-slack/app/shared';
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { authUserSelector } from '@angular-slack/app/+store/auth/auth.selectors';
-import { Events } from '@libs/models';
+import { Channel } from '@angular-slack/app/shared';
+import { Injectable } from '@angular/core';
+import { Events, RtcEventPayload, User } from '@libs/models';
+import { Store } from '@ngrx/store';
 
 import { Socket } from 'ngx-socket-io';
-import { VideoCallDialogService, VideoCallDialog, VideoCallDialogData } from 'ngx-webrtc-lib';
+import { VideoCallDialog, VideoCallDialogData, VideoCallDialogService } from 'ngx-webrtc-lib';
 
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class VideoCallService {
   private dialog: VideoCallDialog;
 
   constructor(
+    private authService: AuthService,
     private socket: Socket,
     private store: Store,
     private videoCallDialog: VideoCallDialogService,
@@ -29,8 +31,17 @@ export class VideoCallService {
       filter((user: User) => !!user),
       take(1),
     ).subscribe(({ uid }: User) => {
-      this.socket.on(`${Events.Call}-${uid}`, ({ caller, channel, receiver }) => {
-        this.dialog = this.openVideoCallDialog(caller, channel, false);
+      this.socket.on(`${Events.Call}-${uid}`, ({ caller, channel, receiver, token }: RtcEventPayload) => {
+        this.dialog = this.videoCallDialog.open({
+          uid,
+          channel,
+          token,
+          outcome: false,
+          user: {
+            name: caller.displayName,
+            photoURL: caller.photoURL,
+          },
+        });
 
         this.dialog.afterConfirmation().subscribe((data: VideoCallDialogData) => {
           this.emitEvent(Events[data ? 'CallAccept' : 'CallDecline'], { channel, caller: receiver, receiver: caller });
@@ -60,11 +71,23 @@ export class VideoCallService {
     this.store.select(authUserSelector)
       .pipe(
         filter(() => this.available),
-        switchMap((user: User) => {
+        tap((user: User) => {
           caller = user;
           channel = `${caller.uid}-${receiver.uid}`;
+        }),
+        switchMap(() => this.authService.getRtcToken({ channel, uid: caller.uid })),
+        switchMap((token: string) => {
+          this.dialog = this.videoCallDialog.open({
+            uid: caller.uid,
+            channel,
+            token,
+            outcome: true,
+            user: {
+              name: receiver.displayName,
+              photoURL: receiver.photoURL,
+            },
+          });
 
-          this.dialog = this.openVideoCallDialog(receiver, channel, true);
           this.available = false;
           this.onAfterCallEnd();
           this.emitEvent(Events.Call, { channel, caller, receiver });
@@ -87,18 +110,7 @@ export class VideoCallService {
     }
   }
 
-  private openVideoCallDialog(user: User, channel: string, outcome: boolean): VideoCallDialog {
-    const { displayName: name, photoURL, uid } = user;
-
-    return this.videoCallDialog.open({
-      channel,
-      outcome,
-      uid,
-      user: { name, photoURL },
-    });
-  }
-
-  private emitEvent(eventName: Events, { channel, caller, receiver }): void {
-    this.socket.emit(eventName, { channel, caller, receiver });
+  private emitEvent(eventName: Events, payload: RtcEventPayload): void {
+    this.socket.emit(eventName, payload);
   }
 }

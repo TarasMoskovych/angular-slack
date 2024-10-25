@@ -1,26 +1,29 @@
 import { AuthState } from '@angular-slack/app/+store';
-import { channel, mockSocket, mockStore, mockVideoCallDialogService, user } from '@angular-slack/app/mocks';
+import { channel, mockAuthService, mockSocket, mockStore, mockVideoCallDialogService, token, user } from '@angular-slack/app/mocks';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { Socket } from 'ngx-socket-io';
 import { VideoCallDialogService } from 'ngx-webrtc-lib';
 
-import { VideoCallService } from './video-call.service';
 import { Events } from '@libs/models';
+import { AuthService } from './auth.service';
+import { VideoCallService } from './video-call.service';
 
 describe('VideoCallService', () => {
   let service: VideoCallService;
   let socket: jasmine.SpyObj<Socket>;
   let store: jasmine.SpyObj<Store<AuthState>>;
+  let authService: jasmine.SpyObj<AuthService>;
   let videoDialogService: jasmine.SpyObj<VideoCallDialogService>;
 
   beforeEach(() => {
+    authService = mockAuthService();
     socket = mockSocket();
     store = mockStore();
     store.select.and.returnValue(of(user));
     videoDialogService = mockVideoCallDialogService();
-    service = new VideoCallService(socket, store, videoDialogService);
+    service = new VideoCallService(authService, socket, store, videoDialogService);
   });
 
   it('should be created', () => {
@@ -70,6 +73,10 @@ describe('VideoCallService', () => {
   });
 
   describe('call', () => {
+    beforeEach(() => {
+      authService.getRtcToken.and.returnValue(of(token));
+    });
+
     it('should open videoCallDialog and emit only one single event', () => {
       const dialog = {
         acceptCall: jasmine.createSpy,

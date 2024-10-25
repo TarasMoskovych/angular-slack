@@ -1,18 +1,19 @@
-import { Events, Status } from '@libs/models';
+import { Events, RtcEventPayload, Status } from '@libs/models';
 import { Socket } from 'socket.io';
 
+import { mockEventEmitter, mockRtcAuthService } from '../mocks';
 import { SocketGateway } from './socket.gateway';
-import { mockEventEmitter } from '../mocks';
 
 describe('SocketGateway', () => {
   const emitter = mockEventEmitter();
+  const rtcAuthService = mockRtcAuthService();
   const uid = '12345';
   let gateway: SocketGateway;
 
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation(() => undefined);
 
-    gateway = new SocketGateway(emitter as any);
+    gateway = new SocketGateway(emitter, rtcAuthService);
     gateway.server = {
       emit: jest.fn(),
       to: jest.fn().mockReturnThis(),
@@ -95,7 +96,8 @@ describe('SocketGateway', () => {
       receiver: {
         uid: '1',
       },
-    };
+      token: 'mock-token',
+    } as RtcEventPayload;
 
     it('should emit "Events.Call" event when socket is defined', () => {
       gateway['users'] = [
@@ -133,7 +135,7 @@ describe('SocketGateway', () => {
       receiver: {
         uid: '1',
       },
-    };
+    } as RtcEventPayload;
 
     it('should emit "Events.CallAccept" event when socket is defined', () => {
       gateway['users'] = [
@@ -171,7 +173,7 @@ describe('SocketGateway', () => {
       receiver: {
         uid: '1',
       },
-    };
+    } as RtcEventPayload;
 
     it('should emit "Events.CallDecline" event when socket is defined', () => {
       gateway['users'] = [

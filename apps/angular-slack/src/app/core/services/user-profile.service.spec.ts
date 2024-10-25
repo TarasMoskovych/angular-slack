@@ -16,12 +16,12 @@ import {
   spyOnDoc,
   user,
 } from '@angular-slack/app/mocks';
-import { AuthError, User } from '@angular-slack/app/shared';
+import { AuthError } from '@angular-slack/app/shared';
+import { Collections, User } from '@libs/models';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
-import { UserProfileService } from './user-profile.service';
-import { Collections } from '@libs/models';
 import { StorageService } from './storage.service';
+import { UserProfileService } from './user-profile.service';
 
 describe('UserProfileService', () => {
   let service: UserProfileService;

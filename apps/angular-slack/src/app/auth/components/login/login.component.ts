@@ -1,18 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
 import {
   AuthState,
-  authSubmitSelector,
   authAuthorizeDataSelector,
+  authSubmitSelector,
   login,
   loginGoogle,
 } from '@angular-slack/app/+store';
+import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { GlobalErrorStateMatcher, errorMessages, User, fontIcons } from '@angular-slack/app/shared';
+import { GlobalErrorStateMatcher, errorMessages, fontIcons } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 
 @Component({
   selector: 'app-login',

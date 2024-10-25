@@ -1,0 +1,55 @@
+// aw recommended settings
+{
+  "css.lint.ieHack": "warning",
+  "editor.wordWrapColumn": 160,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.roundedSelection": true,
+  "files.associations": {
+    "*.json.example": "json",
+    "*.ts.example": "typescript",
+    "*.yml.example": "yaml"
+  },
+  "window.zoomLevel": 0,
+  "editor.minimap.enabled": false,
+  "editor.dragAndDrop": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "git.enableSmartCommit": true,
+  "extensions.ignoreRecommendations": false,
+  "typescript.preferences.quoteStyle": "single",
+  "html.format.wrapAttributes": "force-aligned",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.formatOnSave": false
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": false
+  },
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "[javascript][typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  }
+}

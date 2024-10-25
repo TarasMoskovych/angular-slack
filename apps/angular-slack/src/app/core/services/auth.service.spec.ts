@@ -1,36 +1,42 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { of } from 'rxjs';
 import firebase from 'firebase/app';
+import { of } from 'rxjs';
 
 import {
   error,
   firebaseUser,
   mockFireAuth,
   mockFireStore,
+  mockHttpClient,
   mockNotificationService,
+  rtcTokenPayload,
   spyOnCollection,
   spyOnDoc,
+  token,
   user,
   userCredential,
   userInfo,
 } from '@angular-slack/app/mocks';
-import { AuthError, FirebaseUser, FirebaseUserInfo, User } from '@angular-slack/app/shared';
+import { AuthError, FirebaseUser, FirebaseUserInfo } from '@angular-slack/app/shared';
+import { HttpClient } from '@angular/common/http';
+import { Collections, User } from '@libs/models';
 import { AuthService } from './auth.service';
 import { NotificationService } from './notification.service';
-import { Collections } from '@libs/models';
 
 describe('AuthService', () => {
   let service: AuthService;
   let fireAuth: jasmine.SpyObj<AngularFireAuth>;
   let fireStore: jasmine.SpyObj<AngularFirestore>;
   let notificationService: jasmine.SpyObj<NotificationService>;
+  let httpClient: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
     fireAuth = mockFireAuth();
     fireStore = mockFireStore();
     notificationService = mockNotificationService();
-    service = new AuthService(fireAuth, fireStore, notificationService);
+    httpClient = mockHttpClient();
+    service = new AuthService(fireAuth, fireStore, notificationService, httpClient);
   });
 
   it('should be created', () => {
@@ -185,6 +191,17 @@ describe('AuthService', () => {
 
       service.update(userInfo).subscribe((response: FirebaseUserInfo) => {
         expect(response).toEqual(userInfo);
+        done();
+      });
+    });
+  });
+
+  describe('getRtcToken', () => {
+    it('should return token', (done: DoneFn) => {
+      httpClient.post.and.returnValue(of({ token }));
+
+      service.getRtcToken(rtcTokenPayload).subscribe((response: string) => {
+        expect(response).toEqual(token);
         done();
       });
     });

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
 import { AppState, authUserSelector } from '@angular-slack/app/+store';
+import { Store } from '@ngrx/store';
 
 import { map, take } from 'rxjs/operators';
 
+import { User } from '@libs/models';
 import { CoreModule } from '../core.module';
-import { User } from '@angular-slack/app/shared';
 
 @Injectable({
   providedIn: CoreModule

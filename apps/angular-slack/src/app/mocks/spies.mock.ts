@@ -59,7 +59,7 @@ export const mockStorageService = () => {
 };
 
 export const mockAuthService = () => {
-  return jasmine.createSpyObj<AuthService>('AuthService', ['getFirebaseUser']);
+  return jasmine.createSpyObj<AuthService>('AuthService', ['getFirebaseUser', 'getRtcToken']);
 };
 
 export const mockMessagesService = () => {
@@ -82,6 +82,7 @@ export const mockFireAuth = () => {
     'createUserWithEmailAndPassword',
   ], {
     authState: of(firebaseUser),
+    currentUser: Promise.resolve(firebaseUser),
   });
 };
 
@@ -95,6 +96,10 @@ export const mockFireStorage = () => {
 
 export const mockSocket = () => {
   return jasmine.createSpyObj<Socket>('Socket', ['emit', 'on', 'once']);
+};
+
+export const mockHttpClient = () => {
+  return jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
 };
 
 export const spyOnCollection = (

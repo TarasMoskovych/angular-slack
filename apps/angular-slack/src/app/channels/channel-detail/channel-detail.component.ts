@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
+import { AppState, authUserSelector, channelsSelectedSelector, removeChannel, topPostersSelector, updateChannel } from '@angular-slack/app/+store';
 import { Store } from '@ngrx/store';
-import { AppState, removeChannel, topPostersSelector, updateChannel } from '@angular-slack/app/+store';
-import { channelsSelectedSelector, authUserSelector } from '@angular-slack/app/+store';
 
 import { Observable } from 'rxjs';
 
-import { Channel, User, fontIcons, Poster } from '@angular-slack/app/shared';
+import { Channel, fontIcons, Poster } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 
 @Component({
   selector: 'app-channel-detail',

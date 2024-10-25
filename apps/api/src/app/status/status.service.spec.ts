@@ -1,12 +1,12 @@
 import { Collections, Status } from '@libs/models';
 import * as firebase from 'firebase-admin';
-import { StatusService } from './status.service';
 import { mockFirestore } from '../mocks';
+import { StatusService } from './status.service';
 
 describe('StatusService', () => {
   const service = new StatusService();
   const uid = '12345';
-  let firestore: any;
+  let firestore;
 
   beforeEach(() => {
     firestore = mockFirestore();

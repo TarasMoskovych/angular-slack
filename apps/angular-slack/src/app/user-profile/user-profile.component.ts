@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { AuthState, authUserSelector, logout } from '../+store';
 
 import { Observable } from 'rxjs';
 
-import { User } from '../shared';
+import { User } from '@libs/models';
 
 @Component({
   selector: 'app-user-profile',

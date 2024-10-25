@@ -1,4 +1,4 @@
-import { User } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 
 export interface AuthState {
   loading: boolean;

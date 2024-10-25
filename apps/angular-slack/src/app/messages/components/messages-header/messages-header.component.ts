@@ -36,6 +36,10 @@ export class MessagesHeaderComponent {
     return this.users === 1 ? `${this.users} User` : `${this.users} Users`;
   }
 
+  get isOnline(): boolean {
+    return this.channel.status === 'ONLINE';
+  }
+
   onStar(): void {
     this.star.emit({ channel: this.channel, starred: !this.starred });
   }

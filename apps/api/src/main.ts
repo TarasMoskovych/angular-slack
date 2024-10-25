@@ -1,11 +1,11 @@
-import { Logger } from '@nestjs/common';
+import { port as defaultPort } from '@libs/models';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { IoAdapter } from '@nestjs/platform-socket.io';
-import { initializeApp, credential } from 'firebase-admin';
-import { port as defaultPort } from '@libs/models'
+import { credential, initializeApp } from 'firebase-admin';
 
 import { AppModule } from './app/app.module';
-import { HttpExceptionFilter } from './app/http-filter';
+import { HttpExceptionFilter } from './app/filters/http-filter';
 import { environment } from './environments/environment';
 
 async function bootstrap() {
@@ -13,9 +13,11 @@ async function bootstrap() {
   const globalPrefix = 'api';
   const port = process.env.PORT || defaultPort;
 
+  app.enableCors({ origin: environment.origins });
   app
     .setGlobalPrefix(globalPrefix)
     .useGlobalFilters(new HttpExceptionFilter())
+    .useGlobalPipes(new ValidationPipe())
     .useWebSocketAdapter(new IoAdapter(app));
 
   initializeApp({

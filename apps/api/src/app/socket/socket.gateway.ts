@@ -1,25 +1,27 @@
-import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { environment } from '@api/environments/environment';
-import { Events, Status } from '@libs/models';
-import { Socket, Server } from 'socket.io';
+import { Events, RtcEventPayload, Status } from '@libs/models';
+import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { EventEmitter2 } from 'eventemitter2';
-import { User } from '../models';
-
-const origins = environment.origins.split(' ');
+import { Server, Socket } from 'socket.io';
+import { UserEntity } from '../models';
+import { RtcAuthService } from '../rtc-auth/rtc-auth.service';
 
 @WebSocketGateway({
   cors: {
-    origin: origins,
+    origin: environment.origins,
     credentials: true,
   },
 })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
-  private users: User[] = [];
+  private users: UserEntity[] = [];
 
-  constructor(private eventEmitter: EventEmitter2) {
-    console.log('Allowed origins: ', origins);
+  constructor(
+    private eventEmitter: EventEmitter2,
+    private rtcAuthService: RtcAuthService,
+  ) {
+    console.log('Allowed origins: ', environment.origins);
   }
 
   async handleConnection(socket: Socket) {
@@ -28,8 +30,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   async handleDisconnect(socket: Socket) {
-    const user = this.users.find((user: User) => user.id === socket.id);
-    this.users = this.users.filter((user: User) => user.id !== socket.id);
+    const user = this.users.find((user: UserEntity) => user.id === socket.id);
+    this.users = this.users.filter((user: UserEntity) => user.id !== socket.id);
 
     if (user?.uid) {
       this.eventEmitter.emit(`${Events.Status}.${Status.OFFLINE}`, user.uid);
@@ -38,7 +40,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage(Events.Status)
   async onStatus(socket: Socket, { uid, status }) {
-    this.users.forEach((user: User) => {
+    this.users.forEach((user: UserEntity) => {
       if (user.id === socket.id) {
         user.uid = uid;
       }
@@ -48,29 +50,37 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage(Events.Call)
-  async onCall(socket: Socket, { channel, caller, receiver }) {
-    this.emitCallEvent(`${Events.Call}-${receiver.uid}`, { channel, caller, receiver });
+  async onCall(socket: Socket, payload: RtcEventPayload) {
+    const { token } = this.rtcAuthService.generateRtcToken({
+      channel: payload.channel,
+      uid: payload.receiver.uid,
+    });
+
+    this.emitCallEvent(`${Events.Call}-${payload.receiver.uid}`, {
+      ...payload,
+      token,
+    });
   }
 
   @SubscribeMessage(Events.CallAccept)
-  async onCallAccept(socket: Socket, { channel, caller, receiver }) {
-    this.emitCallEvent(`${Events.CallAccept}-${receiver.uid}`, { channel, caller, receiver });
+  async onCallAccept(socket: Socket, payload: RtcEventPayload) {
+    this.emitCallEvent(`${Events.CallAccept}-${payload.receiver.uid}`, payload);
   }
 
   @SubscribeMessage(Events.CallDecline)
-  async onCallDecline(socket: Socket, { channel, caller, receiver }) {
-    this.emitCallEvent(`${Events.CallDecline}-${receiver.uid}`, { channel, caller, receiver });
+  async onCallDecline(socket: Socket, payload: RtcEventPayload) {
+    this.emitCallEvent(`${Events.CallDecline}-${payload.receiver.uid}`, payload);
   }
 
-  private emitCallEvent(event: string, { channel, caller, receiver }): void {
-    const socketId = this.getReceiverSocket(receiver);
-
-    if (socketId) {
-      this.server.to(socketId).emit(event, { channel, caller, receiver });
-    }
+  private emitCallEvent(event: string, payload: RtcEventPayload): void {
+     this.getReceiverSockets(payload.receiver.uid).forEach((socketId: string) => {
+      this.server.to(socketId).emit(event, payload);
+    });
   }
 
-  private getReceiverSocket(receiver: User): string {
-    return this.users.find((user: User) => user.uid === receiver.uid)?.id;
+  private getReceiverSockets(uid: string): string[] {
+    return this.users
+      .filter((user: UserEntity) => user.uid === uid)
+      .map((user: UserEntity) => user.id);
   }
 }

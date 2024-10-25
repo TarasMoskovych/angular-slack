@@ -4,4 +4,8 @@ export const environment = {
   firebase: '',
   origins: 'http://localhost:4201',
   redirectURL: 'http://localhost:4201',
+  webRtc: {
+    AppID: '',
+    AppCertificate: '',
+  },
 };

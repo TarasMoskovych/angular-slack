@@ -1,9 +1,9 @@
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import { User } from '@libs/models';
 import { AuthState, logout } from '../+store';
 import { mockStore, user } from '../mocks';
-import { User } from '../shared';
 import { UserProfileComponent } from './user-profile.component';
 
 describe('UserProfileComponent', () => {

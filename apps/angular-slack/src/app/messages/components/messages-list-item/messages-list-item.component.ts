@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, Input, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
 
-import { Message, User } from '@angular-slack/app/shared';
+import { Message } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 
 @Component({
   selector: 'app-messages-list-item',

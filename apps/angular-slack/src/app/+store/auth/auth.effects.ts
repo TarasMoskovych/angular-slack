@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as authActions from './auth.actions';
+import { Store } from '@ngrx/store';
 import * as RouterActions from './../router';
+import * as authActions from './auth.actions';
 
 import { Socket } from 'ngx-socket-io';
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck, withLatestFrom, takeWhile } from 'rxjs/operators';
+import { catchError, filter, map, pluck, switchMap, take, withLatestFrom } from 'rxjs/operators';
 
 import { AuthService } from '@angular-slack/app/core/services';
-import { AuthError, FirebaseUser, User } from '@angular-slack/app/shared/models';
-import { Events, Status } from '@libs/models';
-import { AuthState } from './auth.state';
+import { AuthError, FirebaseUser } from '@angular-slack/app/shared/models';
+import { Events, Status, User } from '@libs/models';
 import { authUserSelector } from './auth.selectors';
+import { AuthState } from './auth.state';
 
 @Injectable()
 export class AuthEffects {
-  private init = false;
-
   constructor(
     private actions$: Actions,
     private authService: AuthService,
@@ -38,8 +36,8 @@ export class AuthEffects {
           map((firebaseUser: FirebaseUser) => authActions.loginSuccess({ user: this.getUserData(firebaseUser) })),
           catchError((error: AuthError) => of(authActions.loginError({ error })))
         )
-      }),
-    ),
+    }),
+  ),
   );
 
   loginGoogle$ = createEffect(() => this.actions$.pipe(
@@ -51,8 +49,8 @@ export class AuthEffects {
           map((user: FirebaseUser) => authActions.loginSuccess({ user: this.getUserData(user) })),
           catchError((error: AuthError) => of(authActions.loginError({ error })))
         )
-      }),
-    ),
+    }),
+  ),
   );
 
   logout$ = createEffect(() => this.actions$.pipe(
@@ -68,8 +66,8 @@ export class AuthEffects {
           }),
           catchError((error: AuthError) => of(authActions.logoutError({ error })))
         )
-      }),
-    ),
+    }),
+  ),
   );
 
   register$ = createEffect(() => this.actions$.pipe(
@@ -82,8 +80,8 @@ export class AuthEffects {
           map(() => authActions.registerSuccess()),
           catchError((error: AuthError) => of(authActions.registerError({ error })))
         )
-      }),
-    ),
+    }),
+  ),
   );
 
   stateChange$ = createEffect(() => this.actions$.pipe(
@@ -99,8 +97,8 @@ export class AuthEffects {
             return authActions.stateChangeError();
           }),
         );
-      }),
-    ),
+    }),
+  ),
   );
 
   registerLogoutSuccess$ = createEffect(() => this.actions$.pipe(
@@ -120,14 +118,14 @@ export class AuthEffects {
   );
 
   onInit() {
-    this.socket.once(Events.Init, () => {
+    this.socket.on(Events.Init, () => {
       this.store.select(authUserSelector)
-        .pipe(takeWhile(() => !this.init))
+        .pipe(
+          filter((user: User) => user?.emailVerified),
+          take(1),
+        )
         .subscribe((user: User) => {
-          if (user?.emailVerified) {
-            this.init = true;
-            this.emitStatus(user.uid, Status.ONLINE);
-          }
+          this.emitStatus(user.uid, Status.ONLINE);
         });
     });
   }
