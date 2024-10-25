@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
 
 import { Observable, from, of } from 'rxjs';
-import { switchMap, catchError, take, map } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 
+import { AuthError, FirebaseUser } from '@angular-slack/app/shared';
+import { Collections, User } from '@libs/models';
 import { CoreModule } from '../core.module';
-import { User, AuthError, FirebaseUser } from '@angular-slack/app/shared';
-import { Collections } from '@libs/models';
 
-import { NotificationService } from './notification.service';
-import { AuthService } from './auth.service';
-import { Store } from '@ngrx/store';
 import { authUserSelector } from '@angular-slack/app/+store/auth/auth.selectors';
+import { Store } from '@ngrx/store';
+import { AuthService } from './auth.service';
+import { NotificationService } from './notification.service';
 import { StorageService } from './storage.service';
 
 @Injectable({

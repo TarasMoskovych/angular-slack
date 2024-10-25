@@ -4,4 +4,3 @@ export * from './global.model';
 export * from './message.model';
 export * from './poster.model';
 export * from './theme.model';
-export * from './user.model';

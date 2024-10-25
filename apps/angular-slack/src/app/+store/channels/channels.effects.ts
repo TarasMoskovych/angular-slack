@@ -4,15 +4,16 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as channelsActions from './channels.actions';
 
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck, take, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, pluck, switchMap, take, withLatestFrom } from 'rxjs/operators';
 
 import { ChannelsService, UserProfileService } from '@angular-slack/app/core';
-import { AuthError, Channel, User } from '@angular-slack/app/shared';
+import { AuthError, Channel } from '@angular-slack/app/shared';
 
+import { User } from '@libs/models';
 import { Store } from '@ngrx/store';
-import { ChannelsState } from './channels.state';
-import { channelsSelectedSelector } from './channels.selectors';
 import { authUserSelector } from '../auth';
+import { channelsSelectedSelector } from './channels.selectors';
+import { ChannelsState } from './channels.state';
 
 @Injectable()
 export class ChannelsEffects {

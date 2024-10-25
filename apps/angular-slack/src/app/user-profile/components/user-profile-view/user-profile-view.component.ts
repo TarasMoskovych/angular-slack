@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { User } from '@libs/models';
 import { UserProfileEditComponent } from '../user-profile-edit/user-profile-edit.component';
-import { User } from '@angular-slack/app/shared';
 
 @Component({
   selector: 'app-user-profile-view',

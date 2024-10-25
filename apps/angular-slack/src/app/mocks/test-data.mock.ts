@@ -1,5 +1,13 @@
+import { RtcTokenPayload, User } from '@libs/models';
 import { DEFAULT_THEME } from '../+store';
-import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, Theme, User } from '../shared';
+import { AuthError, AuthUserCredential, Channel, FirebaseUserInfo, Message, Theme } from '../shared';
+
+export const token = 'mock-token';
+
+export const rtcTokenPayload: RtcTokenPayload = {
+  channel: 'channel_1234',
+  uid: 'user_1234',
+};
 
 export const channel: Channel = {
   private: false,
@@ -26,6 +34,7 @@ export const firebaseUser = {
   displayName: 'Test',
   emailVerified: true,
   updateProfile: jasmine.createSpy(),
+  getIdToken: () => Promise.resolve(token),
 } as any;
 
 export const userCredential: AuthUserCredential = {

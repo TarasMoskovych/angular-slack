@@ -1,5 +1,6 @@
+import { AuthError } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 import { createAction, props } from '@ngrx/store';
-import { AuthError, User } from '@angular-slack/app/shared';
 
 const BASE = '[User Profile]';
 

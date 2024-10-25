@@ -10,7 +10,7 @@
         (click)="onStar()"
       ></fa-icon>
       <fa-icon
-        *ngIf="channel.private"
+        *ngIf="channel.private && isOnline"
         class="messages-header__phone"
         [icon]="icons.faPhone"
         (click)="onCall()"

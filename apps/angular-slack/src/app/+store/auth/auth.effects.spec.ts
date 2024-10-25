@@ -1,15 +1,15 @@
-import { Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { Socket } from 'ngx-socket-io';
 import { of, throwError } from 'rxjs';
 
 import { AuthService } from '@angular-slack/app/core';
 import { error, firebaseUser, mockSocket, mockStore, user } from '@angular-slack/app/mocks';
+import { Status } from '@libs/models';
+import * as routerActions from './../router';
 import * as authActions from './auth.actions';
 import { AuthEffects } from './auth.effects';
-import * as routerActions from './../router';
 import { AuthState } from './auth.state';
-import { Status } from '@libs/models';
 
 describe('AuthEffects', () => {
   let socket: jasmine.SpyObj<Socket>;
@@ -35,14 +35,14 @@ describe('AuthEffects', () => {
     });
 
     it('should emit status when user is verified', () => {
-      socket.once.and.callFake((eventName, cb) => cb());
+      socket.on.and.callFake((eventName, cb) => cb());
       effects.onInit();
 
       expect(socket.emit).toHaveBeenCalledOnceWith('status', { uid: user.uid, status: Status.ONLINE });
     });
 
     it('should not emit status when user is invalid', () => {
-      socket.once.and.callFake((eventName, cb) => cb());
+      socket.on.and.callFake((eventName, cb) => cb());
       store.select.and.returnValue(of({ ...user, emailVerified: false }));
       effects.onInit();
 
@@ -50,7 +50,7 @@ describe('AuthEffects', () => {
     });
 
     it('should not emit status when user is undefined', () => {
-      socket.once.and.callFake((eventName, cb) => cb());
+      socket.on.and.callFake((eventName, cb) => cb());
       store.select.and.returnValue(of(undefined));
       effects.onInit();
 

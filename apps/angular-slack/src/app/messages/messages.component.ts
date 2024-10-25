@@ -1,23 +1,24 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { Channel, Message, User, serverTimestamp } from '@angular-slack/app/shared';
 import {
   addMessage,
   authUserSelector,
   channelsSelectedSelector,
-  getMessages,
   filteredMessagesSelector,
+  getMessages,
+  getPrivateMessages,
+  numberOfUsersSelector,
+  searchMessages,
+  searchSelector,
   selectedStarredSelector,
   starChannel,
   starredChannelsLengthSelector,
-  searchMessages,
-  searchSelector,
-  getPrivateMessages,
-  numberOfUsersSelector,
 } from '@angular-slack/app/+store';
+import { Channel, Message, serverTimestamp } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 import { StorageService, VideoCallService } from '../core';
 
 @Component({

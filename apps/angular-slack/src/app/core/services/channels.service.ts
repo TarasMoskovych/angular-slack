@@ -5,12 +5,12 @@ import { Store } from '@ngrx/store';
 import { from, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, take } from 'rxjs/operators';
 
+import { authUserSelector } from '@angular-slack/app/+store/auth/auth.selectors';
+import { AuthError, Channel, FirestoreQuerySnapshot } from '@angular-slack/app/shared';
+import { Collections, User } from '@libs/models';
 import { CoreModule } from '../core.module';
 import { MessagesService } from './messages.service';
 import { NotificationService } from './notification.service';
-import { Channel, AuthError, FirestoreQuerySnapshot, User } from '@angular-slack/app/shared';
-import { authUserSelector } from '@angular-slack/app/+store/auth/auth.selectors';
-import { Collections } from '@libs/models';
 
 @Injectable({
   providedIn: CoreModule

@@ -4,10 +4,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as userProfileActions from './user-profile.actions';
 
 import { of } from 'rxjs';
-import { switchMap, map, catchError, pluck, tap } from 'rxjs/operators';
+import { catchError, map, pluck, switchMap, tap } from 'rxjs/operators';
 
-import { UserProfileService, NotificationService } from '@angular-slack/app/core/services';
-import { AuthError, User } from '@angular-slack/app/shared/models';
+import { NotificationService, UserProfileService } from '@angular-slack/app/core/services';
+import { AuthError } from '@angular-slack/app/shared/models';
+import { User } from '@libs/models';
 import { stateChangeSuccess } from '../auth';
 
 @Injectable()

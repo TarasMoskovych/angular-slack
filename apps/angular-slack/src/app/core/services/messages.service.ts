@@ -3,8 +3,8 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
-import { AuthError, FirestoreQuerySnapshot, Message, User } from '@angular-slack/app/shared';
-import { Collections } from '@libs/models';
+import { AuthError, FirestoreQuerySnapshot, Message } from '@angular-slack/app/shared';
+import { Collections, User } from '@libs/models';
 import { NotificationService } from './notification.service';
 import { StorageService } from './storage.service';
 

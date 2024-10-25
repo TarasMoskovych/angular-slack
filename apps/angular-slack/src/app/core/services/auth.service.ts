@@ -3,11 +3,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FirebaseError } from '@firebase/util';
 
-import { of, Observable, from } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, concatMap, map, pluck, switchMap } from 'rxjs/operators';
 
-import { CoreModule } from '../core.module';
-import { NotificationService } from './notification.service';
 import {
   AuthError,
   AuthUserCredential,
@@ -16,9 +14,12 @@ import {
   FirestoreCollectionReference,
   generateAvatar,
   googleAuthProvider,
-  User
 } from '@angular-slack/app/shared';
-import { Collections } from '@libs/models';
+import { environment } from '@angular-slack/environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Collections, RtcToken, RtcTokenPayload, User } from '@libs/models';
+import { CoreModule } from '../core.module';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: CoreModule
@@ -28,7 +29,8 @@ export class AuthService {
   constructor(
     private afauth: AngularFireAuth,
     private afs: AngularFirestore,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private http: HttpClient,
   ) { }
 
   getFirebaseUser(): Observable<FirebaseUser> {
@@ -109,5 +111,21 @@ export class AuthService {
         ),
         switchMap(() => of(user)),
       );
+  }
+
+  getRtcToken(payload: RtcTokenPayload): Observable<string> {
+    return from(this.getAuthHeader()).pipe(
+      concatMap((headers: HttpHeaders) => this.http.post<RtcToken>(`${environment.host}/api/rtc/token`, payload, { headers })),
+      pluck('token'),
+    );
+  }
+
+  private async getAuthHeader(): Promise<HttpHeaders> {
+    const user = await this.afauth.currentUser;
+    const token = await user.getIdToken();
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
   }
 }

@@ -1,5 +1,4 @@
-import { Status } from '@libs/models';
-import { User } from './user.model';
+import { Status, User } from '@libs/models';
 
 export interface Channel {
   id: string;

@@ -1,8 +1,8 @@
+import { Channel } from '@angular-slack/app/shared';
+import { Status, User } from '@libs/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Channel, User } from '@angular-slack/app/shared';
 import { authUserSelector } from '../auth';
 import { ChannelsState } from './channels.state';
-import { Status } from '@libs/models';
 
 const getAdded = (state: ChannelsState) => state.added;
 const getLoading = (state: ChannelsState) => state.loading;

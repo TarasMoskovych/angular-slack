@@ -1,23 +1,24 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Store } from '@ngrx/store';
 import {
   UserProfileState,
-  userProfilePhotoPreviewSelector,
-  userProfileLoadingSelector,
-  userProfileUpdatedSelector,
-  loadPhotoPreviewSuccess,
   clearPhotoPreview,
-  loadPhotoPreview,
   initProfile,
+  loadPhotoPreview,
+  loadPhotoPreviewSuccess,
   updateProfile,
+  userProfileLoadingSelector,
+  userProfilePhotoPreviewSelector,
+  userProfileUpdatedSelector,
 } from '@angular-slack/app/+store';
+import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { GlobalErrorStateMatcher, errorMessages, User } from '@angular-slack/app/shared';
+import { GlobalErrorStateMatcher, errorMessages } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 
 @Component({
   selector: 'app-user-profile-edit',

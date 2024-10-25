@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, Input, ViewChildren, QueryList, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, QueryList, ViewChildren } from '@angular/core';
 
-import { Message, TrackByUtil, User } from '@angular-slack/app/shared';
+import { Message, TrackByUtil } from '@angular-slack/app/shared';
+import { User } from '@libs/models';
 import { MessagesListItemComponent } from '../messages-list-item/messages-list-item.component';
 
 @Component({

@@ -1,4 +1,5 @@
 import { channel } from '@angular-slack/app/mocks';
+import { Status } from '@libs/models';
 import { MessagesHeaderComponent } from './messages-header.component';
 
 describe('MessagesHeaderComponent', () => {
@@ -49,6 +50,13 @@ describe('MessagesHeaderComponent', () => {
     it('should return "#" when channel is public', () => {
       component.channel = { ...channel, private: false };
       expect(component.prefix).toBe('#');
+    });
+  });
+
+  describe('get isOnline', () => {
+    it('should return true when channel status is ONLINE', () => {
+      component.channel = { ...channel, status: Status.ONLINE };
+      expect(component.isOnline).toBeTrue();
     });
   });
 
