@@ -39,7 +39,7 @@ describe('VideoCallService', () => {
           uid: user.uid,
           channel: user.uid,
           outcome: true,
-          user: {
+          remoteUser: {
             name: user.displayName,
             photoURL: user.photoURL,
           },
@@ -85,7 +85,7 @@ describe('VideoCallService', () => {
           uid: user.uid,
           channel: user.uid,
           outcome: true,
-          user: {
+          remoteUser: {
             name: user.displayName,
             photoURL: user.photoURL,
           },
