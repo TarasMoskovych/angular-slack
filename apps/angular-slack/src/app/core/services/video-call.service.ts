@@ -30,16 +30,22 @@ export class VideoCallService {
     this.store.select(authUserSelector).pipe(
       filter((user: User) => !!user),
       take(1),
-    ).subscribe(({ uid }: User) => {
+    ).subscribe((user: User) => {
+      const { uid } = user;
+
       this.socket.on(`${Events.Call}-${uid}`, ({ caller, channel, receiver, token }: RtcEventPayload) => {
         this.dialog = this.videoCallDialog.open({
           uid,
           channel,
           token,
           outcome: false,
-          user: {
+          remoteUser: {
             name: caller.displayName,
             photoURL: caller.photoURL,
+          },
+          localUser: {
+            name: user.displayName,
+            photoURL: user.photoURL,
           },
         });
 
@@ -82,9 +88,13 @@ export class VideoCallService {
             channel,
             token,
             outcome: true,
-            user: {
+            remoteUser: {
               name: receiver.displayName,
               photoURL: receiver.photoURL,
+            },
+            localUser: {
+              name: caller.displayName,
+              photoURL: caller.photoURL,
             },
           });
 

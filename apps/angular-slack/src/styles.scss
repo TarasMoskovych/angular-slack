@@ -59,3 +59,10 @@ body ::-webkit-scrollbar {
 .themes-wrapper .mat-dialog-container {
   background-color: transparent;
 }
+
+ngx-remote-stream-view .remote-stream-view__info {
+  img {
+    border-radius: 50%;
+    display: block;
+  }
+}
